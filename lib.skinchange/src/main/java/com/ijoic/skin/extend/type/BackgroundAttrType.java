@@ -58,20 +58,32 @@ public class BackgroundAttrType implements SkinAttrType {
   }
 
   private void hackSetBackground(@NonNull View view, @NonNull Drawable background) {
+    // FIX: view padding lost, after set background(use background inset padding instead).
+    int paddingLeft = view.getPaddingLeft();
+    int paddingTop = view.getPaddingTop();
+    int paddingRight = view.getPaddingRight();
+    int paddingBottom = view.getPaddingBottom();
+
+    boolean viewPaddingExist = paddingLeft != 0 || paddingTop != 0 || paddingRight != 0 || paddingBottom != 0;
+
     if (Build.VERSION.SDK_INT >= 16) {
       setBackgroundV16(view, background);
     } else {
       setBackgroundDefault(view, background);
     }
+
+    if (viewPaddingExist) {
+      view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+    }
   }
 
   @SuppressLint("Deprecation")
-  private void setBackgroundDefault(@NonNull View view, @NonNull Drawable background) {
+  private static void setBackgroundDefault(@NonNull View view, @NonNull Drawable background) {
     view.setBackgroundDrawable(background);
   }
 
   @TargetApi(16)
-  private void setBackgroundV16(@NonNull View view, @NonNull Drawable background) {
+  private static void setBackgroundV16(@NonNull View view, @NonNull Drawable background) {
     view.setBackground(background);
   }
 

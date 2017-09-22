@@ -16,6 +16,15 @@
     android:tag="skin:item_bg_round:background|skin:item_text_color:textColor"
     android:text="@string/simple_test_title"/>
 
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:padding="8dp"
+    android:background="@drawable/item_bg_round"
+    android:textColor="@color/item_text_color"
+    android:text="@string/simple_test_title"/>
+
   <Button
     android:id="@+id/button_toggle_skin"
     android:layout_width="wrap_content"
