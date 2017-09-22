@@ -25,6 +25,7 @@ import android.view.View;
 
 import com.ijoic.skinchange.sample.DynamicSkinActivity;
 import com.ijoic.skinchange.sample.OutSkinActivity;
+import com.ijoic.skinchange.sample.PaddingItemSkinActivity;
 import com.ijoic.skinchange.sample.SimpleSkinActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick(View view) {
         startActivity(new Intent(MainActivity.this, DynamicSkinActivity.class));
+      }
+    });
+    findViewById(R.id.button_case_padding_item).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        startActivity(new Intent(MainActivity.this, PaddingItemSkinActivity.class));
       }
     });
   }

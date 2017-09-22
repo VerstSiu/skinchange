@@ -11,5 +11,6 @@
   <string name="testcase_simple">Simple Skin Change</string>
   <string name="testcase_plugin">Plugin Skin Change</string>
   <string name="testcase_dynamic">Dynamic Skin Change</string>
+  <string name="testcase_padding_item">Padding Item - Change Case</string>
 
 </resources>
