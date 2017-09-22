@@ -1,6 +1,6 @@
 # skinchange
 
-[![](https://jitpack.io/v/ijoic/skinchange.svg)](https://jitpack.io/#ijoic/skinchange)
+[![](https://jitpack.io/v/VerstSiu/skinchange.svg)](https://jitpack.io/#VerstSiu/skinchange)
 
 一种完全无侵入的换肤方式，支持插件式和应用内，无需重启Activity。
 
@@ -34,7 +34,7 @@
     ```xml
     
     dependencies {
-      compile 'com.github.ijoic.skinchange:lib.skinchange:v1.0.10'
+      compile 'com.github.VerstSiu.skinchange:lib.skinchange:1.0.11'
     }
 
     ```
