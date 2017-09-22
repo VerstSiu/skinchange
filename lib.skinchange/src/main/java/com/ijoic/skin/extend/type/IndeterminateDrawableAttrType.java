@@ -21,7 +21,6 @@ package com.ijoic.skin.extend.type;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
 
 import com.ijoic.skin.ResourcesManager;

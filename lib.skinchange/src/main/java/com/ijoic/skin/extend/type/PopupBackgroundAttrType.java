@@ -22,7 +22,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.ijoic.skin.ResourcesManager;

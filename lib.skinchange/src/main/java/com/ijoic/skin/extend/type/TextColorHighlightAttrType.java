@@ -18,7 +18,6 @@
 
 package com.ijoic.skin.extend.type;
 
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.view.View;

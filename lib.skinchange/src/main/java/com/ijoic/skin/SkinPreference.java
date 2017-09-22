@@ -64,7 +64,7 @@ class SkinPreference {
   void setPluginPath(String pluginPath) {
     innerPrefs.edit()
       .putString(KEY_PLUGIN_PATH, pluginPath)
-      .commit();
+      .apply();
   }
 
   /**
@@ -84,7 +84,7 @@ class SkinPreference {
   void setPluginPackageName(String packageName) {
     innerPrefs.edit()
       .putString(KEY_PLUGIN_PACKAGE, packageName)
-      .commit();
+      .apply();
   }
 
   /**
@@ -104,7 +104,7 @@ class SkinPreference {
   void setPluginSuffix(String pluginSuffix) {
     innerPrefs.edit()
       .putString(KEY_PLUGIN_SUFFIX, pluginSuffix)
-      .commit();
+      .apply();
   }
 
   /**
@@ -114,7 +114,7 @@ class SkinPreference {
     innerPrefs
       .edit()
       .clear()
-      .commit();
+      .apply();
   }
 
 }

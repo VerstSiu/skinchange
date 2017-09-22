@@ -18,8 +18,6 @@
 
 package com.ijoic.skin.extend.type;
 
-import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;

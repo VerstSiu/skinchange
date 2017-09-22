@@ -18,9 +18,6 @@
 
 package com.ijoic.skin.extend.type;
 
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-
 /**
  * 左侧图片属性类型
  *
