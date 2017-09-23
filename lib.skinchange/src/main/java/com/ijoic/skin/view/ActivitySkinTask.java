@@ -24,8 +24,6 @@ import android.view.View;
 
 import com.ijoic.skin.SkinManager;
 
-import org.jetbrains.annotations.Contract;
-
 /**
  * 活动换肤任务
  *
@@ -39,7 +37,6 @@ public class ActivitySkinTask implements SkinTask<Activity> {
    *
    * @return 活动换肤任务实例
    */
-  @Contract(pure = true)
   public static @NonNull ActivitySkinTask getInstance() {
     return SingletonHolder.instance;
   }

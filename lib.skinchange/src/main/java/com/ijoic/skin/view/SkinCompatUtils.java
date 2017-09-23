@@ -102,7 +102,6 @@ class SkinCompatUtils {
    * @param compat 皮肤组件
    * @return 判断结果
    */
-  @org.jetbrains.annotations.Contract("_, null -> false")
   private static boolean containsItem(@NonNull List<SkinCompat> compatItems, @NonNull  SkinCompat compat) {
     return findCompat(compatItems, compat) != null;
   }

@@ -25,8 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.jetbrains.annotations.Contract;
-
 import java.lang.ref.WeakReference;
 
 /**
@@ -324,7 +322,6 @@ public class ResourcesManager {
     }
   }
 
-  @Contract(pure = true)
   private @NonNull String appendSuffix(String resName) {
     return resName + suffix;
   }

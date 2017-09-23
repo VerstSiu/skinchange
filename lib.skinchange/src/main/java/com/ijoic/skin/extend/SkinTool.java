@@ -29,8 +29,6 @@ import android.view.View;
 import com.ijoic.skin.R;
 import com.ijoic.skin.constant.SkinConfig;
 
-import org.jetbrains.annotations.Contract;
-
 /**
  * 皮肤工具
  *
@@ -102,7 +100,6 @@ public class SkinTool {
    * @param type 资源类型
    * @return 生成结果
    */
-  @Contract(pure = true)
   public static @NonNull String genTagSegment(@NonNull String resName, @NonNull String type) {
     return SkinConfig.SKIN_PREFIX + resName + ":" + type;
   }
@@ -116,7 +113,6 @@ public class SkinTool {
    * @param s2 TAG片段2
    * @return 合并结果
    */
-  @Contract(pure = true)
   public static @NonNull String joinTagSegment(@NonNull String s1, @NonNull String s2) {
     return s1 + "|" + s2;
   }

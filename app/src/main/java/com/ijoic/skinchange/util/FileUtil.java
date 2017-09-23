@@ -23,8 +23,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.jetbrains.annotations.Contract;
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -137,7 +135,6 @@ public class FileUtil {
     return makeDir(dirFile);
   }
 
-  @Contract("null -> false")
   private static boolean makeDir(@Nullable File file) {
     if (file == null) {
       return false;

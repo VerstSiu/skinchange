@@ -41,8 +41,6 @@ import com.ijoic.skin.view.ActivitySkinTask;
 import com.ijoic.skin.view.FragmentSkinTask;
 import com.ijoic.skin.view.SkinTask;
 
-import org.jetbrains.annotations.Contract;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -56,7 +54,6 @@ import java.util.List;
  */
 public class SkinManager {
 
-  @Contract(pure = true)
   public static @NonNull SkinManager getInstance() {
     return SingletonHolder.instance;
   }
