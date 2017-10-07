@@ -40,6 +40,7 @@ import com.ijoic.skin.view.SkinCompatPool;
 import com.ijoic.skin.view.ActivitySkinTask;
 import com.ijoic.skin.view.FragmentSkinTask;
 import com.ijoic.skin.view.SkinTask;
+import com.ijoic.skin.view.KeepViewSkinTask;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -72,6 +73,7 @@ public class SkinManager {
 
   private static final String TAG_ACTIVITY = "activity";
   private static final String TAG_FRAGMENT = "fragment";
+  private static final String TAG_VIEW = "view";
   private static final String TAG_SKIN_TASK = "skintask";
 
   private SkinManager() {
@@ -214,17 +216,6 @@ public class SkinManager {
   }
 
   /**
-   * 取消注册
-   *
-   * <p>在{@link Activity#onDestroy()}方法中调用</p>
-   *
-   * @param activity 活动
-   */
-  public void unregister(@NonNull Activity activity) {
-    unregister(TAG_ACTIVITY, new SkinCompat<>(activity, null));
-  }
-
-  /**
    * 注册
    *
    * <p>在{@link Fragment#onActivityCreated(Bundle)}方法中调用</p>
@@ -233,6 +224,21 @@ public class SkinManager {
    */
   public void register(@NonNull Fragment fragment) {
     register(TAG_FRAGMENT, new SkinCompat<>(fragment, FragmentSkinTask.getInstance()));
+  }
+
+  private void register(@NonNull View view) {
+    register(TAG_FRAGMENT, new SkinCompat<>(view, KeepViewSkinTask.getInstance()));
+  }
+
+  /**
+   * 取消注册
+   *
+   * <p>在{@link Activity#onDestroy()}方法中调用</p>
+   *
+   * @param activity 活动
+   */
+  public void unregister(@NonNull Activity activity) {
+    unregister(TAG_ACTIVITY, new SkinCompat<>(activity, null));
   }
 
   /**
@@ -428,6 +434,19 @@ public class SkinManager {
     for (SkinView skinView : skinViews) {
       skinView.apply();
     }
+  }
+
+  /**
+   * Sticky inject skin.
+   *
+   * <p>Perform skin change event if target view is outside view tree. Specific for case which view
+   * is hold to be reuse.</p>
+   *
+   * @param view view.
+   */
+  public void stickyInjectSkin(@NonNull View view) {
+    register(view);
+    injectSkin(view);
   }
 
 }

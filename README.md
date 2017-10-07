@@ -34,7 +34,7 @@
     ```xml
     
     dependencies {
-      compile 'com.github.VerstSiu.skinchange:lib.skinchange:1.0.11'
+      compile 'com.github.VerstSiu.skinchange:lib.skinchange:1.0.12'
     }
 
     ```

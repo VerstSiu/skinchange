@@ -19,6 +19,7 @@
 package com.ijoic.skinchange;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,38 +27,47 @@ import android.view.View;
 import com.ijoic.skinchange.sample.DynamicSkinActivity;
 import com.ijoic.skinchange.sample.OutSkinActivity;
 import com.ijoic.skinchange.sample.PaddingItemSkinActivity;
+import com.ijoic.skinchange.sample.RecyclerViewSkinActivity;
 import com.ijoic.skinchange.sample.SimpleSkinActivity;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
+
+  @OnClick(R.id.button_case_simple)
+  void onCaseSimple() {
+    performAction(SimpleSkinActivity.class);
+  }
+
+  @OnClick(R.id.button_case_plugin)
+  void onCasePlugin() {
+    performAction(OutSkinActivity.class);
+  }
+
+  @OnClick(R.id.button_case_dynamic)
+  void onCaseDynamic() {
+    performAction(DynamicSkinActivity.class);
+  }
+
+  @OnClick(R.id.button_case_padding_item)
+  void onCasePaddingItem() {
+    performAction(PaddingItemSkinActivity.class);
+  }
+
+  @OnClick(R.id.button_case_recycler_view)
+  void onCaseRecyclerView() {
+    performAction(RecyclerViewSkinActivity.class);
+  }
+
+  private void performAction(@NonNull Class<?> clazz) {
+    startActivity(new Intent(this, clazz));
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    findViewById(R.id.button_case_simple).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        startActivity(new Intent(MainActivity.this, SimpleSkinActivity.class));
-      }
-    });
-    findViewById(R.id.button_case_plugin).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        startActivity(new Intent(MainActivity.this, OutSkinActivity.class));
-      }
-    });
-    findViewById(R.id.button_case_dynamic).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        startActivity(new Intent(MainActivity.this, DynamicSkinActivity.class));
-      }
-    });
-    findViewById(R.id.button_case_padding_item).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        startActivity(new Intent(MainActivity.this, PaddingItemSkinActivity.class));
-      }
-    });
+    ButterKnife.bind(this);
   }
 }

@@ -56,6 +56,15 @@
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>
     </activity>
+
+    <!-- recycler view case -->
+    <activity android:name=".sample.RecyclerViewSkinActivity">
+      <intent-filter>
+        <action android:name="com.ijoic.skinchange.case.recycler_view"/>
+
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+    </activity>
   </application>
 
 </manifest>
