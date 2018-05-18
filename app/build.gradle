@@ -1,14 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion project.compileSdkVersion
+
     defaultConfig {
         applicationId "com.ijoic.skinchange"
-        minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,16 +22,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
-    compile project(':lib.skinchange')
-    compile project(':skin.default')
-    compile project(':skin.red')
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    testImplementation project.depend_junit
+    androidTestImplementation project.depend_test_runner
+    androidTestImplementation project.depend_test_espresso
+
+    implementation project.depend_support_appCompatV7
+    implementation project.depend_support_recyclerviewV7
+    implementation project.depend_kotlin
+
+    implementation project(':lib.skinchange')
+    implementation project(':skin.default')
+    implementation project(':skin.red')
 }
