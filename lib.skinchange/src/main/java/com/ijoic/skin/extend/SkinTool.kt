@@ -39,6 +39,7 @@ object SkinTool {
    * @param resId 资源ID
    * @param type 属性类型
    */
+  @JvmStatic
   fun fillTag(view: View, @AnyRes resId: Int, type: String) {
     val context = view.context
 
@@ -57,6 +58,7 @@ object SkinTool {
    * @param resName 资源名称
    * @param type 属性类型
    */
+  @JvmStatic
   fun fillTag(view: View, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(type) ?: return
     val itemMap = view.getOrCreateSkinItemMap()
