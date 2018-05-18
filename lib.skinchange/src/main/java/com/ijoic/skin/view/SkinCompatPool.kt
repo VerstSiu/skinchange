@@ -27,7 +27,7 @@ import java.util.*
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-class SkinCompatPool {
+internal class SkinCompatPool {
 
   private val compatItemsAll: MutableList<SkinCompat<*>> = ArrayList()
   private val compatItemsMap: ArrayMap<String, MutableList<SkinCompat<*>>> = ArrayMap()
@@ -41,7 +41,7 @@ class SkinCompatPool {
    * @param tag 皮肤组件TAG
    * @param compat 皮肤组件
    */
-  fun add(tag: String, compat: SkinCompat<*>) {
+  internal fun add(tag: String, compat: SkinCompat<*>) {
     var compatItems: MutableList<SkinCompat<*>>? = compatItemsMap[tag]
 
     if (compatItems == null) {
@@ -59,7 +59,7 @@ class SkinCompatPool {
    * @param tag 皮肤组件TAG
    * @param compat 皮肤组件
    */
-  fun remove(tag: String, compat: SkinCompat<*>) {
+  internal fun remove(tag: String, compat: SkinCompat<*>) {
     val compatItems = compatItemsMap[tag] ?: return
 
     val removedItem = SkinCompatUtils.removeCompat(compatItems, compat)
@@ -74,14 +74,14 @@ class SkinCompatPool {
    *
    * @return 所有皮肤组件
    */
-  fun getCompatItemsAll(): List<SkinCompat<*>> {
+  internal fun getCompatItemsAll(): List<SkinCompat<*>> {
     return compatItemsAll
   }
 
   /**
    * 清除无效皮肤组件
    */
-  fun trim() {
+  internal fun trim() {
     removeCacheAll.clear()
 
     var compatItems: List<SkinCompat<*>>?

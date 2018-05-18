@@ -15,30 +15,10 @@
  *  limitations under the License.
  *
  */
-
 package com.ijoic.skin.extend
 
 import android.support.v4.util.ArrayMap
-
 import com.ijoic.skin.attr.SkinAttrType
-import com.ijoic.skin.extend.type.BackgroundAttrType
-import com.ijoic.skin.extend.type.ButtonAttrType
-import com.ijoic.skin.extend.type.DividerAttrType
-import com.ijoic.skin.extend.type.DrawableBottomAttrType
-import com.ijoic.skin.extend.type.DrawableLeftAttrType
-import com.ijoic.skin.extend.type.DrawableRightAttrType
-import com.ijoic.skin.extend.type.DrawableTopAttrType
-import com.ijoic.skin.extend.type.IndeterminateDrawableAttrType
-import com.ijoic.skin.extend.type.ListSelectorAttrType
-import com.ijoic.skin.extend.type.PopupBackgroundAttrType
-import com.ijoic.skin.extend.type.ProgressDrawableAttrType
-import com.ijoic.skin.extend.type.SrcAttrType
-import com.ijoic.skin.extend.type.TextAttrType
-import com.ijoic.skin.extend.type.TextColorAttrType
-import com.ijoic.skin.extend.type.TextColorHighlightAttrType
-import com.ijoic.skin.extend.type.TextColorHintAttrType
-import com.ijoic.skin.extend.type.TextColorLinkAttrType
-import com.ijoic.skin.extend.type.ThumbAttrType
 
 /**
  * 皮肤属性工厂
@@ -48,7 +28,48 @@ import com.ijoic.skin.extend.type.ThumbAttrType
  */
 object AttrTypeFactory {
 
-  private val attrTypesMap = ArrayMap<String, SkinAttrType>()
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> module :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+
+  private val defaultModule: AttrTypeModule = DefaultModule
+  private val extraModules: MutableMap<String, Pair<AttrPrefix, AttrTypeModule>> = ArrayMap()
+
+  private var extraModuleAttrs: Map<String, SkinAttrType>? = null
+
+  /**
+   * Add attr module.
+   *
+   * @param prefix module prefix.
+   * @param module module.
+   */
+  @JvmStatic
+  fun addModule(prefix: AttrPrefix, module: AttrTypeModule): AttrTypeFactory {
+    extraModules[module.name] = Pair(prefix, module)
+    return this
+  }
+
+  /**
+   * Load module attributes.
+   */
+  @JvmStatic
+  fun loadModuleAttributes() {
+    val attrs = ArrayMap<String, SkinAttrType>()
+
+    extraModules.values.forEach {
+      val prefix = it.first
+      val module = it.second
+
+      module.attrMap.forEach { resType, attr ->
+        val resPrefix = prefix.getPrefix(resType)
+        val query = if (resPrefix.isNullOrBlank()) resType else "${resPrefix}_$resType"
+        attrs[query] = attr
+      }
+    }
+    extraModuleAttrs = attrs
+  }
+
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> module :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> attr type :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
   /**
    * 注册属性类型
@@ -70,7 +91,7 @@ object AttrTypeFactory {
   fun register(typeName: String, typeClazz: Class<out SkinAttrType>) {
     try {
       val attrType = typeClazz.newInstance()
-      insertAttrType(typeName, attrType)
+      defaultModule.addAttrType(typeName, attrType)
 
     } catch (e: Exception) {
       e.printStackTrace()
@@ -85,7 +106,7 @@ object AttrTypeFactory {
    */
   @JvmStatic
   fun register(typeName: String, type: SkinAttrType) {
-    insertAttrType(typeName, type)
+    defaultModule.addAttrType(typeName, type)
   }
 
   /**
@@ -95,35 +116,23 @@ object AttrTypeFactory {
    * @return 属性类型
    */
   @JvmStatic
-  fun obtainAttrType(typeName: String): SkinAttrType? {
-    return attrTypesMap[typeName]
+  internal fun obtainAttrType(typeName: String): SkinAttrType? {
+    return defaultModule.attrMap[typeName] ?: extraModuleAttrs?.get(typeName)
   }
 
-  private fun insertAttrType(typeName: String, type: SkinAttrType) {
-    attrTypesMap[typeName] = type
+  /**
+   * Returns expected attr type.
+   *
+   * @param module module.
+   * @param typeName type name.
+   */
+  @JvmStatic
+  internal fun obtainAttrType(module: String, typeName: String): SkinAttrType? {
+    val pair = extraModules[module] ?: return null
+    val attrMap = pair.second.attrMap
+    return attrMap[typeName]
   }
 
-  init {
-
-    // Config default attr types here.
-    insertAttrType(AttrTypes.BACKGROUND, BackgroundAttrType)
-    insertAttrType(AttrTypes.TEXT, TextAttrType)
-    insertAttrType(AttrTypes.TEXT_COLOR, TextColorAttrType)
-    insertAttrType(AttrTypes.TEXT_COLOR_HIGHLIGHT, TextColorHighlightAttrType)
-    insertAttrType(AttrTypes.TEXT_COLOR_HINT, TextColorHintAttrType)
-    insertAttrType(AttrTypes.TEXT_COLOR_LINK, TextColorLinkAttrType)
-    insertAttrType(AttrTypes.DRAWABLE_LEFT, DrawableLeftAttrType)
-    insertAttrType(AttrTypes.DRAWABLE_TOP, DrawableTopAttrType)
-    insertAttrType(AttrTypes.DRAWABLE_RIGHT, DrawableRightAttrType)
-    insertAttrType(AttrTypes.DRAWABLE_BOTTOM, DrawableBottomAttrType)
-    insertAttrType(AttrTypes.BUTTON, ButtonAttrType)
-    insertAttrType(AttrTypes.SRC, SrcAttrType)
-    insertAttrType(AttrTypes.DIVIDER, DividerAttrType)
-    insertAttrType(AttrTypes.LIST_SELECTOR, ListSelectorAttrType)
-    insertAttrType(AttrTypes.INDITERMINATE_DRAWABLE, IndeterminateDrawableAttrType)
-    insertAttrType(AttrTypes.PROGRESS_DRAWABLE, ProgressDrawableAttrType)
-    insertAttrType(AttrTypes.THUMB, ThumbAttrType)
-    insertAttrType(AttrTypes.POPUP_BACKGROUND, PopupBackgroundAttrType)
-  }
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> attr type :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
 }

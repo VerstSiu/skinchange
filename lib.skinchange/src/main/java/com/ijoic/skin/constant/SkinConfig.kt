@@ -24,20 +24,20 @@ package com.ijoic.skin.constant
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-object SkinConfig {
+internal object SkinConfig {
   /**
    * 皮肤日志TAG
    */
-  const val TAG = "SkinChange"
+  internal const val TAG = "SkinChange"
 
   /**
    * 皮肤首选项名称
    */
-  const val SKIN_PREF_NAME = "ijoic_skin"
+  internal const val SKIN_PREF_NAME = "ijoic_skin"
 
   /**
    * 皮肤前缀
    */
-  const val SKIN_PREFIX = "skin:"
+  internal const val SKIN_PREFIX = "skin:"
 
 }

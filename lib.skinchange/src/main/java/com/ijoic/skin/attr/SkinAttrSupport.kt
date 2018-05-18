@@ -29,7 +29,7 @@ import java.util.*
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-object SkinAttrSupport {
+internal object SkinAttrSupport {
 
   /**
    * 获取皮肤视图列表
@@ -37,7 +37,7 @@ object SkinAttrSupport {
    * @param rootView 根视图
    * @return 皮肤视图列表
    */
-  fun getSkinViews(rootView: View): List<SkinView> {
+  internal fun getSkinViews(rootView: View): List<SkinView> {
     val skinViews = ArrayList<SkinView>()
     addSkinViews(rootView, skinViews)
     return skinViews

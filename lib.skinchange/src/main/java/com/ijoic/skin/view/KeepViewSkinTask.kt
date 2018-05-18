@@ -31,7 +31,7 @@ import com.ijoic.skin.SkinManager
  * @author ijoic verstlim@126.com
  * @version 1.0.12
  */
-object KeepViewSkinTask: SkinTask<View> {
+internal object KeepViewSkinTask: SkinTask<View> {
 
   override fun performSkinChange(compat: View) {
     compat.parent ?: return

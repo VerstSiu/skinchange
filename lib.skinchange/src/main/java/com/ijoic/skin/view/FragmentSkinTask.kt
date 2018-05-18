@@ -27,7 +27,7 @@ import com.ijoic.skin.SkinManager
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-object FragmentSkinTask: SkinTask<Fragment> {
+internal object FragmentSkinTask: SkinTask<Fragment> {
 
   override fun performSkinChange(compat: Fragment) {
     val contentView = compat.view ?: return

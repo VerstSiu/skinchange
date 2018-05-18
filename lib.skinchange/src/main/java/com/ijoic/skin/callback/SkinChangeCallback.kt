@@ -48,7 +48,7 @@ interface SkinChangeCallback {
     /**
      * 默认回调（空对象）
      */
-    val DEFAULT_CALLBACK: SkinChangeCallback = object : SkinChangeCallback {
+    internal val DEFAULT_CALLBACK: SkinChangeCallback = object : SkinChangeCallback {
       override fun onStart() {}
       override fun onError(errorMessage: String) {}
       override fun onComplete() {}

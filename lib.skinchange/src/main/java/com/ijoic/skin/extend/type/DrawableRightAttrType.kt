@@ -24,7 +24,7 @@ package com.ijoic.skin.extend.type
  * @author ijoic verstlim@126.com
  * @version 1.0.2
  */
-object DrawableRightAttrType : CompoundDrawableAttrType() {
+internal object DrawableRightAttrType : CompoundDrawableAttrType() {
   override val compoundIndex: Int
     get() = CompoundDrawableAttrType.INDEX_RIGHT
 }

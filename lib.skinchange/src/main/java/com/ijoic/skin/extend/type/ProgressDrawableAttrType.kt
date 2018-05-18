@@ -29,7 +29,7 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-object ProgressDrawableAttrType : SkinAttrType {
+internal object ProgressDrawableAttrType : SkinAttrType {
 
   override fun apply(view: View, resName: String) {
     if (view !is ProgressBar) {

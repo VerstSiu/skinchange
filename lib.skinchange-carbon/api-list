@@ -1,0 +1,9 @@
+
+com.ijoic.skin.extend.carbon
++--- CarbonAttrTypes
+|    +--- ELEVATION_SHADOW_COLOR: String
+|    +--- INSET_COLOR: String
+|    +--- STROKE: String
+|    +--- TINT: String
+|    +--- BACKGROUND_TINT: String
++--- CarbonModule

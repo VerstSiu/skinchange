@@ -31,28 +31,19 @@ com.ijoic.skin
 |    +--- @JvmStatic fun injectSkin(view: View)
 |    +--- @JvmStatic fun stickyInjectSkin(view: View)
 \--- attr
-|    +--- SkinAttrSupport
-|    |    +--- @JvmStatic fun getSkinViews(rootView: View): List<SkinView>
 |    +--- [interface] SkinAttrType
 |    |    +--- fun apply(view: View, resName: String)
-|    +--- SkinView
-|    |    +--- fun apply()
 \--- callback
 |    +--- [interface] SkinChangeCallback
-|    |    +--- @JvmStatic DEFAULT_CALLBACK: SkinChangeCallback
 |    |    +--- fun onStart()
 |    |    +--- fun onError(errorMessage: String)
 |    |    +--- fun onComplete()
-\--- constant
-|    +--- SkinConfig
-|    |    +--- TAG: String
-|    |    +--- SKIN_PREF_NAME: String
-|    |    +--- SKIN_PREFIX: String
 \--- extend
 |    +--- AttrTypeFactory
+|    |    +--- @JvmStatic fun addModule(prefix: AttrPrefix, module: AttrTypeModule): AttrTypeFactory
+|    |    +--- @JvmStatic fun loadModuleAttributes()
 |    |    +--- @JvmStatic<T: SkinAttrType> fun register(typeName: String, typeClazz: Class<T>)
 |    |    +--- @JvmStatic fun register(typeName: String, type: SkinAttrType)
-|    |    +--- @JvmStatic fun obtainAttrType(typeName: String): SkinAttrType?
 |    +--- AttrTypes
 |    |    +--- BACKGROUND: String
 |    |    +--- TEXT: String
@@ -75,18 +66,7 @@ com.ijoic.skin
 |    +--- SkinTool
 |    |    +--- @JvmStatic fun fillTag(view: View, @AnyRes resId: Int, type: String)
 |    |    +--- @JvmStatic fun fillTag(view: View, resName: String, type: String)
+|    |    +--- @JvmStatic fun fillTag(view: View, module: String, resName: String, type: String)
 \--- view
-|    +--- ActivitySkinTask: SkinTask<Activity>
-|    +--- FragmentSkinTask: SkinTask<Fragment>
-|    +--- KeepViewSkinTask: SkinTask<View>
-|    +--- SkinCompat<T>
-|    |    +--- constructor(compat: T, skinTask: SkinTask<T>)
-|    |    +--- fun performSkinChange()
-|    +--- SkinCompatPool
-|    |    +--- constructor()
-|    |    +--- fun add(tag: String, compat: SkinCompat)
-|    |    +--- fun remove(tag: String, compat: SkinCompat)
-|    |    +--- fun getCompatItemsAll(): List<SkinCompat>
-|    |    +--- fun trim()
 |    +--- [interface] SkinTask<T>
 |    |    +--- fun performSkinChange(compat: T)

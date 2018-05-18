@@ -35,7 +35,7 @@ import com.ijoic.skin.constant.SkinConfig
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-object BackgroundAttrType : SkinAttrType {
+internal object BackgroundAttrType : SkinAttrType {
 
   override fun apply(view: View, resName: String) {
     val rm = SkinManager.resourcesManager

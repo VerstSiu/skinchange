@@ -29,7 +29,7 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.2
  */
-abstract class CompoundDrawableAttrType : SkinAttrType {
+internal abstract class CompoundDrawableAttrType : SkinAttrType {
 
   /**
    * 获取边缘图片索引位置

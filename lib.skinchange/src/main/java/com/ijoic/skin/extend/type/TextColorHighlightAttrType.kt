@@ -30,7 +30,7 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-object TextColorHighlightAttrType : SkinAttrType {
+internal object TextColorHighlightAttrType : SkinAttrType {
   override fun apply(view: View, resName: String) {
     if (view !is TextView) {
       return

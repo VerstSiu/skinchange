@@ -19,21 +19,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        android.compileOptions.sourceCompatibility 1.8
+        android.compileOptions.targetCompatibility 1.8
+    }
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion support_version//默认使用的版本
+                }
+            }
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     testImplementation project.depend_junit
     androidTestImplementation project.depend_test_runner
     androidTestImplementation project.depend_test_espresso
-
     implementation project.depend_support_appCompatV7
     implementation project.depend_support_recyclerviewV7
     implementation project.depend_support_constraintLayout
     implementation project.depend_kotlin
-
     implementation project(':lib.skinchange')
     implementation project(':skin.default')
     implementation project(':skin.red')
+    implementation project(':lib.skinchange-carbon')
 }

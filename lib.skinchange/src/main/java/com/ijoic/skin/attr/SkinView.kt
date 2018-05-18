@@ -29,14 +29,14 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-class SkinView internal constructor(view: View, private val itemMap: SkinItemMap) {
+internal class SkinView internal constructor(view: View, private val itemMap: SkinItemMap) {
 
   private val viewRef: WeakReference<View> = WeakReference(view)
 
   /**
    * 应用皮肤
    */
-  fun apply() {
+  internal fun apply() {
     val view = viewRef.get() ?: return
 
     itemMap.values.forEach {

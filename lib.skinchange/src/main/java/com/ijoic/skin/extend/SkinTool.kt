@@ -70,4 +70,24 @@ object SkinTool {
     }
   }
 
+  /**
+   * 填充皮肤TAG
+   *
+   * @param view 视图
+   * @param module module.
+   * @param resName 资源名称
+   * @param type 属性类型
+   */
+  @JvmStatic
+  fun fillTag(view: View, module: String, resName: String, type: String) {
+    val attrType = AttrTypeFactory.obtainAttrType(module, type) ?: return
+    val itemMap = view.getOrCreateSkinItemMap()
+    val item = itemMap.insertOrCached(type)
+
+    item.apply {
+      this.resName = resName
+      this.attr = attrType
+    }
+  }
+
 }

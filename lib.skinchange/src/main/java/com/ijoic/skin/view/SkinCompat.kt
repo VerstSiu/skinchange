@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
+internal class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
 
   private val refCompat = WeakReference(compat)
 
@@ -41,7 +41,7 @@ class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
   /**
    * 执行换肤
    */
-  fun performSkinChange() {
+  internal fun performSkinChange() {
     val compat = refCompat.get()
     val skinTask = this.skinTask
 
