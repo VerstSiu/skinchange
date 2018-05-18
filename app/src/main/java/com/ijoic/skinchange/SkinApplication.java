@@ -20,8 +20,6 @@ package com.ijoic.skinchange;
 
 import android.app.Application;
 
-import com.ijoic.skin.SkinManager;
-
 /**
  * 皮肤App
  *
@@ -33,7 +31,6 @@ public class SkinApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-    SkinManager.getInstance().init(this);
   }
 
 }
