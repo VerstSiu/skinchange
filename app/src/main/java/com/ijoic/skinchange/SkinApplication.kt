@@ -16,16 +16,20 @@
  *
  */
 
-package com.ijoic.skinchange;
+package com.ijoic.skinchange
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Application
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * 皮肤App
+ *
+ * @author ijoic verstlim@126.com
+ * @version 1.0
+ */
+class SkinApplication : Application() {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+  override fun onCreate() {
+    super.onCreate()
   }
+
 }
