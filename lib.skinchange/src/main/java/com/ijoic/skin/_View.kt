@@ -55,7 +55,7 @@ internal fun View.getOrCreateSkinItemMap(): SkinItemMap {
 }
 
 private fun String.forEachAttr(action: (String, String) -> Unit) {
-  val segments = split("[|]")
+  val segments = split("|")
 
   segments.forEach {
     if (it.startsWith(SkinConfig.SKIN_PREFIX)) {
