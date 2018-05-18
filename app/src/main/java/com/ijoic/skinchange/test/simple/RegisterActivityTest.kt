@@ -15,20 +15,36 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange
+package com.ijoic.skinchange.test.simple
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ijoic.skinchange.test.SimpleTestActivity
-import com.ijoic.skinchange.util.routeTo
-import kotlinx.android.synthetic.main.activity_main.*
+import com.ijoic.skin.SkinManager
+import com.ijoic.skinchange.R
+import com.ijoic.skinchange.util.ValueBox
+import kotlinx.android.synthetic.main.act_simple_register.*
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Simple test activity.
+ *
+ * @author verstsiu on 2018/5/18.
+ * @version 2.0
+ */
+class RegisterActivityTest: AppCompatActivity() {
+
+  private val skinBox = ValueBox<String?>(null, "red")
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-
-    case_simple_test.setOnClickListener { routeTo(SimpleTestActivity::class.java) }
+    setContentView(R.layout.act_simple_register)
+    SkinManager.register(this)
+    skinBox.setCurrentValue(SkinManager.skinSuffix)
+    toggle_skin_button.setOnClickListener { SkinManager.changeSkin(skinBox.toggle()) }
   }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    SkinManager.unregister(this)
+  }
+
 }

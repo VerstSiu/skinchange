@@ -1,0 +1,9 @@
+
+com.ijoic.skin
++--- SkinManager
+|    +--- @JvmStatic INSTANCE: SkinManager
+|    +--- @JvmStatic fun init(context: Context)
+|    +--- @JvmStatic fun register(activity: Activity)
+|    +--- @JvmStatic fun unregister(activity: Activity)
+|    +--- @JvmStatic fun changeSkin(suffix: String?)
+|    +--- @JvmStatic [get] skinSuffix: String?

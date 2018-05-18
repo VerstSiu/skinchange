@@ -14,6 +14,7 @@ buildscript {
         depend_support_appCompatV7 = "com.android.support:appcompat-v7:$support_version"
         depend_support_recyclerviewV7 = "com.android.support:recyclerview-v7:$support_version"
         depend_support_v4 = "com.android.support:support-v4:$support_version"
+        depend_support_constraintLayout = 'com.android.support.constraint:constraint-layout:1.1.0'
 
         depend_kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 

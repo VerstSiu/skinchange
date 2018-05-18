@@ -30,6 +30,7 @@ dependencies {
 
     implementation project.depend_support_appCompatV7
     implementation project.depend_support_recyclerviewV7
+    implementation project.depend_support_constraintLayout
     implementation project.depend_kotlin
 
     implementation project(':lib.skinchange')

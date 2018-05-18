@@ -15,20 +15,28 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange
+package com.ijoic.skinchange.test
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ijoic.skinchange.test.SimpleTestActivity
+import com.ijoic.skinchange.R
+import com.ijoic.skinchange.test.simple.RegisterActivityTest
 import com.ijoic.skinchange.util.routeTo
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.act_simple_test.*
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Simple test activity.
+ *
+ * @author verstsiu on 2018/5/18.
+ * @version 2.0
+ */
+class SimpleTestActivity: AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    setContentView(R.layout.act_simple_test)
 
-    case_simple_test.setOnClickListener { routeTo(SimpleTestActivity::class.java) }
+    case_simple_register_activity.setOnClickListener { routeTo(RegisterActivityTest::class.java) }
   }
+
 }

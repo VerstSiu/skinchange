@@ -15,23 +15,23 @@
  *  limitations under the License.
  *
  */
+package com.ijoic.skinchange.util
 
-package com.ijoic.skinchange
-
-import android.app.Application
-import com.ijoic.skin.SkinManager
+import android.content.Context
+import android.content.Intent
 
 /**
- * 皮肤App
+ * Context extension.
  *
- * @author ijoic verstlim@126.com
- * @version 1.0
+ * @author verstsiu on 2018/5/18.
+ * @version 2.0
  */
-class SkinApplication : Application() {
 
-  override fun onCreate() {
-    super.onCreate()
-    SkinManager.init(this)
-  }
-
+/**
+ * Route to specific activity class.
+ *
+ * @param clazz activity class.
+ */
+fun Context.routeTo(clazz: Class<*>) {
+  startActivity(Intent(this, clazz))
 }
