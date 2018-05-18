@@ -37,6 +37,7 @@ internal fun View.getSkinItemMap(): SkinItemMap? {
       map = itemMap
     }
   }
+  setTag(R.id.ijc_skinchange_map_id, map)
   return map
 }
 
