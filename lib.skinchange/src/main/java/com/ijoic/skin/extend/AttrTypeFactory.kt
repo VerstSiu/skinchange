@@ -35,6 +35,10 @@ object AttrTypeFactory {
 
   private var extraModuleAttrs: Map<String, SkinAttrType>? = null
 
+  init {
+    defaultModule.init()
+  }
+
   /**
    * Add attr module.
    *

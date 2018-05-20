@@ -26,6 +26,7 @@ import com.ijoic.skin.extend.type.*
  * @version 2.0
  */
 object DefaultModule: AttrTypeModule("default") {
+
   override fun onInit() {
 
     // Config default attr types here.
