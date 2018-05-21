@@ -62,10 +62,11 @@ object AttrTypeFactory {
       val prefix = it.first
       val module = it.second
 
-      module.attrMap.forEach { resType, attr ->
+      module.attrMap.forEach {
+        val resType = it.key
         val resPrefix = prefix.getPrefix(resType)
         val query = if (resPrefix.isNullOrBlank()) resType else "${resPrefix}_$resType"
-        attrs[query] = attr
+        attrs[query] = it.value
       }
     }
     extraModuleAttrs = attrs
