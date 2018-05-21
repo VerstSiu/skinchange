@@ -4,6 +4,7 @@ buildscript {
     ext {
         kotlin_version = '1.2.30'
         support_version = '27.1.1'
+        lifecycle_version = '1.1.0'
 
         compileSdkVersion = 27
         minSdkVersion = 16
@@ -15,6 +16,9 @@ buildscript {
         depend_support_recyclerviewV7 = "com.android.support:recyclerview-v7:$support_version"
         depend_support_v4 = "com.android.support:support-v4:$support_version"
         depend_support_constraintLayout = 'com.android.support.constraint:constraint-layout:1.1.0'
+
+        depend_arch_lifecycle = "android.arch.lifecycle:extensions:$lifecycle_version"
+        compiler_arch_lifecycle = "android.arch.lifecycle:compiler:$lifecycle_version"
 
         depend_kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
