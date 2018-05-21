@@ -34,7 +34,9 @@ import com.ijoic.skin.SkinManager
 internal object KeepViewSkinTask: SkinTask<View> {
 
   override fun performSkinChange(compat: View) {
-    compat.parent ?: return
+    if (compat.parent != null) {
+      return
+    }
     SkinManager.injectSkin(compat)
   }
 
