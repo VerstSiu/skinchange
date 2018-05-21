@@ -62,6 +62,7 @@ object AttrTypeFactory {
       val prefix = it.first
       val module = it.second
 
+      module.init()
       module.attrMap.forEach {
         val resType = it.key
         val resPrefix = prefix.getPrefix(resType)
