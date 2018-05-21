@@ -37,6 +37,20 @@
 
     <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> simple test :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
 
+    <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> dynamic test :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
+
+    <!-- entrance -->
+    <activity
+      android:name=".test.DynamicTestActivity"
+      android:label="@string/case_dynamic_test"/>
+
+    <!-- linear -->
+    <activity
+      android:name=".test.dynamic.LinearDynamicTest"
+      android:label="@string/case_dynamic_linear"/>
+
+    <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> dynamic test :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
+
   </application>
 
 </manifest>

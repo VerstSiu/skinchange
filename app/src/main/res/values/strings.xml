@@ -3,9 +3,14 @@
   <string name="app_name" translatable="false">Skin Change</string>
 
   <string name="case_simple_test">Simple Test</string>
+  <string name="case_dynamic_test">Dynamic Test</string>
 
   <string name="case_simple_register_activity">Register Activity</string>
 
+  <string name="case_dynamic_linear" translatable="false">Linear Layout</string>
+  <string name="case_dynamic_recycler" translatable="false">Recycler View</string>
+
+  <string name="action_add_view">Add View</string>
   <string name="action_toggle_skin">Toggle Skin</string>
 
 </resources>

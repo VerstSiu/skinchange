@@ -2,9 +2,11 @@
 <resources>
 
   <string name="case_simple_test">简单换肤测试</string>
+  <string name="case_dynamic_test">动态换肤测试</string>
 
   <string name="case_simple_register_activity">活动注册</string>
 
+  <string name="action_add_view">添加视图</string>
   <string name="action_toggle_skin">切换皮肤</string>
 
 </resources>

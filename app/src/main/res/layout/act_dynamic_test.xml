@@ -6,15 +6,9 @@
   android:layout_height="match_parent">
 
   <Button
-    android:id="@+id/case_simple_test"
+    android:id="@+id/case_dynamic_linear"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/case_simple_test"/>
-
-  <Button
-    android:id="@+id/case_dynamic_test"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/case_dynamic_test"/>
+    android:text="@string/case_dynamic_linear"/>
 
 </LinearLayout>

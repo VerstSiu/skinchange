@@ -15,22 +15,28 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange
+package com.ijoic.skinchange.test
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ijoic.skinchange.test.DynamicTestActivity
-import com.ijoic.skinchange.test.SimpleTestActivity
+import com.ijoic.skinchange.R
+import com.ijoic.skinchange.test.dynamic.LinearDynamicTest
 import com.ijoic.skinchange.util.routeTo
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.act_dynamic_test.*
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Dynamic test activity.
+ *
+ * @author verstsiu on 2018/5/21.
+ * @version 2.0
+ */
+class DynamicTestActivity: AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    setContentView(R.layout.act_dynamic_test)
 
-    case_simple_test.setOnClickListener { routeTo(SimpleTestActivity::class.java) }
-    case_dynamic_test.setOnClickListener { routeTo(DynamicTestActivity::class.java) }
+    case_dynamic_linear.setOnClickListener { routeTo(LinearDynamicTest::class.java) }
   }
+
 }
