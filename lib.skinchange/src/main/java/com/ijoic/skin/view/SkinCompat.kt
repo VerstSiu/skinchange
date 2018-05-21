@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-internal class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
+internal class SkinCompat<T>(compat: T, private val skinTask: StateSkinTask<T>?) {
 
   private val refCompat = WeakReference(compat)
 

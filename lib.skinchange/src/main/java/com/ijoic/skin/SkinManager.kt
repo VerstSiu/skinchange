@@ -303,9 +303,39 @@ object SkinManager {
    * @param skinTask skin task.
    */
   @JvmStatic
-  fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>) {
+  fun<T> registerSkinTask(compat: T, skinTask: StateSkinTask<T>) {
     unregisterSkinTask(compat)
     register(TAG_SKIN_TASK, SkinCompat(compat, skinTask))
+  }
+
+  /**
+   * Register skin task.
+   *
+   * Use this method for custom view.
+   *
+   * @param compat compat.
+   * @param skinTask skin task.
+   */
+  @JvmStatic
+  fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>) {
+    registerSkinTask(compat, StateSkinTask.wrap(skinTask))
+  }
+
+  /**
+   * Register skin task and perform skin change right now.
+   *
+   * @param compat compat.
+   * @param skinTask skin task.
+   */
+  @JvmStatic
+  fun<T> registerAndPerformSkinTask(compat: T, skinTask: StateSkinTask<T>) {
+    unregisterSkinTask(compat)
+    val skinCompat = SkinCompat(compat, skinTask)
+    skinCompat.skinInit = true
+    skinCompat.skinId = this.skinId
+
+    skinTask.performSkinChange(compat)
+    register(TAG_SKIN_TASK, skinCompat)
   }
 
   /**
@@ -316,13 +346,7 @@ object SkinManager {
    */
   @JvmStatic
   fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>) {
-    unregisterSkinTask(compat)
-    val skinCompat = SkinCompat(compat, skinTask)
-    skinCompat.skinInit = true
-    skinCompat.skinId = this.skinId
-
-    skinTask.performSkinChange(compat)
-    register(TAG_SKIN_TASK, skinCompat)
+    registerAndPerformSkinTask(compat, StateSkinTask.wrap(skinTask))
   }
 
   /**

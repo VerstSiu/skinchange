@@ -70,3 +70,7 @@ com.ijoic.skin
 \--- view
 |    +--- [interface] SkinTask<T>
 |    |    +--- fun performSkinChange(compat: T)
+|    +--- [interface] StateSkinTask<T>: SkinTask<T>
+|    |    +--- fun isActive(): Boolean
+|    |    +--- fun onAttach(compat: T)
+|    |    +--- fun onDetach(compat: T)

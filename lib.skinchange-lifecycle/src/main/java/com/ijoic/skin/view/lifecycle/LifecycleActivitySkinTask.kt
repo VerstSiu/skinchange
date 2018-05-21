@@ -22,9 +22,8 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.support.v4.app.FragmentActivity
 import android.view.View
-
 import com.ijoic.skin.SkinManager
-import com.ijoic.skin.view.SkinTask
+import com.ijoic.skin.view.StateSkinTask
 import java.lang.ref.WeakReference
 
 /**
@@ -33,7 +32,7 @@ import java.lang.ref.WeakReference
  * @author verstsiu on 2018/5/21.
  * @version 2.0
  */
-internal class LifecycleActivitySkinTask: SkinTask<FragmentActivity>, LifecycleObserver {
+internal class LifecycleActivitySkinTask: StateSkinTask<FragmentActivity>, LifecycleObserver {
 
   private var stateActive = false
   private var refCompat: WeakReference<FragmentActivity>? = null

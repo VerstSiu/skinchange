@@ -29,7 +29,7 @@ import com.ijoic.skin.SkinManager
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-internal object ActivitySkinTask: SkinTask<Activity> {
+internal object ActivitySkinTask: StateSkinTask<Activity> {
 
   override fun performSkinChange(compat: Activity) {
     val contentView = compat.findViewById<View>(android.R.id.content) ?: return

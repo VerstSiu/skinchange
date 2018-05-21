@@ -27,25 +27,6 @@ package com.ijoic.skin.view
 interface SkinTask<in T> {
 
   /**
-   * Active status.
-   */
-  fun isActive() = true
-
-  /**
-   * Attach compat.
-   *
-   * @param compat compat.
-   */
-  fun onAttach(compat: T) {}
-
-  /**
-   * Detach compat.
-   *
-   * @param compat compat.
-   */
-  fun onDetach(compat: T) {}
-
-  /**
    * 执行换肤
    *
    * @param compat 组件
