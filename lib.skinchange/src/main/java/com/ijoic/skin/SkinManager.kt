@@ -119,13 +119,19 @@ object SkinManager {
     resourcesTool.setContext(appContext)
     refContext = WeakReference(appContext)
 
-    val prefs = skinPrefs ?: SkinPreference(context)
+    val prefs = createSkinPreference(context)
+    skinSuffix = prefs.pluginSuffix
     containerPool.trim()
 
     if (!initPlugin(prefs.pluginPath, prefs.pluginPackageName, prefs.pluginSuffix)) {
       resetResourcesManager()
     }
-    skinPrefs = prefs
+  }
+
+  private fun createSkinPreference(context: Context): SkinPreference {
+    return SkinPreference(context).apply {
+      skinPrefs = this
+    }
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
