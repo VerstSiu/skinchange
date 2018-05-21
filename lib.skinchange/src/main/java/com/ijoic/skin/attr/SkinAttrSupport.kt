@@ -37,37 +37,31 @@ internal object SkinAttrSupport {
    * @param rootView 根视图
    * @return 皮肤视图列表
    */
-  internal fun getSkinViews(rootView: View): List<SkinView> {
+  internal fun getSkinViews(rootView: View, skinId: String?): List<SkinView> {
     val skinViews = ArrayList<SkinView>()
-    addSkinViews(rootView, skinViews)
+    addSkinViews(rootView, skinViews, skinId)
     return skinViews
   }
 
-  private fun addSkinViews(view: View, skinViews: MutableList<SkinView>) {
-    val skinView = getSkinView(view)
-
-    if (skinView != null) {
-      skinViews.add(skinView)
-    }
-
-    if (view is ViewGroup) {
-
-      var i = 0
-      val size = view.childCount
-      while (i < size) {
-        addSkinViews(view.getChildAt(i), skinViews)
-        ++i
-      }
-    }
-  }
-
-  private fun getSkinView(view: View): SkinView? {
+  private fun addSkinViews(view: View, skinViews: MutableList<SkinView>, skinId: String?) {
     val info = view.getSkinInfo()
 
     if (!info.isEmpty) {
-      return SkinView(view, info)
+      if (info.skinInit && info.skinId == skinId) {
+        return
+      }
+      skinViews.add(SkinView(view, info))
     }
-    return null
+
+    if (view is ViewGroup) {
+      val childCount = view.childCount
+
+      if (childCount > 0) {
+        for (childIndex in 0 until childCount) {
+          addSkinViews(view.getChildAt(childIndex), skinViews, skinId)
+        }
+      }
+    }
   }
 
 }

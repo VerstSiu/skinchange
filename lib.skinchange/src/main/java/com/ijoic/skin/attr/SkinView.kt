@@ -34,16 +34,22 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
 
   /**
    * 应用皮肤
+   *
+   * @param skinId skin id.
    */
-  internal fun apply() {
+  internal fun apply(skinId: String?) {
     val view = viewRef.get() ?: return
 
-    info.items?.values?.forEach {
-      val resName = it.resName
-      val attr = it.attr
+    info.apply {
+      this.skinInit = true
+      this.skinId = skinId
+      items?.values?.forEach {
+        val resName = it.resName
+        val attr = it.attr
 
-      if (resName != null && attr != null) {
-        attr.apply(view, resName)
+        if (resName != null && attr != null) {
+          attr.apply(view, resName)
+        }
       }
     }
   }

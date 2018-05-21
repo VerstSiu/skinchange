@@ -68,6 +68,7 @@ object SkinTool {
       this.resName = resName
       this.attr = attrType
     }
+    attrType.apply(view, resName)
   }
 
   /**
@@ -88,6 +89,7 @@ object SkinTool {
       this.resName = resName
       this.attr = attrType
     }
+    attrType.apply(view, resName)
   }
 
 }

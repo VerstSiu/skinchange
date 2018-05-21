@@ -119,11 +119,27 @@ object SkinManager {
     resourcesTool.setContext(appContext)
     refContext = WeakReference(appContext)
 
-    val prefs = createSkinPreference(context)
-    skinSuffix = prefs.pluginSuffix
+    restoreSkinInfo(context)
     containerPool.trim()
+  }
 
-    if (!initPlugin(prefs.pluginPath, prefs.pluginPackageName, prefs.pluginSuffix)) {
+  private fun restoreSkinInfo(context: Context) {
+    val prefs = createSkinPreference(context)
+
+    if (prefs.pluginEnabled) {
+      val pluginPath = prefs.pluginPath
+      val pluginPackage = prefs.pluginPackage
+      val pluginSuffix = prefs.pluginSuffix
+
+      if (pluginPackage != null && initPlugin(pluginPath, pluginPackage, pluginSuffix)) {
+        upgradeSkinId(pluginPackage, pluginSuffix)
+      } else {
+        prefs.pluginEnabled = false
+        upgradeSkinId(prefs.suffix)
+        resetResourcesManager()
+      }
+    } else {
+      upgradeSkinId(prefs.suffix)
       resetResourcesManager()
     }
   }
@@ -159,7 +175,7 @@ object SkinManager {
       true
     } catch (e: Exception) {
       e.printStackTrace()
-      skinPrefs?.clear()
+      clearPluginInfo()
       false
     }
   }
@@ -210,6 +226,7 @@ object SkinManager {
       setResources(res, true)
       setSkinInfo(packageName, suffix)
     }
+    updatePluginInfo(path, packageName, suffix)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> plugin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -321,7 +338,7 @@ object SkinManager {
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> change skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> skin info :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
   /**
    * Skin suffix.
@@ -329,6 +346,36 @@ object SkinManager {
   @JvmStatic
   var skinSuffix: String? = null
     private set
+
+  /**
+   * Skin id.
+   */
+  private var skinId: String? = null
+
+  /**
+   * Upgrade skin id.
+   *
+   * @param suffix suffix.
+   */
+  private fun upgradeSkinId(suffix: String?) {
+    skinId = suffix
+    skinSuffix = suffix
+  }
+
+  /**
+   * Upgrade skin id.
+   *
+   * @param pluginPackage plugin package.
+   * @param pluginSuffix plugin suffix.
+   */
+  private fun upgradeSkinId(pluginPackage: String, pluginSuffix: String?) {
+    skinId = "$pluginPackage:${pluginSuffix.orEmpty()}"
+    skinSuffix = pluginSuffix
+  }
+
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> skin info :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> change skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
   /**
    * Change skin.
@@ -340,11 +387,11 @@ object SkinManager {
     clearPluginInfo() // clear before
 
     skinPrefs?.apply {
-      pluginSuffix = suffix
+      this.suffix = suffix
+      upgradeSkinId(suffix)
       resetResourcesManager()
+      notifyChangedListeners()
     }
-    notifyChangedListeners()
-    skinSuffix = suffix
   }
 
   /**
@@ -384,7 +431,6 @@ object SkinManager {
         }
 
         try {
-          updatePluginInfo(path, packageName, suffix)
           notifyChangedListeners()
           skinCallback.onComplete()
         } catch (e: Exception) {
@@ -395,14 +441,16 @@ object SkinManager {
     }.execute()
   }
 
-  private fun updatePluginInfo(path: String?, packageName: String?, suffix: String? = null) {
+  private fun updatePluginInfo(path: String, packageName: String, suffix: String? = null) {
     val prefs = skinPrefs ?: throw IllegalArgumentException("skin preference not found")
 
     prefs.apply {
+      pluginEnabled = true
       pluginPath = path
-      pluginPackageName = packageName
+      pluginPackage = packageName
       pluginSuffix = suffix
     }
+    upgradeSkinId(packageName, suffix)
   }
 
   /**
@@ -411,12 +459,13 @@ object SkinManager {
   @JvmStatic
   fun removeAnySkin() {
     clearPluginInfo()
+    upgradeSkinId(null)
     resetResourcesManager()
     notifyChangedListeners()
   }
 
   private fun clearPluginInfo() {
-    skinPrefs?.clear()
+    skinPrefs?.clearPluginInfo()
   }
 
   private fun resetResourcesManager() {
@@ -424,7 +473,7 @@ object SkinManager {
 
     resourcesManager.apply {
       setResources(context.resources, false)
-      setSkinInfo(context.packageName, skinPrefs?.pluginSuffix)
+      setSkinInfo(context.packageName, skinSuffix)
     }
   }
 
@@ -449,10 +498,11 @@ object SkinManager {
    */
   @JvmStatic
   fun injectSkin(view: View) {
-    val skinViews = SkinAttrSupport.getSkinViews(view)
+    val skinId = this.skinId
+    val skinViews = SkinAttrSupport.getSkinViews(view, skinId)
 
     skinViews.forEach {
-      it.apply()
+      it.apply(skinId)
     }
   }
 

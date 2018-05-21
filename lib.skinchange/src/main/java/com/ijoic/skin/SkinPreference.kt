@@ -31,49 +31,41 @@ import com.ijoic.skin.constant.SkinConfig
  */
 internal class SkinPreference(context: Context) {
 
-  private val innerPrefs: SharedPreferences = context.getSharedPreferences(SkinConfig.SKIN_PREF_NAME, Context.MODE_PRIVATE)
+  internal val innerPrefs: SharedPreferences = context.getSharedPreferences(SkinConfig.SKIN_PREF_NAME, Context.MODE_PRIVATE)
 
   /**
-   * 皮肤插件路径
+   * Plugin enabled.
    */
-  var pluginPath: String?
-    get() = innerPrefs.getString(KEY_PLUGIN_PATH, null)
-    set(pluginPath) = innerPrefs.edit()
-        .putString(KEY_PLUGIN_PATH, pluginPath)
-        .apply()
+  internal var pluginEnabled: Boolean by bindBoolean("plugin_enabled")
 
   /**
-   * 皮肤插件包名称
+   * Plugin path.
    */
-  var pluginPackageName: String?
-    get() = innerPrefs.getString(KEY_PLUGIN_PACKAGE, null)
-    set(packageName) = innerPrefs.edit()
-        .putString(KEY_PLUGIN_PACKAGE, packageName)
-        .apply()
+  internal var pluginPath: String? by bindString("plugin_path")
 
   /**
-   * 皮肤插件后缀
+   * Plugin package.
    */
-  var pluginSuffix: String?
-    get() = innerPrefs.getString(KEY_PLUGIN_SUFFIX, null)
-    set(pluginSuffix) = innerPrefs.edit()
-        .putString(KEY_PLUGIN_SUFFIX, pluginSuffix)
-        .apply()
+  internal var pluginPackage: String? by bindString("plugin_package")
+
+  /**
+   * Plugin suffix.
+   */
+  internal var pluginSuffix: String? by bindString("plugin_suffix")
+
+  /**
+   * Normal skin suffix.
+   */
+  internal var suffix: String? by bindString("pluginSuffix")
 
   /**
    * 清空首选项数据
    */
-  fun clear() {
-    innerPrefs
-        .edit()
-        .clear()
-        .apply()
-  }
-
-  companion object {
-    private const val KEY_PLUGIN_PATH = "pluginPath"
-    private const val KEY_PLUGIN_PACKAGE = "pluginPackage"
-    private const val KEY_PLUGIN_SUFFIX = "pluginSuffix"
+  fun clearPluginInfo() {
+    pluginEnabled = false
+    pluginPath = null
+    pluginPackage = null
+    pluginSuffix = null
   }
 
 }
