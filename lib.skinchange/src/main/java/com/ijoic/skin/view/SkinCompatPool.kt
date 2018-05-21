@@ -61,7 +61,6 @@ internal class SkinCompatPool {
    */
   internal fun remove(tag: String, compat: SkinCompat<*>) {
     val compatItems = compatItemsMap[tag] ?: return
-
     val removedItem = SkinCompatUtils.removeCompat(compatItems, compat)
 
     if (removedItem != null) {

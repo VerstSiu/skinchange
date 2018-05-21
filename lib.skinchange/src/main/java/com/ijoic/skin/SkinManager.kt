@@ -251,6 +251,7 @@ object SkinManager {
    */
   @JvmStatic
   fun register(activity: Activity) {
+    unregister(activity)
     register(TAG_ACTIVITY, SkinCompat(activity, ActivitySkinTask))
   }
 
@@ -265,6 +266,7 @@ object SkinManager {
    */
   @JvmStatic
   fun register(fragment: Fragment) {
+    unregister(fragment)
     register(TAG_FRAGMENT, SkinCompat(fragment, FragmentSkinTask))
   }
 
@@ -302,6 +304,7 @@ object SkinManager {
    */
   @JvmStatic
   fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>) {
+    unregisterSkinTask(compat)
     register(TAG_SKIN_TASK, SkinCompat(compat, skinTask))
   }
 
@@ -313,6 +316,7 @@ object SkinManager {
    */
   @JvmStatic
   fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>) {
+    unregisterSkinTask(compat)
     val skinCompat = SkinCompat(compat, skinTask)
     skinCompat.skinInit = true
     skinCompat.skinId = this.skinId
