@@ -1,3 +1,20 @@
+/*
+ *
+ *  Copyright(c) 2018 VerstSiu
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
 package com.ijoic.skin
 
 import android.view.View
@@ -14,13 +31,26 @@ import com.ijoic.skin.extend.AttrTypeFactory
 /**
  * Returns skin item map.
  */
-internal fun View.getSkinItemMap(): SkinItemMap? {
-  val oldMap = getTag(R.id.ijc_skinchange_map_id)
+internal fun View.getSkinInfo(): SkinInfo {
+  val oldInfo = getTag(R.id.ijc_skinchange_map_id)
 
-  if (oldMap != null && oldMap is SkinItemMap) {
-    return oldMap
+  if (oldInfo != null && oldInfo is SkinInfo) {
+    return oldInfo
   }
-  val tag = this.tag?.toString() ?: return null
+  val skinInfo = SkinInfo()
+  skinInfo.items = getSkinItemMap(this.tag?.toString())
+
+  setTag(R.id.ijc_skinchange_map_id, skinInfo)
+  return skinInfo
+}
+
+/**
+ * Returns skin item map.
+ */
+private fun getSkinItemMap(tag: String?): SkinItemMap? {
+  if (tag == null || tag.isBlank()) {
+    return null
+  }
   var map: SkinItemMap? = null
 
   tag.forEachAttr { resName, resType ->
@@ -37,21 +67,6 @@ internal fun View.getSkinItemMap(): SkinItemMap? {
       map = itemMap
     }
   }
-  setTag(R.id.ijc_skinchange_map_id, map)
-  return map
-}
-
-/**
- * Returns cached or new created skin item map.
- */
-internal fun View.getOrCreateSkinItemMap(): SkinItemMap {
-  val oldMap = getSkinItemMap()
-
-  if (oldMap != null) {
-    return oldMap
-  }
-  val map = SkinItemMap()
-  setTag(R.id.ijc_skinchange_map_id, map)
   return map
 }
 

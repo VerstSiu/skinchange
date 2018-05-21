@@ -22,7 +22,7 @@ import android.support.annotation.AnyRes
 import android.util.Log
 import android.view.View
 import com.ijoic.skin.constant.SkinConfig
-import com.ijoic.skin.getOrCreateSkinItemMap
+import com.ijoic.skin.getSkinInfo
 
 /**
  * 皮肤工具
@@ -61,8 +61,8 @@ object SkinTool {
   @JvmStatic
   fun fillTag(view: View, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(type) ?: return
-    val itemMap = view.getOrCreateSkinItemMap()
-    val item = itemMap.insertOrCached(type)
+    val info = view.getSkinInfo()
+    val item = info.getOrCreateItems().insertOrCached(type)
 
     item.apply {
       this.resName = resName
@@ -81,8 +81,8 @@ object SkinTool {
   @JvmStatic
   fun fillTag(view: View, module: String, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(module, type) ?: return
-    val itemMap = view.getOrCreateSkinItemMap()
-    val item = itemMap.insertOrCached(type)
+    val info = view.getSkinInfo()
+    val item = info.getOrCreateItems().insertOrCached(type)
 
     item.apply {
       this.resName = resName

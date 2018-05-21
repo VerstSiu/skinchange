@@ -29,7 +29,6 @@ import com.ijoic.skin.attr.SkinAttrType
 internal class SkinItem private constructor(
     var resName: String? = null,
     var resType: String? = null,
-    var skinId: String? = null,
     var attr: SkinAttrType? = null) {
 
   companion object {
@@ -48,7 +47,6 @@ internal class SkinItem private constructor(
     fun release(item: SkinItem) {
       item.apply {
         resName = null
-        skinId = null
         attr = null
       }
       instancePool.release(item)

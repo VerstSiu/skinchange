@@ -20,7 +20,7 @@ package com.ijoic.skin.attr
 
 import android.view.View
 import android.view.ViewGroup
-import com.ijoic.skin.getSkinItemMap
+import com.ijoic.skin.getSkinInfo
 import java.util.*
 
 /**
@@ -62,10 +62,10 @@ internal object SkinAttrSupport {
   }
 
   private fun getSkinView(view: View): SkinView? {
-    val itemMap = view.getSkinItemMap()
+    val info = view.getSkinInfo()
 
-    if (itemMap != null) {
-      return SkinView(view, itemMap)
+    if (!info.isEmpty) {
+      return SkinView(view, info)
     }
     return null
   }

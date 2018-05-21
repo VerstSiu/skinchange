@@ -19,8 +19,7 @@
 package com.ijoic.skin.attr
 
 import android.view.View
-import com.ijoic.skin.SkinItemMap
-
+import com.ijoic.skin.SkinInfo
 import java.lang.ref.WeakReference
 
 /**
@@ -29,7 +28,7 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-internal class SkinView internal constructor(view: View, private val itemMap: SkinItemMap) {
+internal class SkinView internal constructor(view: View, private val info: SkinInfo) {
 
   private val viewRef: WeakReference<View> = WeakReference(view)
 
@@ -39,7 +38,7 @@ internal class SkinView internal constructor(view: View, private val itemMap: Sk
   internal fun apply() {
     val view = viewRef.get() ?: return
 
-    itemMap.values.forEach {
+    info.items?.values?.forEach {
       val resName = it.resName
       val attr = it.attr
 
