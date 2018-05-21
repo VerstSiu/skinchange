@@ -49,6 +49,11 @@
       android:name=".test.dynamic.LinearDynamicTest"
       android:label="@string/case_dynamic_linear"/>
 
+    <!-- recycler -->
+    <activity
+      android:name=".test.dynamic.RecyclerDynamicTest"
+      android:label="@string/case_dynamic_recycler"/>
+
     <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> dynamic test :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
 
   </application>

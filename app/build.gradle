@@ -38,13 +38,16 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     testImplementation project.depend_junit
     androidTestImplementation project.depend_test_runner
     androidTestImplementation project.depend_test_espresso
+
     implementation project.depend_support_appCompatV7
     implementation project.depend_support_recyclerviewV7
     implementation project.depend_support_constraintLayout
     implementation project.depend_kotlin
+
     implementation project(':lib.skinchange')
     implementation project(':skin.default')
     implementation project(':skin.red')
