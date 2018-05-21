@@ -313,8 +313,12 @@ object SkinManager {
    */
   @JvmStatic
   fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>) {
+    val skinCompat = SkinCompat(compat, skinTask)
+    skinCompat.skinInit = true
+    skinCompat.skinId = this.skinId
+
     skinTask.performSkinChange(compat)
-    registerSkinTask(compat, skinTask)
+    register(TAG_SKIN_TASK, skinCompat)
   }
 
   /**
@@ -478,10 +482,15 @@ object SkinManager {
   }
 
   private fun notifyChangedListeners() {
-    val compatItems = containerPool.getCompatItemsAll()
+    val skinId = this.skinId
+    val compatItems = containerPool.getCompatItemsAll(skinId)
 
     compatItems.forEach {
-      it.performSkinChange()
+      it.apply {
+        this.skinInit = true
+        this.skinId = skinId
+        performSkinChange()
+      }
     }
   }
 

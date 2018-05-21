@@ -30,6 +30,9 @@ internal class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
 
   private val refCompat = WeakReference(compat)
 
+  internal var skinInit = false
+  internal var skinId: String? = null
+
   /**
    * 判断皮肤组件是否为空
    *

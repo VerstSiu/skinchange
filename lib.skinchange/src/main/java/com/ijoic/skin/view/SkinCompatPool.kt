@@ -70,12 +70,12 @@ internal class SkinCompatPool {
   }
 
   /**
-   * 获取所有皮肤组件
+   * Returns all skin compat which needs to take a skin change.
    *
-   * @return 所有皮肤组件
+   * @param skinId skin id.
    */
-  internal fun getCompatItemsAll(): List<SkinCompat<*>> {
-    return compatItemsAll
+  internal fun getCompatItemsAll(skinId: String?): List<SkinCompat<*>> {
+    return compatItemsAll.filter { !it.isEmpty && (!it.skinInit || it.skinId != skinId) }
   }
 
   /**
