@@ -42,16 +42,39 @@ internal class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
     get() = refCompat.get() == null || skinTask == null
 
   /**
+   * Active status.
+   */
+  internal val isActive: Boolean
+    get() = skinTask?.isActive() ?: false
+
+  /**
+   * Attach task.
+   */
+  internal fun attachTask() {
+    val compat = refCompat.get() ?: return
+    val task = this.skinTask ?: return
+
+    task.onAttach(compat)
+  }
+
+  /**
+   * Detach task.
+   */
+  internal fun detachTask() {
+    val compat = refCompat.get() ?: return
+    val task = this.skinTask ?: return
+
+    task.onDetach(compat)
+  }
+
+  /**
    * 执行换肤
    */
   internal fun performSkinChange() {
-    val compat = refCompat.get()
-    val skinTask = this.skinTask
+    val compat = refCompat.get() ?: return
+    val task = this.skinTask ?: return
 
-    if (compat == null || skinTask == null) {
-      return
-    }
-    skinTask.performSkinChange(compat)
+    task.performSkinChange(compat)
   }
 
   override fun equals(other: Any?): Boolean {

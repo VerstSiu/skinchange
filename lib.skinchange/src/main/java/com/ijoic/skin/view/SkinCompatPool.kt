@@ -74,7 +74,7 @@ internal class SkinCompatPool {
    * @param skinId skin id.
    */
   internal fun getCompatItemsAll(skinId: String?): List<SkinCompat<*>> {
-    return compatItemsAll.filter { !it.isEmpty && (!it.skinInit || it.skinId != skinId) }
+    return compatItemsAll.filter { it.isActive && !it.isEmpty && (!it.skinInit || it.skinId != skinId) }
   }
 
   /**

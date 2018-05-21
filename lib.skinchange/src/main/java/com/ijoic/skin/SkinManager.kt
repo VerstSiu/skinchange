@@ -337,11 +337,13 @@ object SkinManager {
 
   private fun register(tag: String, compat: SkinCompat<*>) {
     containerPool.add(tag, compat)
+    compat.attachTask()
     compat.performSkinChange()
   }
 
   private fun unregister(tag: String, compat: SkinCompat<*>) {
     containerPool.remove(tag, compat)
+    compat.detachTask()
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
