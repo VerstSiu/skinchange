@@ -46,10 +46,10 @@ internal object SkinAttrSupport {
   private fun addSkinViews(view: View, skinViews: MutableList<SkinView>, skinId: String?) {
     val info = view.getSkinInfo()
 
+    if (!info.isSkinChangeRequired(skinId)) {
+      return
+    }
     if (!info.isEmpty) {
-      if (info.skinInit && info.skinId == skinId) {
-        return
-      }
       skinViews.add(SkinView(view, info))
     }
 

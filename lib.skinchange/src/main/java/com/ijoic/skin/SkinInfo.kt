@@ -28,11 +28,16 @@ internal class SkinInfo {
    * Skin id.
    */
   internal var skinId: String? = null
+      set(value) {
+        skinInit = true
+        field = value
+      }
 
   /**
    * Skin init status.
    */
   internal var skinInit = false
+      private set
 
   /**
    * Skin empty status.
@@ -44,6 +49,15 @@ internal class SkinInfo {
    * Skin items.
    */
   internal var items: SkinItemMap? = null
+
+  /**
+   * Returns skin change required status.
+   *
+   * @param skinId new skin id.
+   */
+  internal fun isSkinChangeRequired(skinId: String?): Boolean {
+    return !skinInit || this.skinId != skinId
+  }
 
   /**
    * Returns cached or new created skin items.

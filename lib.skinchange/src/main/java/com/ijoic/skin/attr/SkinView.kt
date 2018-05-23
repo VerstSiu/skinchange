@@ -41,7 +41,6 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
     val view = viewRef.get() ?: return
 
     info.apply {
-      this.skinInit = true
       this.skinId = skinId
       items?.values?.forEach {
         val resName = it.resName
