@@ -17,19 +17,22 @@ com.ijoic.skin
 |    +--- @JvmStatic fun init(context: Context)
 |    +--- @JvmStatic [get] resourcesManager: ResourcesManager
 |    +--- @JvmStatic [get] resourcesTool: ResourcesTool
-|    +--- @JvmStatic fun register(activity: Activity)
-|    +--- @JvmStatic fun register(fragment: Fragment)
-|    +--- @JvmStatic fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>)
-|    +--- @JvmStatic fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>)
-|    +--- @JvmStatic fun unregister(activity: Activity)
-|    +--- @JvmStatic fun unregister(fragment: Fragment)
-|    +--- @JvmStatic fun<T> unregisterSkinTask(compat: T)
-|    +--- @JvmStatic fun removeAnySkin()
-|    +--- @JvmStatic fun changeSkin(suffix: String?)
 |    +--- @JvmStatic [get] skinSuffix: String?
-|    +--- @JvmStatic @JvmOverloads fun changeSkin(pluginPath: String?, pluginPackage: String?, suffix: String? = null, callback: SkinChangeCallback? = null)
 |    +--- @JvmStatic fun injectSkin(view: View)
-|    +--- @JvmStatic fun stickyInjectSkin(view: View)
+|    +--- @JvmStatic fun changeSkin(suffix: String?)
+|    +--- @JvmStatic @JvmOverloads fun changeSkin(pluginPath: String?, pluginPackage: String?, suffix: String? = null, callback: SkinChangeCallback? = null)
+|    +--- @JvmStatic fun removeAnySkin()
+|    +--- @JvmStatic fun edit(): SkinEditor
+|    +--- @JvmStatic fun registerEdit(activity: FragmentActivity): SkinEditor
+|    +--- @JvmStatic fun registerEdit(fragment: Fragment): SkinEditor
+|    +--- @Deprecated @JvmStatic fun register(activity: Activity)
+|    +--- @Deprecated @JvmStatic fun register(fragment: Fragment)
+|    +--- @Deprecated @JvmStatic fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>)
+|    +--- @Deprecated @JvmStatic fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>)
+|    +--- @Deprecated @JvmStatic fun unregister(activity: Activity)
+|    +--- @Deprecated @JvmStatic fun unregister(fragment: Fragment)
+|    +--- @Deprecated @JvmStatic fun<T> unregisterSkinTask(compat: T)
+|    +--- @Deprecated @JvmStatic fun stickyInjectSkin(view: View)
 \--- attr
 |    +--- [interface] SkinAttrType
 |    |    +--- fun apply(view: View, resName: String)
@@ -38,6 +41,12 @@ com.ijoic.skin
 |    |    +--- fun onStart()
 |    |    +--- fun onError(errorMessage: String)
 |    |    +--- fun onComplete()
+\--- edit
+|    +--- [interface] SkinEditor
+|    |    +--- fun<T> addTask(compat: T, task: SkinTask<T>)
+|    |    +--- fun<T> addAndPerformTask(compat: T, task: SkinTask<T>)
+|    |    +--- fun injectSkin(view: View)
+|    |    +--- fun stickyInjectSkin(view: View)
 \--- extend
 |    +--- AttrTypeFactory
 |    |    +--- @JvmStatic fun addModule(prefix: AttrPrefix, module: AttrTypeModule): AttrTypeFactory
@@ -70,7 +79,3 @@ com.ijoic.skin
 \--- view
 |    +--- [interface] SkinTask<T>
 |    |    +--- fun performSkinChange(compat: T)
-|    +--- [interface] StateSkinTask<T>: SkinTask<T>
-|    |    +--- fun isActive(): Boolean
-|    |    +--- fun onAttach(compat: T)
-|    |    +--- fun onDetach(compat: T)

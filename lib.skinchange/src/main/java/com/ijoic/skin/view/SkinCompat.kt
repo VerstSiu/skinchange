@@ -26,12 +26,18 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-internal class SkinCompat<T>(compat: T, private val skinTask: StateSkinTask<T>?) {
+internal class SkinCompat<T>(compat: T, private val skinTask: SkinTask<T>?) {
 
   private val refCompat = WeakReference(compat)
 
   internal var skinInit = false
   internal var skinId: String? = null
+
+  /**
+   * Compat.
+   */
+  internal val compat: T?
+      get() = refCompat.get()
 
   /**
    * 判断皮肤组件是否为空
@@ -40,32 +46,6 @@ internal class SkinCompat<T>(compat: T, private val skinTask: StateSkinTask<T>?)
    */
   internal val isEmpty: Boolean
     get() = refCompat.get() == null || skinTask == null
-
-  /**
-   * Active status.
-   */
-  internal val isActive: Boolean
-    get() = skinTask?.isActive() ?: false
-
-  /**
-   * Attach task.
-   */
-  internal fun attachTask() {
-    val compat = refCompat.get() ?: return
-    val task = this.skinTask ?: return
-
-    task.onAttach(compat)
-  }
-
-  /**
-   * Detach task.
-   */
-  internal fun detachTask() {
-    val compat = refCompat.get() ?: return
-    val task = this.skinTask ?: return
-
-    task.onDetach(compat)
-  }
 
   /**
    * 执行换肤

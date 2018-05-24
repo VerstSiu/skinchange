@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -32,4 +33,6 @@ dependencies {
 
     implementation project.depend_support_appCompatV7
     implementation project.depend_kotlin
+    implementation project.depend_arch_lifecycle
+    kapt project.compiler_arch_lifecycle
 }

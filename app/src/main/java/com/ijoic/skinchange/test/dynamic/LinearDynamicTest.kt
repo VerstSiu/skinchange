@@ -38,7 +38,7 @@ class LinearDynamicTest: AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.act_dynamic_linear)
-    SkinManager.register(this)
+    SkinManager.registerEdit(this)
     skinBox.setCurrentValue(SkinManager.skinSuffix)
 
     add_view_button.setOnClickListener {
@@ -48,11 +48,6 @@ class LinearDynamicTest: AppCompatActivity() {
       linear_parent.addView(child)
     }
     toggle_skin_button.setOnClickListener { SkinManager.changeSkin(skinBox.toggle()) }
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    SkinManager.unregister(this)
   }
 
 }

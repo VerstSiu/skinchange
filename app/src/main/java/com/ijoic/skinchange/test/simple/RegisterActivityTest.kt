@@ -32,19 +32,14 @@ import kotlinx.android.synthetic.main.act_simple_register.*
  */
 class RegisterActivityTest: AppCompatActivity() {
 
-  private val skinBox = ValueBox<String?>(null, "red")
+  private val skinBox = ValueBox(null, "red")
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.act_simple_register)
-    SkinManager.register(this)
+    SkinManager.registerEdit(this)
     skinBox.setCurrentValue(SkinManager.skinSuffix)
     toggle_skin_button.setOnClickListener { SkinManager.changeSkin(skinBox.toggle()) }
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    SkinManager.unregister(this)
   }
 
 }

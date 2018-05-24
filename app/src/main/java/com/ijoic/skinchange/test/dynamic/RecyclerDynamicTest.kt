@@ -26,6 +26,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ijoic.skin.SkinManager
+import com.ijoic.skin.edit.SkinEditor
 import com.ijoic.skinchange.R
 import com.ijoic.skinchange.util.ValueBox
 import kotlinx.android.synthetic.main.act_dynamic_recycler.*
@@ -43,10 +44,10 @@ class RecyclerDynamicTest: AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.act_dynamic_recycler)
-    SkinManager.register(this)
+    val skinEditor = SkinManager.registerEdit(this)
     skinBox.setCurrentValue(SkinManager.skinSuffix)
 
-    val adapter = TestAdapter(this)
+    val adapter = TestAdapter(this, skinEditor)
     recycler_parent.apply {
       this.adapter = adapter
       layoutManager = LinearLayoutManager(this@RecyclerDynamicTest, LinearLayoutManager.VERTICAL, false)
@@ -59,19 +60,14 @@ class RecyclerDynamicTest: AppCompatActivity() {
     toggle_skin_button.setOnClickListener { SkinManager.changeSkin(skinBox.toggle()) }
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    SkinManager.unregister(this)
-  }
-
-  private class TestAdapter(context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+  private class TestAdapter(context: Context, private val skinEditor: SkinEditor): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater = LayoutInflater.from(context)
 
     var displayCount = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
       val itemView = inflater.inflate(R.layout.item_simple_hello_world, parent, false)
-      SkinManager.stickyInjectSkin(itemView)
+      skinEditor.stickyInjectSkin(itemView)
       return SimpleHolder(itemView)
     }
 

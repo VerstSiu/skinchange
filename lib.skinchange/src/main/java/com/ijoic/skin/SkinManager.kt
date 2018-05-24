@@ -18,15 +18,19 @@
 package com.ijoic.skin
 
 import android.app.Activity
+import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.AssetManager
 import android.content.res.Resources
 import android.os.AsyncTask
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.ijoic.skin.attr.SkinAttrSupport
 import com.ijoic.skin.callback.SkinChangeCallback
+import com.ijoic.skin.edit.SkinEditor
+import com.ijoic.skin.edit.SkinEditorManager
 import com.ijoic.skin.view.*
 import java.io.File
 import java.lang.ref.WeakReference
@@ -120,7 +124,7 @@ object SkinManager {
     refContext = WeakReference(appContext)
 
     restoreSkinInfo(context)
-    containerPool.trim()
+    editManager.defaultEditor.clearCompatItems()
   }
 
   private fun restoreSkinInfo(context: Context) {
@@ -233,12 +237,44 @@ object SkinManager {
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
-  private val containerPool = SkinCompatPool()
+  private val editManager by lazy { SkinEditorManager() }
 
-  private const val TAG_ACTIVITY = "activity"
-  private const val TAG_FRAGMENT = "fragment"
-  private const val TAG_VIEW = "view"
-  private const val TAG_SKIN_TASK = "skintask"
+  /**
+   * Returns skin editor for expected lifecycle.
+   *
+   * @param lifecycle lifecycle.
+   */
+  @JvmStatic
+  fun edit(lifecycle: Lifecycle): SkinEditor {
+    return editManager.getEditor(lifecycle)
+  }
+
+  /**
+   * Returns editor and register activity instance..
+   *
+   * @param activity activity.
+   */
+  @JvmStatic
+  fun registerEdit(activity: FragmentActivity): SkinEditor {
+    val editor = editManager.getEditor(activity.lifecycle)
+    editor.clearCompatItems()
+    editor.addTask(activity, ActivitySkinTask)
+    return editor
+  }
+
+  /**
+   * Returns editor and register fragment instance..
+   *
+   * @param fragment fragment.
+   * @param lifecycle custom lifecycle.
+   */
+  @JvmStatic
+  fun registerEdit(fragment: Fragment, lifecycle: Lifecycle? = null): SkinEditor {
+    val editor = editManager.getEditor(lifecycle ?: fragment.lifecycle)
+    editor.clearCompatItems()
+    editor.addTask(fragment, FragmentSkinTask)
+    return editor
+  }
 
   /**
    * Register activity.
@@ -250,9 +286,14 @@ object SkinManager {
    * @param activity activity.
    */
   @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinManager.registerEdit(activity: Activity)"
+      )
+  )
   fun register(activity: Activity) {
-    unregister(activity)
-    register(TAG_ACTIVITY, SkinCompat(activity, ActivitySkinTask))
+    editManager.defaultEditor.addAndPerformTask(activity, ActivitySkinTask)
   }
 
   /**
@@ -265,13 +306,14 @@ object SkinManager {
    * @param fragment fragment.
    */
   @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinManager.registerEdit(fragment: Fragment)"
+      )
+  )
   fun register(fragment: Fragment) {
-    unregister(fragment)
-    register(TAG_FRAGMENT, SkinCompat(fragment, FragmentSkinTask))
-  }
-
-  private fun register(view: View) {
-    register(TAG_VIEW, SkinCompat(view, KeepViewSkinTask))
+    editManager.defaultEditor.addAndPerformTask(fragment, FragmentSkinTask)
   }
 
   /**
@@ -280,8 +322,14 @@ object SkinManager {
    * @param activity activity.
    */
   @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinEditor.removeTask(compat: Any)"
+      )
+  )
   fun unregister(activity: Activity) {
-    unregister(TAG_ACTIVITY, SkinCompat(activity, null))
+    editManager.defaultEditor.removeTask(activity)
   }
 
   /**
@@ -290,8 +338,14 @@ object SkinManager {
    * @param fragment fragment.
    */
   @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinEditor.removeTask(compat: Any)"
+      )
+  )
   fun unregister(fragment: Fragment) {
-    unregister(TAG_FRAGMENT, SkinCompat(fragment, null))
+    editManager.defaultEditor.removeTask(fragment)
   }
 
   /**
@@ -303,22 +357,14 @@ object SkinManager {
    * @param skinTask skin task.
    */
   @JvmStatic
-  fun<T> registerSkinTask(compat: T, skinTask: StateSkinTask<T>) {
-    unregisterSkinTask(compat)
-    register(TAG_SKIN_TASK, SkinCompat(compat, skinTask))
-  }
-
-  /**
-   * Register skin task.
-   *
-   * Use this method for custom view.
-   *
-   * @param compat compat.
-   * @param skinTask skin task.
-   */
-  @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinEditor.addTask(compat: T, task: SkinTask<T>)"
+      )
+  )
   fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>) {
-    registerSkinTask(compat, StateSkinTask.wrap(skinTask))
+    editManager.defaultEditor.addTask(compat, skinTask)
   }
 
   /**
@@ -328,25 +374,14 @@ object SkinManager {
    * @param skinTask skin task.
    */
   @JvmStatic
-  fun<T> registerAndPerformSkinTask(compat: T, skinTask: StateSkinTask<T>) {
-    unregisterSkinTask(compat)
-    val skinCompat = SkinCompat(compat, skinTask)
-    skinCompat.skinInit = true
-    skinCompat.skinId = this.skinId
-
-    skinTask.performSkinChange(compat)
-    register(TAG_SKIN_TASK, skinCompat)
-  }
-
-  /**
-   * Register skin task and perform skin change right now.
-   *
-   * @param compat compat.
-   * @param skinTask skin task.
-   */
-  @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinEditor.addAndPerformTask(compat: T, task: SkinTask<T>)"
+      )
+  )
   fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>) {
-    registerAndPerformSkinTask(compat, StateSkinTask.wrap(skinTask))
+    editManager.defaultEditor.addAndPerformTask(compat, skinTask)
   }
 
   /**
@@ -355,19 +390,14 @@ object SkinManager {
    * @param compat compat.
    */
   @JvmStatic
-  fun<T> unregisterSkinTask(compat: T) {
-    unregister(TAG_SKIN_TASK, SkinCompat(compat, null))
-  }
-
-  private fun register(tag: String, compat: SkinCompat<*>) {
-    containerPool.add(tag, compat)
-    compat.attachTask()
-    compat.performSkinChange()
-  }
-
-  private fun unregister(tag: String, compat: SkinCompat<*>) {
-    containerPool.remove(tag, compat)
-    compat.detachTask()
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinEditor.removeTask(compat: Any)"
+      )
+  )
+  fun unregisterSkinTask(compat: Any) {
+    editManager.defaultEditor.removeTask(compat)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -384,7 +414,7 @@ object SkinManager {
   /**
    * Skin id.
    */
-  private var skinId: String? = null
+  internal var skinId: String? = null
 
   /**
    * Upgrade skin id.
@@ -512,16 +542,7 @@ object SkinManager {
   }
 
   private fun notifyChangedListeners() {
-    val skinId = this.skinId
-    val compatItems = containerPool.getCompatItemsAll(skinId)
-
-    compatItems.forEach {
-      it.apply {
-        this.skinInit = true
-        this.skinId = skinId
-        performSkinChange()
-      }
-    }
+    editManager.performSkinChange(skinId)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> change skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -554,9 +575,14 @@ object SkinManager {
    * @param view view.
    */
   @JvmStatic
+  @Deprecated(
+      "Use skin editor as replace",
+      ReplaceWith(
+          "SkinEditor.stickyInjectSkin(view: View)"
+      )
+  )
   fun stickyInjectSkin(view: View) {
-    register(view)
-    injectSkin(view)
+    editManager.defaultEditor.stickyInjectSkin(view)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> inject skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
