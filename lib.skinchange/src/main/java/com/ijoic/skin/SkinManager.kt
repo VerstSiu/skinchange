@@ -250,33 +250,6 @@ object SkinManager {
   }
 
   /**
-   * Returns editor and register activity instance..
-   *
-   * @param activity activity.
-   */
-  @JvmStatic
-  fun registerEdit(activity: FragmentActivity): SkinEditor {
-    val editor = editManager.getEditor(activity.lifecycle)
-    editor.clearCompatItems()
-    editor.addTask(activity, ActivitySkinTask)
-    return editor
-  }
-
-  /**
-   * Returns editor and register fragment instance..
-   *
-   * @param fragment fragment.
-   * @param lifecycle custom lifecycle.
-   */
-  @JvmStatic
-  fun registerEdit(fragment: Fragment, lifecycle: Lifecycle? = null): SkinEditor {
-    val editor = editManager.getEditor(lifecycle ?: fragment.lifecycle)
-    editor.clearCompatItems()
-    editor.addTask(fragment, FragmentSkinTask)
-    return editor
-  }
-
-  /**
    * Register activity.
    *
    * Registered item will dynamically change skin when skin changed triggered.
@@ -297,23 +270,33 @@ object SkinManager {
   }
 
   /**
-   * Register fragment.
+   * Register activity.
    *
-   * Registered item will dynamically change skin when skin changed triggered.
-   * Do invoke this method on [Fragment.onActivityCreated].
-   * Do invoke paired [unregister] method on [Fragment.onDestroy].
-   *
-   * @param fragment fragment.
+   * @param activity activity.
+   * @return editor instance.
    */
   @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinManager.registerEdit(fragment: Fragment)"
-      )
-  )
-  fun register(fragment: Fragment) {
-    editManager.defaultEditor.addAndPerformTask(fragment, FragmentSkinTask)
+  fun register(activity: FragmentActivity): SkinEditor {
+    val editor = editManager.getEditor(activity.lifecycle)
+    editor.clearCompatItems()
+    editor.addTask(activity, ActivitySkinTask)
+    return editor
+  }
+
+  /**
+   * Register fragment.
+   *
+   * @param fragment fragment.
+   * @param lifecycle custom lifecycle.
+   * @return editor instance.
+   */
+  @JvmOverloads
+  @JvmStatic
+  fun register(fragment: Fragment, lifecycle: Lifecycle? = null): SkinEditor {
+    val editor = editManager.getEditor(lifecycle ?: fragment.lifecycle)
+    editor.clearCompatItems()
+    editor.addTask(fragment, FragmentSkinTask)
+    return editor
   }
 
   /**
@@ -339,13 +322,10 @@ object SkinManager {
    */
   @JvmStatic
   @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinEditor.removeTask(compat: Any)"
-      )
+      "This method has not effect for current version"
   )
   fun unregister(fragment: Fragment) {
-    editManager.defaultEditor.removeTask(fragment)
+    // do nothing.
   }
 
   /**

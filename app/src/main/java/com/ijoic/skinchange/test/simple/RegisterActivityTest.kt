@@ -37,7 +37,7 @@ class RegisterActivityTest: AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.act_simple_register)
-    SkinManager.registerEdit(this)
+    SkinManager.register(this)
     skinBox.setCurrentValue(SkinManager.skinSuffix)
     toggle_skin_button.setOnClickListener { SkinManager.changeSkin(skinBox.toggle()) }
   }

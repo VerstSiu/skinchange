@@ -44,7 +44,7 @@ class RecyclerDynamicTest: AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.act_dynamic_recycler)
-    val skinEditor = SkinManager.registerEdit(this)
+    val skinEditor = SkinManager.register(this)
     skinBox.setCurrentValue(SkinManager.skinSuffix)
 
     val adapter = TestAdapter(this, skinEditor)
