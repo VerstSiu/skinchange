@@ -34,6 +34,11 @@ internal interface CompatSkinEditor: SkinEditor {
   fun getCompatItems(): List<SkinCompat<*>>?
 
   /**
+   * Trim compat items.
+   */
+  fun trimCompatItems()
+
+  /**
    * Clear compat items.
    */
   fun clearCompatItems()
@@ -56,6 +61,10 @@ internal interface CompatSkinEditor: SkinEditor {
       }
 
       override fun removeTask(compat: Any) {
+        // do nothing.
+      }
+
+      override fun trimCompatItems() {
         // do nothing.
       }
 

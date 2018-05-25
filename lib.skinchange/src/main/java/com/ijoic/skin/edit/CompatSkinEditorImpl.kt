@@ -60,6 +60,11 @@ internal class CompatSkinEditorImpl: CompatSkinEditor {
     compatItems.removeAll(removedItems)
   }
 
+  override fun trimCompatItems() {
+    val removedItems = compatItems.filter { it.compat == null }
+    compatItems.removeAll(removedItems)
+  }
+
   override fun clearCompatItems() {
     compatItems.clear()
   }

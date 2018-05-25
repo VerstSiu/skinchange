@@ -83,6 +83,7 @@ internal class SkinEditorManager {
    */
   internal fun performSkinChange(skinId: String?) {
     trimEditorItems()
+    trimDefaultEditorCompatItems()
     val compatItems = getDisplayCompatItems(skinId)
 
     compatItems.forEach {
@@ -102,6 +103,10 @@ internal class SkinEditorManager {
   private fun trimEditorItems() {
     val removedItems = editorItems.filter { isStateEmptyOrDestroyed(it.first.get()) }
     editorItems.removeAll(removedItems)
+  }
+
+  private fun trimDefaultEditorCompatItems() {
+    defaultEditor.trimCompatItems()
   }
 
   private fun getDisplayCompatItems(skinId: String?): List<SkinCompat<*>> {

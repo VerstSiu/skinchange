@@ -22,9 +22,9 @@ com.ijoic.skin
 |    +--- @JvmStatic fun changeSkin(suffix: String?)
 |    +--- @JvmStatic @JvmOverloads fun changeSkin(pluginPath: String?, pluginPackage: String?, suffix: String? = null, callback: SkinChangeCallback? = null)
 |    +--- @JvmStatic fun removeAnySkin()
+|    +--- @JvmStatic fun register(activity: FragmentActivity)
+|    +--- @JvmStatic fun register(fragment: Fragment)
 |    +--- @JvmStatic fun edit(lifecycle: Lifecycle): SkinEditor
-|    +--- @JvmStatic fun register(activity: FragmentActivity): SkinEditor
-|    +--- @JvmStatic fun register(fragment: Fragment): SkinEditor
 |    +--- @Deprecated @JvmStatic fun register(activity: Activity)
 |    +--- @Deprecated @JvmStatic fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>)
 |    +--- @Deprecated @JvmStatic fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>)

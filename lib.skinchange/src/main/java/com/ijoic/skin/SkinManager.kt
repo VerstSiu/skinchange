@@ -276,11 +276,10 @@ object SkinManager {
    * @return editor instance.
    */
   @JvmStatic
-  fun register(activity: FragmentActivity): SkinEditor {
+  fun register(activity: FragmentActivity) {
     val editor = editManager.getEditor(activity.lifecycle)
     editor.clearCompatItems()
     editor.addTask(activity, ActivitySkinTask)
-    return editor
   }
 
   /**
@@ -292,11 +291,10 @@ object SkinManager {
    */
   @JvmOverloads
   @JvmStatic
-  fun register(fragment: Fragment, lifecycle: Lifecycle? = null): SkinEditor {
+  fun register(fragment: Fragment, lifecycle: Lifecycle? = null) {
     val editor = editManager.getEditor(lifecycle ?: fragment.lifecycle)
     editor.clearCompatItems()
     editor.addTask(fragment, FragmentSkinTask)
-    return editor
   }
 
   /**
