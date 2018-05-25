@@ -279,7 +279,7 @@ object SkinManager {
   fun register(activity: FragmentActivity) {
     val editor = editManager.getEditor(activity.lifecycle)
     editor.clearCompatItems()
-    editor.addTask(activity, ActivitySkinTask)
+    editor.addAndPerformTask(activity, ActivitySkinTask)
   }
 
   /**
@@ -294,7 +294,7 @@ object SkinManager {
   fun register(fragment: Fragment, lifecycle: Lifecycle? = null) {
     val editor = editManager.getEditor(lifecycle ?: fragment.lifecycle)
     editor.clearCompatItems()
-    editor.addTask(fragment, FragmentSkinTask)
+    editor.addAndPerformTask(fragment, FragmentSkinTask)
   }
 
   /**
