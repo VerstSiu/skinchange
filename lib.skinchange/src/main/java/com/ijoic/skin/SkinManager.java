@@ -212,7 +212,7 @@ public class SkinManager {
    * @param activity 活动
    */
   public void register(@NonNull Activity activity) {
-    register(TAG_ACTIVITY, new SkinCompat<>(activity, ActivitySkinTask.getInstance()));
+    registerPerform(TAG_ACTIVITY, new SkinCompat<>(activity, ActivitySkinTask.getInstance()));
   }
 
   /**
@@ -223,7 +223,7 @@ public class SkinManager {
    * @param fragment 碎片
    */
   public void register(@NonNull Fragment fragment) {
-    register(TAG_FRAGMENT, new SkinCompat<>(fragment, FragmentSkinTask.getInstance()));
+    registerPerform(TAG_FRAGMENT, new SkinCompat<>(fragment, FragmentSkinTask.getInstance()));
   }
 
   private void register(@NonNull View view) {
@@ -265,7 +265,7 @@ public class SkinManager {
    * @see ResourcesTool#getColorStateList(int)
    */
   public<T> void registerSkinTask(@NonNull T compat, @NonNull SkinTask<T> skinTask) {
-    register(TAG_SKIN_TASK, new SkinCompat<>(compat, skinTask));
+    registerPerform(TAG_SKIN_TASK, new SkinCompat<>(compat, skinTask));
   }
 
   /**
@@ -282,7 +282,7 @@ public class SkinManager {
    */
   public<T> void registerAndPerformSkinTask(@NonNull T compat, @NonNull SkinTask<T> skinTask) {
     skinTask.performSkinChange(compat);
-    register(TAG_SKIN_TASK, new SkinCompat<>(compat, skinTask));
+    registerPerform(TAG_SKIN_TASK, new SkinCompat<>(compat, skinTask));
   }
 
   /**
@@ -295,6 +295,10 @@ public class SkinManager {
   }
 
   private void register(@NonNull String tag, @NonNull final SkinCompat compat) {
+    containerPool.add(tag, compat);
+  }
+
+  private void registerPerform(@NonNull String tag, @NonNull final SkinCompat compat) {
     containerPool.add(tag, compat);
     compat.performSkinChange();
   }
