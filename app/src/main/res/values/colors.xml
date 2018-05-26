@@ -4,9 +4,7 @@
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#FF4081</color>
 
-  <color name="simple_text_bg">#eee</color>
-  <color name="simple_text_bg_red">#FF4081</color>
-
-  <color name="simple_text_color">#555</color>
-  <color name="simple_text_color_red">@android:color/white</color>
+  <color name="base_page_bg">@android:color/white</color>
+  <color name="base_simple_text_bg">#E0E0E0</color>
+  <color name="base_simple_text_color">#424242</color>
 </resources>

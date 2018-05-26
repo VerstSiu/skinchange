@@ -15,19 +15,30 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.dynamic
+package com.ijoic.skinchange.test.base.wrap
 
-import com.ijoic.skinchange.test.base.fragment.AddChildGroupFragment
-import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
+import com.ijoic.skinchange.R
 
 /**
- * Linear dynamic test.
+ * Wrap activity.
  *
- * @author verstsiu on 2018/5/21.
+ * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class LinearDynamicTest: WrapSkinActivity() {
+abstract class WrapActivity: AppCompatActivity() {
 
-  override fun createWrapFragmentInstance() = AddChildGroupFragment()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.act_base_wrap)
+    supportFragmentManager
+        .beginTransaction()
+        .replace(R.id.wrap_frame, createWrapFragmentInstance())
+        .commit()
+  }
+
+  protected abstract fun createWrapFragmentInstance(): Fragment
 
 }

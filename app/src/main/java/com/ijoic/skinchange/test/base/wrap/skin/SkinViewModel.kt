@@ -15,19 +15,19 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.dynamic
+package com.ijoic.skinchange.test.base.wrap.skin
 
-import com.ijoic.skinchange.test.base.fragment.AddChildGroupFragment
-import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 
 /**
- * Linear dynamic test.
+ * Skin sview model.
  *
- * @author verstsiu on 2018/5/21.
+ * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class LinearDynamicTest: WrapSkinActivity() {
+class SkinViewModel: ViewModel() {
 
-  override fun createWrapFragmentInstance() = AddChildGroupFragment()
+  val skinSuffix by lazy { MutableLiveData<String>() }
 
 }

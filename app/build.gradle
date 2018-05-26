@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -45,8 +46,13 @@ dependencies {
 
     implementation project.depend_support_appCompatV7
     implementation project.depend_support_recyclerviewV7
+    implementation project.depend_support_v4
+    implementation project.depend_support_design
     implementation project.depend_support_constraintLayout
     implementation project.depend_kotlin
+    kapt compiler_arch_lifecycle
+
+    implementation project.depend_arch_lifecycle
 
     implementation project(':lib.skinchange')
     implementation project(':skin.default')

@@ -15,19 +15,27 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.dynamic
-
-import com.ijoic.skinchange.test.base.fragment.AddChildGroupFragment
-import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
+package com.ijoic.skinchange.test.base.constants
 
 /**
- * Linear dynamic test.
+ * Skin suffix constants.
  *
- * @author verstsiu on 2018/5/21.
+ * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class LinearDynamicTest: WrapSkinActivity() {
+object SkinSuffix {
+  /**
+   * None.
+   */
+  val none: String? = null
 
-  override fun createWrapFragmentInstance() = AddChildGroupFragment()
+  /**
+   * Red.
+   */
+  const val RED = "red"
 
+  /**
+   * Night.
+   */
+  const val NIGHT = "night"
 }

@@ -17,12 +17,8 @@
  */
 package com.ijoic.skinchange.test.simple
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import com.ijoic.skin.SkinManager
-import com.ijoic.skinchange.R
-import com.ijoic.skinchange.util.ValueBox
-import kotlinx.android.synthetic.main.act_simple_register.*
+import com.ijoic.skinchange.test.base.fragment.SimpleFragment
+import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
 
 /**
  * Simple test activity.
@@ -30,16 +26,8 @@ import kotlinx.android.synthetic.main.act_simple_register.*
  * @author verstsiu on 2018/5/18.
  * @version 2.0
  */
-class RegisterActivityTest: AppCompatActivity() {
+class RegisterActivityTest: WrapSkinActivity() {
 
-  private val skinBox = ValueBox(null, "red")
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.act_simple_register)
-    SkinManager.register(this)
-    skinBox.setCurrentValue(SkinManager.skinSuffix)
-    toggle_skin_button.setOnClickListener { SkinManager.changeSkin(skinBox.toggle()) }
-  }
+  override fun createWrapFragmentInstance() = SimpleFragment()
 
 }
