@@ -9,6 +9,7 @@
 
   <string name="case_dynamic_linear" translatable="false">Linear Layout</string>
   <string name="case_dynamic_recycler" translatable="false">Recycler View</string>
+  <string name="case_dynamic_pager" translatable="false">Pager</string>
 
   <string name="action_add_view">Add View</string>
   <string name="action_toggle_skin">Toggle Skin</string>

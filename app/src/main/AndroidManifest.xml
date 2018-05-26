@@ -54,6 +54,11 @@
       android:name=".test.dynamic.RecyclerDynamicTest"
       android:label="@string/case_dynamic_recycler"/>
 
+    <!-- pager -->
+    <activity
+      android:name=".test.pager.PagerTestActivity"
+      android:label="@string/case_dynamic_pager"/>
+
     <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> dynamic test :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
 
   </application>

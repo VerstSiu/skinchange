@@ -28,6 +28,8 @@ buildscript {
         depend_test_espresso = 'com.android.support.test.espresso:espresso-core:3.0.2'
 
         // carbon: https://github.com/ZieIony/Carbon
+//        depend_frame_pager = 'com.github.VerstSiu:frame_pager:1.0-beta'
+        depend_frame_pager = 'com.github.VerstSiu:archit_test:1.0-beta'
         depend_zielony_carbon = 'tk.zielony:carbon:0.15.0.1'
     }
     repositories {
@@ -48,6 +50,7 @@ allprojects {
     repositories {
         jcenter()
         google()
+        maven { url 'https://jitpack.io' }
     }
 }
 

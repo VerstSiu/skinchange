@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity
 import com.ijoic.skinchange.R
 import com.ijoic.skinchange.test.dynamic.LinearDynamicTest
 import com.ijoic.skinchange.test.dynamic.RecyclerDynamicTest
+import com.ijoic.skinchange.test.pager.PagerTestActivity
 import com.ijoic.skinchange.util.routeTo
 import kotlinx.android.synthetic.main.act_dynamic_test.*
 
@@ -39,6 +40,7 @@ class DynamicTestActivity: AppCompatActivity() {
 
     case_dynamic_linear.setOnClickListener { routeTo(LinearDynamicTest::class.java) }
     case_dynamic_recycler.setOnClickListener { routeTo(RecyclerDynamicTest::class.java) }
+    case_dynamic_pager.setOnClickListener { routeTo(PagerTestActivity::class.java) }
   }
 
 }

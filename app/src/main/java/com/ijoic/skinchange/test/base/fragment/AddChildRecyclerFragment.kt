@@ -19,12 +19,12 @@ package com.ijoic.skinchange.test.base.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ijoic.frame_pager.instant.InstantFragment
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.edit.SkinEditor
 import com.ijoic.skinchange.R
@@ -37,16 +37,15 @@ import kotlinx.android.synthetic.main.frg_base_add_child_recycler.*
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class AddChildRecyclerFragment: Fragment() {
+class AddChildRecyclerFragment: InstantFragment() {
 
   private val skinBox = ValueBox(null, "red")
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateInstantView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.frg_base_add_child_recycler, container, false)
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onInitInstantView(savedInstanceState: Bundle?) {
     SkinManager.register(this)
     val context = this.context ?: return
     val skinEditor = SkinManager.edit(lifecycle)

@@ -50,9 +50,11 @@ dependencies {
     implementation project.depend_support_design
     implementation project.depend_support_constraintLayout
     implementation project.depend_kotlin
-    kapt compiler_arch_lifecycle
 
     implementation project.depend_arch_lifecycle
+    kapt compiler_arch_lifecycle
+
+    implementation project.depend_frame_pager
 
     implementation project(':lib.skinchange')
     implementation project(':skin.default')

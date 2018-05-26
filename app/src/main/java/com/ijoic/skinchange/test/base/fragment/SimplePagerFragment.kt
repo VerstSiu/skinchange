@@ -17,27 +17,25 @@
  */
 package com.ijoic.skinchange.test.base.fragment
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.ijoic.frame_pager.instant.InstantFragment
-import com.ijoic.skin.SkinManager
-import com.ijoic.skinchange.R
+import android.support.v4.app.Fragment
 
 /**
- * Simple fragment.
+ * Simple pager fragment.
  *
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class SimpleFragment: InstantFragment() {
+class SimplePagerFragment: AbstractPagerFragment() {
 
-  override fun onCreateInstantView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.frg_base_simple, container, false)
-  }
+  override fun createFragments() = arrayOf<Fragment>(
+      SimpleFragment(),
+      AddChildGroupFragment(),
+      AddChildRecyclerFragment()
+  )
 
-  override fun onInitInstantView(savedInstanceState: Bundle?) {
-    SkinManager.register(this)
-  }
+  override fun createTabTitles() = arrayOf(
+      "Simple",
+      "Group",
+      "Recycler"
+  )
 }

@@ -17,4 +17,10 @@
     android:layout_height="wrap_content"
     android:text="@string/case_dynamic_recycler"/>
 
+  <Button
+    android:id="@+id/case_dynamic_pager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/case_dynamic_pager"/>
+
 </LinearLayout>
