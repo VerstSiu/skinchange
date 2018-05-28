@@ -1,17 +1,17 @@
 <resources>
-  <string name="app_name">Skin Change</string>
 
-  <string name="simple_test_title">Jet Story</string>
-  <string name="simple_test_subtitle">Long long ago, there is a small town.</string>
-  <string name="simple_test_action_add_view">Add View</string>
-  <string name="simple_test_action_toggle_skin">Toggle</string>
-  <string name="simple_test_action_toggle_plugin">Toggle Plugin</string>
-  <string name="simple_test_action_reset">Reset</string>
+  <string name="app_name" translatable="false">Skin Change</string>
 
-  <string name="testcase_simple">Simple Skin Change</string>
-  <string name="testcase_plugin">Plugin Skin Change</string>
-  <string name="testcase_dynamic">Dynamic Skin Change</string>
-  <string name="testcase_padding_item">Padding Item - Change Case</string>
-  <string name="testcase_recycler_view">Recycler View Case</string>
+  <string name="case_simple">Simple</string>
+  <string name="case_recycler">Recycler</string>
+  <string name="case_pager">Pager</string>
+  <string name="case_nested_pager">Nested Pager</string>
+  <string name="case_host">Host</string>
+
+  <string name="label_simple_child_view">Child View</string>
+  <string name="label_simple_skin_task">Skin Task</string>
+
+  <string name="action_add_view">Add View</string>
+  <string name="action_toggle_skin">Toggle Skin</string>
 
 </resources>

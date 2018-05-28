@@ -1,0 +1,79 @@
+
+com.ijoic.skin
++--- ResourcesManager
+|    +--- fun getDrawableByName(resName: String): Drawable?
+|    +--- @Throws(Resources.NotFoundException::class) fun getColor(resName: String): Int
+|    +--- fun getColorStateList(resName: String): ColorStateList?
+|    +--- fun getString(resName: String): String?
++--- ResourcesTool
+|    +--- @Throws(Resources.NotFoundException::class) @ColorInt fun getColor(@ColorRes resId: Int): Int
+|    +--- fun getDrawable(@DrawableRes resId: Int): Drawable?
+|    +--- fun getColorStateList(@ColorRes resId: Int): ColorStateList?
+|    +--- fun getString(@StringRes resId: Int): getString?
+|    +--- fun getResourcesUri(resId: Int): getString?
++--- SkinManager
+|    +--- [deprecated] @JvmStatic fun getInstance(): SkinManager
+|    +--- @JvmStatic INSTANCE: SkinManager
+|    +--- @JvmStatic fun init(context: Context)
+|    +--- @JvmStatic [get] resourcesManager: ResourcesManager
+|    +--- @JvmStatic [get] resourcesTool: ResourcesTool
+|    +--- @JvmStatic [get] skinSuffix: String?
+|    +--- @JvmStatic fun injectSkin(view: View)
+|    +--- @JvmStatic fun changeSkin(suffix: String?)
+|    +--- @JvmStatic @JvmOverloads fun changeSkin(pluginPath: String?, pluginPackage: String?, suffix: String? = null, callback: SkinChangeCallback? = null)
+|    +--- @JvmStatic fun removeAnySkin()
+|    +--- @JvmStatic fun register(activity: FragmentActivity)
+|    +--- @JvmStatic fun register(fragment: Fragment)
+|    +--- @JvmStatic fun edit(lifecycle: Lifecycle): SkinEditor
+|    +--- @Deprecated @JvmStatic fun register(activity: Activity)
+|    +--- @Deprecated @JvmStatic fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>)
+|    +--- @Deprecated @JvmStatic fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>)
+|    +--- @Deprecated @JvmStatic fun unregister(activity: Activity)
+|    +--- @Deprecated @JvmStatic fun unregister(fragment: Fragment)
+|    +--- @Deprecated @JvmStatic fun<T> unregisterSkinTask(compat: T)
+|    +--- @Deprecated @JvmStatic fun stickyInjectSkin(view: View)
+\--- attr
+|    +--- [interface] SkinAttrType
+|    |    +--- fun apply(view: View, resName: String)
+\--- callback
+|    +--- [interface] SkinChangeCallback
+|    |    +--- fun onStart()
+|    |    +--- fun onError(errorMessage: String)
+|    |    +--- fun onComplete()
+\--- edit
+|    +--- [interface] SkinEditor
+|    |    +--- fun<T> addTask(compat: T, task: SkinTask<T>)
+|    |    +--- fun injectSkin(view: View)
+|    |    +--- fun stickyInjectSkin(view: View)
+\--- extend
+|    +--- AttrTypeFactory
+|    |    +--- @JvmStatic fun addModule(prefix: AttrPrefix, module: AttrTypeModule): AttrTypeFactory
+|    |    +--- @JvmStatic fun loadModuleAttributes()
+|    |    +--- @JvmStatic fun register(typeName: String, type: SkinAttrType)
+|    |    +--- @Deprecated @JvmStatic<T: SkinAttrType> fun register(typeName: String, typeClazz: Class<T>)
+|    +--- AttrTypes
+|    |    +--- BACKGROUND: String
+|    |    +--- TEXT: String
+|    |    +--- TEXT_COLOR: String
+|    |    +--- TEXT_COLOR_HIGHLIGHT: String
+|    |    +--- TEXT_COLOR_HINT: String
+|    |    +--- TEXT_COLOR_LINK: String
+|    |    +--- DRAWABLE_LEFT: String
+|    |    +--- DRAWABLE_TOP: String
+|    |    +--- DRAWABLE_RIGHT: String
+|    |    +--- DRAWABLE_BOTTOM: String
+|    |    +--- BUTTON: String
+|    |    +--- SRC: String
+|    |    +--- DIVIDER: String
+|    |    +--- LIST_SELECTOR: String
+|    |    +--- INDITERMINATE_DRAWABLE: String
+|    |    +--- PROGRESS_DRAWABLE: String
+|    |    +--- THUMB: String
+|    |    +--- POPUP_BACKGROUND: String
+|    +--- SkinTool
+|    |    +--- @JvmStatic fun fillTag(view: View, @AnyRes resId: Int, type: String)
+|    |    +--- @JvmStatic fun fillTag(view: View, resName: String, type: String)
+|    |    +--- @JvmStatic fun fillTag(view: View, module: String, resName: String, type: String)
+\--- view
+|    +--- [interface] SkinTask<T>
+|    |    +--- fun performSkinChange(compat: T)

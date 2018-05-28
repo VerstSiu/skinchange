@@ -18,7 +18,6 @@ com.ijoic.skin
 |    +--- fun getResourcesTool(): ResourcesTool
 |    +--- fun register(activity: Activity)
 |    +--- fun register(fragment: Fragment)
-|    +--- fun register(view: View)
 |    +--- fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>)
 |    +--- fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>)
 |    +--- fun unregister(activity: Activity)

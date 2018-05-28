@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/activity_main"
   android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:paddingBottom="@dimen/activity_vertical_margin"
-  android:paddingLeft="@dimen/activity_horizontal_margin"
-  android:paddingRight="@dimen/activity_horizontal_margin"
-  android:paddingTop="@dimen/activity_vertical_margin"
-  tools:context="com.ijoic.skinchange.MainActivity">
+  android:layout_height="match_parent">
 
   <Button
-    android:id="@+id/button_case_simple"
+    android:id="@+id/case_simple_test"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/testcase_simple"/>
+    android:text="@string/case_simple"/>
 
   <Button
-    android:id="@+id/button_case_plugin"
+    android:id="@+id/case_dynamic_recycler"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/testcase_plugin"/>
+    android:text="@string/case_recycler"/>
 
   <Button
-    android:id="@+id/button_case_dynamic"
+    android:id="@+id/case_dynamic_pager"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/testcase_dynamic"/>
+    android:text="@string/case_pager"/>
 
   <Button
-    android:id="@+id/button_case_padding_item"
+    android:id="@+id/case_dynamic_nested_pager"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/testcase_padding_item"/>
+    android:text="@string/case_nested_pager"/>
 
   <Button
-    android:id="@+id/button_case_recycler_view"
+    android:id="@+id/case_dynamic_host"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/testcase_recycler_view"/>
+    android:text="@string/case_host"/>
+
 </LinearLayout>
