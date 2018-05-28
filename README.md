@@ -18,25 +18,21 @@
 
 1.  在根`build.gradle`中添加`jitpack`仓库：
     
-    ```xml
-    
+    ```gradle
     allprojects {
       repositories {
         ...
         maven { url 'https://jitpack.io' }
       }
     }
-    
     ```
     
 2. 添加库项目依赖：
     
-    ```xml
-    
+    ```gradle
     dependencies {
-      compile 'com.github.VerstSiu.skinchange:lib.skinchange:1.0.12'
+      compile 'com.github.VerstSiu.skinchange:lib.skinchange:2.0'
     }
-
     ```
 
 ## 支持属性
@@ -69,65 +65,44 @@
 
 1. 在`Application`中初始化皮肤管理器。
 
-    ```
+    ```kotlin
+    class MyApplication : Application() {
 
-    public class MyApplication extends Application {
-      @Override
-      public void onCreate() {
-        super.onCreate();
-        SkinManager.getInstance().init(this);
+      override fun onCreate() {
+        super.onCreate()
+        SkinManager.init(this)
       }
-    }
 
+    }
     ```
 
 2. 在`Activity`中注册、监听换肤操作。
 
-    ```
+    ```kotlin
+    class MyActivity : Activity() {
 
-    public class MyActivity extends Activity {
-
-      @Override
-      protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_activity);
-
-        // 这里的调用，必须在视图准备完成之后
-        SkinManager.getInstance().register(this);
+      override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.my_activity)
+        SkinManager.register(this)
         ...
       }
 
-      @Override
-      protected void onDestroy() {
-        super.onDestroy();
-        SkinManager.getInstance().unregister(this);
-      }
-
     }
-
     ```
 
 3. 在`Fragment`中注册、监听换肤操作。
 
-    ```
+    ```kotlin
+    class MyFragment : Fragment() {
 
-    public class MyFragment extends Fragment {
-
-      @Override
-      public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        SkinManager.getInstance().register(this);
+      override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        SkinManager.register(this)
         ...
       }
 
-      @Override
-      public void onDestroy() {
-        super.onDestroy();
-        SkinManager.getInstance().unregister(this);
-      }
-
     }
-
     ```
 
 4. 布局文件配置
@@ -137,19 +112,18 @@
     例如：
 
     ```xml
-
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:tag="skin:item_text_color:textColor"
-      android:textColor="@color/item_text_color"/>
-
+      android:textColor="@color/item_text_color"
+      android:background="@color/item_text_bg"
+      android:tag="skin:item_text_color:textColor|skin:item_text_bg:background"/>
     ```
     tag属性分为3部分组成：
 
     * skin
     * 资源名称，插件包中的资源名称，需要于app内使用的资源名称一致。
-    * 支持的属性，目前支持src、background、textColor，可自由扩展。
+    * 支持的属性，目前支持`src`、`background`、`textColor`等基本样式属性，可自由扩展。
 
     3部分，必须以:分隔符拼接。
 
@@ -161,34 +135,27 @@
 
     插件式：
 
-    ```java
-
-    SkinManager.getInstance().changeSkin(
+    ```kotlin
+    SkinManager.changeSkin(
       skinPath,
       "com.ijoic.skin_plugin",
-      new SkinChangeCallback() {
-        @Override
-        public void onStart() {
+      object: SkinChangeCallback {
+        override fun onStart() {
         }
 
-        @Override
-        public void onError(String errorMessage) {
+        override fun onError(errorMessage: String?) {
         }
 
-        @Override
-        publc void onComplete() {
+        override fun onComplete() {
         }
       }
-    );
-
+    )
     ```
 
     应用内：
 
-    ```java
-
-    SkinManager.getInstance().changeSkin(suffix);
-
+    ```kotlin
+    SkinManager.changeSkin(suffix)
     ```
 
     应用内多套皮肤以后缀区别就可以，比如：`main_bg`，皮肤资源可以为：`main_bg_red`、`main_bg_green`等。
@@ -200,28 +167,21 @@
 
 对于动态创建的视图，在视图创建完成后，必须手动调用一次皮肤替换操作。
 
-```java
-
-  View view = inflater.inflate(R.id.my_layout, parent, false);
-  ...
-  SkinManager.getInstance().injectSkin(view);
-
+```kotlin
+val view = inflater.inflate(R.id.my_layout, parent, false)
+...
+SkinManager.injectSkin(view)
 ```
 
 
 ### 动态更改皮肤关联属性
 
-更改皮肤关联属性，必须先更新皮肤tag，然后重新调用一次皮肤刷新。
+更改皮肤关联属性，填充tag的同时，会立即执行一次对应属性的换肤操作。
 
-```java
+```kotlin
+val view = findViewById<TextView>(R.id.my_text);
 
-  TextView view = (TextView) findViewById(R.id.my_text);
-  int newColorRes = R.color.my_new_text_color;
-
-  view.setTextColor(context.getResources().getColor(newColorRes));
-  SkinTool.fillTag(view, newColorRes, AttrTypes.TEXT_COLOR);
-  SkinManager.getInstance().injectSkin(view);
-
+SkinTool.fillTag(view, R.color.my_new_text_color, AttrTypes.TEXT_COLOR)
 ```
 
 
@@ -229,20 +189,36 @@
 
 自定义视图，由于关联的皮肤属性可能比较多，手动配置麻烦，因此使用皮肤任务的形式换肤。
 
-```java
+```kotlin
+val view: CustomView
+val skinEditor = SkinManager.edit(lifecycle)
 
-  CustomView view;
+skinEditor.addTask(view, new SkinTask<CustomView>() {
+  override fun performSkinChange(compat: CustomView) {
+    val resTool = SkinManager.resourcesTool
 
-  SkinManager.getInstance().registerSkinTask(view, new SkinTask<CustomView>() {
-    @Override
-    public void injectSkin(@NonNull CustomView view) {
-      ResourcesTool resTool = SkinManager.getInstance().getResourcesTool();
+    compat.setColor(resTool.getColor(R.id.my_custom_color))
+    ...
+  }
+})
+```
 
-      view.setColor(resTool.getColor(R.id.my_custom_color));
-      ...
-    }
-  });
+`RecyclerView`列表项动态换肤适配：
 
+```kotlin
+class MyAdapter<VH: RecyclerView.ViewHolder>(
+    context: Context,
+    private val skinEditor: SkinEditor): RecyclerView.Adapter<VH> {
+
+  private val inflater = LayoutInflater.from(context)
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+    val itemView = inflater.inflate(R.layout.item_my_adapter, parent, false)
+    skinEditor.stickyInjectView(itemView)
+    return ...
+  }
+  ...
+}
 ```
 
 
@@ -250,50 +226,43 @@
 
 1. 创建属性类型：
 
-    ```java
+    ```kotlin
+    class MyAttrType : SkinAttrType {
 
-    public class MyAttrType implements SkinAttrType {
-      @Override
-      public void apply(@NonNull View view, @NonNull String resName) {
-        if (!(view instance MyCustomView)) {
-          return;
+      override fun apply(view: View, resName: String) {
+        if (view !is MyCustomView) {
+          return
         }
-        ResourcesManager rm = SkinManager.getInstance().getResourcesManager();
-        Drawable d = rm.getDrawableByName(resName);
+        val rm = SkinManager.resourcesManager
+        val d = rm.getDrawableByName(resName)
 
         if (d != null) {
           // ..
         }
       }
-    }
 
+    }
     ```
 
 2. 在`Application#onCreate()`方法中，配置属性类型：
 
-    ```
+    ```kotlin
+    override fun onCreate() {
+      super.onCreate()
 
-    @Override
-    protected void onCreate() {
-      super.onCreate();
-
-      AttrTypeFactory.register("my_custom_attr", MyAttrType.class);
+      AttrTypeFactory.register("my_custom_attr", MyAttrType())
       // ..
-      SkinManager.getInstance().init(this);
+      SkinManager.init(this)
     }
-
     ```
 
-3. 在xml或者动态创建的视图中使用：
+3. 在`xml`或者动态创建的视图中使用：
 
-    ```
-
-    MyCustomView view = findViewById(R.id.my_custom_view);
+    ```kotlin
+    val view = findViewById<MyCustomView>(R.id.my_custom_view)
     // ..
 
-    SkinTool.fillTag(view, R.drawable.my_drawable, "my_custom_attr");
-    SkinManager.getInstance().injectSkin(view);
-
+    SkinTool.fillTag(view, R.drawable.my_drawable, "my_custom_attr")
     ```
     
 ## License
