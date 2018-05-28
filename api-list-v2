@@ -43,7 +43,6 @@ com.ijoic.skin
 \--- edit
 |    +--- [interface] SkinEditor
 |    |    +--- fun<T> addTask(compat: T, task: SkinTask<T>)
-|    |    +--- fun<T> addAndPerformTask(compat: T, task: SkinTask<T>)
 |    |    +--- fun injectSkin(view: View)
 |    |    +--- fun stickyInjectSkin(view: View)
 \--- extend

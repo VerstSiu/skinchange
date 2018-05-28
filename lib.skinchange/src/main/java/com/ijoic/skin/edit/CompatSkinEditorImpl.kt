@@ -17,6 +17,7 @@
  */
 package com.ijoic.skin.edit
 
+import android.arch.lifecycle.Lifecycle
 import android.view.View
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.view.KeepViewSkinTask
@@ -32,12 +33,41 @@ import com.ijoic.skin.view.SkinTask
 internal class CompatSkinEditorImpl: CompatSkinEditor {
 
   private val compatItems by lazy { ArrayList<SkinCompat<*>>() }
+  private var lifecycle: Lifecycle? = null
+
+  /**
+   * Attach lifecycle.
+   */
+  internal fun attachLifecycle(lifecycle: Lifecycle) {
+    this.lifecycle = lifecycle
+  }
+
+  /**
+   * Detach lifecycle.
+   */
+  internal fun detachLifecycle() {
+    this.lifecycle = null
+  }
 
   override fun <T> addTask(compat: T, task: SkinTask<T>) {
+    addSkinTask(compat, task, false)
+  }
+
+  override fun <T> addSkinTask(compat: T, task: SkinTask<T>, forcePerform: Boolean) {
+    val lifecycle = this.lifecycle
+
+    if (!forcePerform && (lifecycle == null || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))) {
+      onAddTask(compat, task)
+    } else {
+      onAddAndPerformTask(compat, task)
+    }
+  }
+
+  private fun <T> onAddTask(compat: T, task: SkinTask<T>) {
     compatItems.add(SkinCompat(compat, task))
   }
 
-  override fun <T> addAndPerformTask(compat: T, task: SkinTask<T>) {
+  private fun <T> onAddAndPerformTask(compat: T, task: SkinTask<T>) {
     val skinCompat = SkinCompat(compat, task)
     skinCompat.skinInit = true
     skinCompat.skinId = SkinManager.skinId
@@ -47,7 +77,7 @@ internal class CompatSkinEditorImpl: CompatSkinEditor {
   }
 
   override fun stickyInjectSkin(view: View) {
-    addTask(view, KeepViewSkinTask)
+    onAddTask(view, KeepViewSkinTask)
     injectSkin(view)
   }
 

@@ -266,7 +266,7 @@ object SkinManager {
       )
   )
   fun register(activity: Activity) {
-    editManager.defaultEditor.addAndPerformTask(activity, ActivitySkinTask)
+    editManager.defaultEditor.addSkinTask(activity, ActivitySkinTask, forcePerform = true)
   }
 
   /**
@@ -358,7 +358,7 @@ object SkinManager {
       )
   )
   fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>) {
-    editManager.defaultEditor.addAndPerformTask(compat, skinTask)
+    editManager.defaultEditor.addSkinTask(compat, skinTask, forcePerform = true)
   }
 
   /**

@@ -28,6 +28,16 @@ import com.ijoic.skin.view.SkinTask
  * @version 2.0
  */
 internal interface CompatSkinEditor: SkinEditor {
+
+  /**
+   * Add skin task.
+   *
+   * @param compat compat.
+   * @param task task.
+   * @param forcePerform force perform status.
+   */
+  fun<T> addSkinTask(compat: T, task: SkinTask<T>, forcePerform: Boolean)
+
   /**
    * Returns compat items.
    */
@@ -49,6 +59,10 @@ internal interface CompatSkinEditor: SkinEditor {
      */
     internal val BLANK = object: CompatSkinEditor {
       override fun <T> addTask(compat: T, task: SkinTask<T>) {
+        // do nothing.
+      }
+
+      override fun <T> addSkinTask(compat: T, task: SkinTask<T>, forcePerform: Boolean) {
         // do nothing.
       }
 

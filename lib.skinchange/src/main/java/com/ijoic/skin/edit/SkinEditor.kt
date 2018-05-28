@@ -37,17 +37,6 @@ interface SkinEditor {
   fun<T> addTask(compat: T, task: SkinTask<T>)
 
   /**
-   * Add and perform task.
-   *
-   * @param compat compat.
-   * @param task task.
-   */
-  fun<T> addAndPerformTask(compat: T, task: SkinTask<T>) {
-    addTask(compat, task)
-    task.performSkinChange(compat)
-  }
-
-  /**
    * Remove task.
    *
    * @param compat compat.

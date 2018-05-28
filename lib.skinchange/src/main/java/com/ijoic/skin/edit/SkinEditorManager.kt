@@ -66,11 +66,13 @@ internal class SkinEditorManager {
 
       @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
       fun onDestroy() {
+        editor.detachLifecycle()
         editor.clearCompatItems()
         editorItems.remove(pair)
       }
     }
 
+    editor.attachLifecycle(lifecycle)
     lifecycle.addObserver(observer)
     editorItems.add(pair)
     return editor
