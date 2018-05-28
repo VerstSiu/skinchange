@@ -15,19 +15,19 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.dynamic
+package com.ijoic.skinchange.test.pager
 
-import com.ijoic.skinchange.test.base.fragment.AddChildGroupFragment
+import com.ijoic.skinchange.test.base.fragment.pager.NestedPagerFragment
 import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
 
 /**
- * Linear dynamic test.
+ * Nested pager test activity.
  *
  * @author verstsiu on 2018/5/21.
  * @version 2.0
  */
-class LinearDynamicTest: WrapSkinActivity() {
+class NestedPagerTestActivity: WrapSkinActivity() {
 
-  override fun createWrapFragmentInstance() = AddChildGroupFragment()
+  override fun createWrapFragmentInstance() = NestedPagerFragment()
 
 }

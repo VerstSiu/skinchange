@@ -40,7 +40,6 @@ abstract class WrapSkinActivity: AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.act_base_wrap_skin)
-    SkinManager.register(this)
     initPageFrame()
 
     val model = ViewModelProviders.of(this).get(SkinViewModel::class.java)

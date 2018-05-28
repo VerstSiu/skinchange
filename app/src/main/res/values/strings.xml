@@ -2,14 +2,14 @@
 
   <string name="app_name" translatable="false">Skin Change</string>
 
-  <string name="case_simple_test">Simple Test</string>
-  <string name="case_dynamic_test">Dynamic Test</string>
+  <string name="case_simple">Simple</string>
+  <string name="case_recycler">Recycler</string>
+  <string name="case_pager">Pager</string>
+  <string name="case_nested_pager">Nested Pager</string>
+  <string name="case_host">Host</string>
 
-  <string name="case_simple_register_activity">Register Activity</string>
-
-  <string name="case_dynamic_linear" translatable="false">Linear Layout</string>
-  <string name="case_dynamic_recycler" translatable="false">Recycler View</string>
-  <string name="case_dynamic_pager" translatable="false">Pager</string>
+  <string name="label_simple_child_view">Child View</string>
+  <string name="label_simple_skin_task">Skin Task</string>
 
   <string name="action_add_view">Add View</string>
   <string name="action_toggle_skin">Toggle Skin</string>

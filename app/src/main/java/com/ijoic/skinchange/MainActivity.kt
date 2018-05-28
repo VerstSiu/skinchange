@@ -19,8 +19,11 @@ package com.ijoic.skinchange
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.ijoic.skinchange.test.DynamicTestActivity
 import com.ijoic.skinchange.test.SimpleTestActivity
+import com.ijoic.skinchange.test.RecyclerTestActivity
+import com.ijoic.skinchange.test.host.HostTestActivity
+import com.ijoic.skinchange.test.pager.NestedPagerTestActivity
+import com.ijoic.skinchange.test.pager.PagerTestActivity
 import com.ijoic.skinchange.util.routeTo
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
 
     case_simple_test.setOnClickListener { routeTo(SimpleTestActivity::class.java) }
-    case_dynamic_test.setOnClickListener { routeTo(DynamicTestActivity::class.java) }
+    case_dynamic_recycler.setOnClickListener { routeTo(RecyclerTestActivity::class.java) }
+    case_dynamic_pager.setOnClickListener { routeTo(PagerTestActivity::class.java) }
+    case_dynamic_nested_pager.setOnClickListener { routeTo(NestedPagerTestActivity::class.java) }
+    case_dynamic_host.setOnClickListener { routeTo(HostTestActivity::class.java) }
   }
 }

@@ -15,27 +15,29 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.base.fragment
+package com.ijoic.skinchange.test.base.fragment.pager
 
 import android.support.v4.app.Fragment
+import com.ijoic.skinchange.test.base.fragment.simple.RecyclerFragment
+import com.ijoic.skinchange.test.base.fragment.simple.SimpleFragment
 
 /**
- * Simple pager fragment.
+ * Nested pager fragment.
  *
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class SimplePagerFragment: AbstractPagerFragment() {
+class NestedPagerFragment: AbstractPagerFragment() {
 
   override fun createFragments() = arrayOf<Fragment>(
+      SimplePagerFragment(),
       SimpleFragment(),
-      AddChildGroupFragment(),
-      AddChildRecyclerFragment()
+      RecyclerFragment()
   )
 
   override fun createTabTitles() = arrayOf(
+      "Pager",
       "Simple",
-      "Group",
       "Recycler"
   )
 }

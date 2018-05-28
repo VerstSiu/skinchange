@@ -9,12 +9,30 @@
     android:id="@+id/case_simple_test"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/case_simple_test"/>
+    android:text="@string/case_simple"/>
 
   <Button
-    android:id="@+id/case_dynamic_test"
+    android:id="@+id/case_dynamic_recycler"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/case_dynamic_test"/>
+    android:text="@string/case_recycler"/>
+
+  <Button
+    android:id="@+id/case_dynamic_pager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/case_pager"/>
+
+  <Button
+    android:id="@+id/case_dynamic_nested_pager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/case_nested_pager"/>
+
+  <Button
+    android:id="@+id/case_dynamic_host"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/case_host"/>
 
 </LinearLayout>

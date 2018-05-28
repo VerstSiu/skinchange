@@ -17,11 +17,11 @@
  */
 package com.ijoic.skinchange.test.pager
 
-import com.ijoic.skinchange.test.base.fragment.SimplePagerFragment
+import com.ijoic.skinchange.test.base.fragment.pager.SimplePagerFragment
 import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
 
 /**
- * Dynamic test activity.
+ * Pager test activity.
  *
  * @author verstsiu on 2018/5/21.
  * @version 2.0

@@ -15,19 +15,19 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.simple
+package com.ijoic.skinchange.test.host
 
-import com.ijoic.skinchange.test.base.fragment.SimpleFragment
+import com.ijoic.skinchange.test.base.fragment.tab_host.SimpleHostFragment
 import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
 
 /**
- * Simple test activity.
+ * Host test activity.
  *
- * @author verstsiu on 2018/5/18.
+ * @author verstsiu on 2018/5/28.
  * @version 2.0
  */
-class RegisterActivityTest: WrapSkinActivity() {
+class HostTestActivity: WrapSkinActivity() {
 
-  override fun createWrapFragmentInstance() = SimpleFragment()
+  override fun createWrapFragmentInstance() = SimpleHostFragment()
 
 }

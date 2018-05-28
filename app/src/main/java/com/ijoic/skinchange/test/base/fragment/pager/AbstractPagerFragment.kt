@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.base.fragment
+package com.ijoic.skinchange.test.base.fragment.pager
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ijoic.frame_pager.instant.InstantFragment
 import com.ijoic.skinchange.R
 import kotlinx.android.synthetic.main.frg_base_pager.*
 
@@ -34,14 +35,13 @@ import kotlinx.android.synthetic.main.frg_base_pager.*
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-abstract class AbstractPagerFragment: Fragment() {
+abstract class AbstractPagerFragment: InstantFragment() {
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateInstantView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.frg_base_pager, container, false)
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onInitInstantView(savedInstanceState: Bundle?) {
     val adapter = ContentAdapter(childFragmentManager, createFragments(), createTabTitles())
     content_pager.adapter = adapter
     sliding_tabs.setupWithViewPager(content_pager)

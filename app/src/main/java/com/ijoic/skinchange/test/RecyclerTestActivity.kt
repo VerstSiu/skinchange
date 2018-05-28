@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.dynamic
+package com.ijoic.skinchange.test
 
-import com.ijoic.skinchange.test.base.fragment.AddChildRecyclerFragment
+import com.ijoic.skinchange.test.base.fragment.simple.RecyclerFragment
 import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
 
 /**
@@ -26,8 +26,8 @@ import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
  * @author verstsiu on 2018/5/21.
  * @version 2.0
  */
-class RecyclerDynamicTest: WrapSkinActivity() {
+class RecyclerTestActivity: WrapSkinActivity() {
 
-  override fun createWrapFragmentInstance() = AddChildRecyclerFragment()
+  override fun createWrapFragmentInstance() = RecyclerFragment()
 
 }

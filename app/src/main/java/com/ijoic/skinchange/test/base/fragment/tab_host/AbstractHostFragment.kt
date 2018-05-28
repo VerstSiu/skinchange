@@ -15,41 +15,52 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.base.fragment
+package com.ijoic.skinchange.test.base.fragment.tab_host
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ijoic.frame_pager.instant.InstantFragment
-import com.ijoic.skin.SkinManager
 import com.ijoic.skinchange.R
-import com.ijoic.skinchange.util.ValueBox
-import kotlinx.android.synthetic.main.frg_base_add_child_group.*
+import kotlinx.android.synthetic.main.frg_base_tab_host.*
 
 /**
- * Add child group fragment.
+ * Pager fragment.
  *
- * @author verstsiu on 2018/5/26.
+ * @author verstsiu on 2018/5/28.
  * @version 2.0
  */
-class AddChildGroupFragment: InstantFragment() {
-
-  private val skinBox = ValueBox(null, "red")
+abstract class AbstractHostFragment: InstantFragment() {
 
   override fun onCreateInstantView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.frg_base_add_child_group, container, false)
+    return inflater.inflate(R.layout.frg_base_tab_host, container, false)
   }
 
   override fun onInitInstantView(savedInstanceState: Bundle?) {
-    SkinManager.register(this)
-    skinBox.setCurrentValue(SkinManager.skinSuffix)
+    val context = this.context ?: return
+    val tabTitles = createTabTitles()
+    val fragmentTypes = createFragmentTypes()
 
-    add_view_button.setOnClickListener {
-      val inflater = LayoutInflater.from(context)
-      val child = inflater.inflate(R.layout.item_simple_hello_world, linear_parent, false)
-      SkinManager.injectSkin(child)
-      linear_parent.addView(child)
+    tabhost.apply {
+      setup(context, childFragmentManager, R.id.content_frame)
+
+      tabTitles.forEachIndexed { index, title ->
+        val fragmentType = fragmentTypes.getOrNull(index) ?: Fragment::class.java
+        addTab(newTabSpec(title).setIndicator(title), fragmentType, null)
+      }
     }
   }
+
+  /**
+   * Returns created fragment types.
+   */
+  protected abstract fun createFragmentTypes(): Array<Class<*>>
+
+  /**
+   * Returns created tab titles.
+   */
+  protected abstract fun createTabTitles(): Array<String>
+
 }

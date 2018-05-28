@@ -23,43 +23,30 @@
       </intent-filter>
     </activity>
 
-    <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> simple test :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
-
-    <!-- entrance -->
+    <!-- simple -->
     <activity
       android:name=".test.SimpleTestActivity"
-      android:label="@string/case_simple_test"/>
-
-    <!-- register activity test -->
-    <activity
-      android:name=".test.simple.RegisterActivityTest"
-      android:label="@string/case_simple_register_activity"/>
-
-    <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> simple test :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
-
-    <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> dynamic test :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
-
-    <!-- entrance -->
-    <activity
-      android:name=".test.DynamicTestActivity"
-      android:label="@string/case_dynamic_test"/>
-
-    <!-- linear -->
-    <activity
-      android:name=".test.dynamic.LinearDynamicTest"
-      android:label="@string/case_dynamic_linear"/>
+      android:label="@string/case_simple"/>
 
     <!-- recycler -->
     <activity
-      android:name=".test.dynamic.RecyclerDynamicTest"
-      android:label="@string/case_dynamic_recycler"/>
+      android:name=".test.RecyclerTestActivity"
+      android:label="@string/case_recycler"/>
 
     <!-- pager -->
     <activity
       android:name=".test.pager.PagerTestActivity"
-      android:label="@string/case_dynamic_pager"/>
+      android:label="@string/case_pager"/>
 
-    <!-- <>-<>-<>-<>-<>-<>-<>-<>-<>-<> dynamic test :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> -->
+    <!-- nested pager -->
+    <activity
+      android:name=".test.pager.NestedPagerTestActivity"
+      android:label="@string/case_nested_pager"/>
+
+    <!-- host -->
+    <activity
+      android:name=".test.host.HostTestActivity"
+      android:label="@string/case_host"/>
 
   </application>
 

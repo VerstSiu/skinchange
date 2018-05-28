@@ -60,7 +60,7 @@ internal class SkinEditorManager {
         val skinId = SkinManager.skinId
 
         getDisplayCompatItems(skinId, editor).forEach {
-          performSkinChange(SkinManager.skinId, it)
+          performSkinChange(skinId, it)
         }
       }
 

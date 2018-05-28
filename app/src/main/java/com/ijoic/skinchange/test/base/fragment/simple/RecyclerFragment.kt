@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.base.fragment
+package com.ijoic.skinchange.test.base.fragment.simple
 
 import android.content.Context
 import android.os.Bundle
@@ -32,12 +32,12 @@ import com.ijoic.skinchange.util.ValueBox
 import kotlinx.android.synthetic.main.frg_base_add_child_recycler.*
 
 /**
- * Add child recycler fragment.
+ * Recycler fragment.
  *
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class AddChildRecyclerFragment: InstantFragment() {
+class RecyclerFragment: InstantFragment() {
 
   private val skinBox = ValueBox(null, "red")
 
@@ -66,7 +66,7 @@ class AddChildRecyclerFragment: InstantFragment() {
   private class TestAdapter(context: Context, private val skinEditor: SkinEditor): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater = LayoutInflater.from(context)
 
-    var displayCount = 0
+    var displayCount = 20
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
       val itemView = inflater.inflate(R.layout.item_simple_hello_world, parent, false)

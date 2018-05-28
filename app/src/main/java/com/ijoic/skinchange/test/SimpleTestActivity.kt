@@ -17,12 +17,8 @@
  */
 package com.ijoic.skinchange.test
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import com.ijoic.skinchange.R
-import com.ijoic.skinchange.test.simple.RegisterActivityTest
-import com.ijoic.skinchange.util.routeTo
-import kotlinx.android.synthetic.main.act_simple_test.*
+import com.ijoic.skinchange.test.base.fragment.simple.SimpleFragment
+import com.ijoic.skinchange.test.base.wrap.skin.WrapSkinActivity
 
 /**
  * Simple test activity.
@@ -30,13 +26,8 @@ import kotlinx.android.synthetic.main.act_simple_test.*
  * @author verstsiu on 2018/5/18.
  * @version 2.0
  */
-class SimpleTestActivity: AppCompatActivity() {
+class SimpleTestActivity: WrapSkinActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.act_simple_test)
-
-    case_simple_register_activity.setOnClickListener { routeTo(RegisterActivityTest::class.java) }
-  }
+  override fun createWrapFragmentInstance() = SimpleFragment()
 
 }
