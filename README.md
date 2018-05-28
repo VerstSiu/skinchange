@@ -31,7 +31,7 @@
     
     ```gradle
     dependencies {
-      compile 'com.github.VerstSiu.skinchange:lib.skinchange:2.0'
+      implementation 'com.github.VerstSiu.skinchange:lib.skinchange:2.0'
     }
     ```
 

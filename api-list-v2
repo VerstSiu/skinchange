@@ -49,8 +49,8 @@ com.ijoic.skin
 |    +--- AttrTypeFactory
 |    |    +--- @JvmStatic fun addModule(prefix: AttrPrefix, module: AttrTypeModule): AttrTypeFactory
 |    |    +--- @JvmStatic fun loadModuleAttributes()
-|    |    +--- @JvmStatic<T: SkinAttrType> fun register(typeName: String, typeClazz: Class<T>)
 |    |    +--- @JvmStatic fun register(typeName: String, type: SkinAttrType)
+|    |    +--- @Deprecated @JvmStatic<T: SkinAttrType> fun register(typeName: String, typeClazz: Class<T>)
 |    +--- AttrTypes
 |    |    +--- BACKGROUND: String
 |    |    +--- TEXT: String
