@@ -17,7 +17,6 @@
  */
 package com.ijoic.skinchange.test.base.fragment.simple
 
-import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,13 +41,11 @@ class SimpleFragment: InstantLazyFragment() {
   }
 
   override fun onInitInstantView(savedInstanceState: Bundle?) {
-    val lifecycle = this.lifecycle
-//    val lifecycle = lazyOwner.lifecycle
-    SkinManager.register(this, lifecycle)
-    initSkinTask(lifecycle)
+    SkinManager.register(this)
+    initSkinTask()
   }
 
-  private fun initSkinTask(lifecycle: Lifecycle) {
+  private fun initSkinTask() {
     val skinEditor = SkinManager.edit(lifecycle)
 
     skinEditor.addTask(label_skin_task, object: SkinTask<TextView> {

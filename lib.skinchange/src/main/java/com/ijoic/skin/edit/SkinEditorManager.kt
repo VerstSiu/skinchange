@@ -55,8 +55,8 @@ internal class SkinEditorManager {
     val editor = CompatSkinEditorImpl()
     val pair = Pair(WeakReference(lifecycle), editor)
     val observer = object: LifecycleObserver {
-      @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-      fun onResume() {
+      @OnLifecycleEvent(Lifecycle.Event.ON_START)
+      fun onStart() {
         val skinId = SkinManager.skinId
 
         getDisplayCompatItems(skinId, editor).forEach {
@@ -108,7 +108,7 @@ internal class SkinEditorManager {
     val items = ArrayList<SkinCompat<*>>()
     insertDisplayCompatItems(items, defaultEditor, skinId)
 
-    editorItems.filter { isStateResumed(it.first.get()) }.forEach {
+    editorItems.filter { isStateActive(it.first.get()) }.forEach {
       insertDisplayCompatItems(items, it.second, skinId)
     }
     return items
@@ -126,8 +126,8 @@ internal class SkinEditorManager {
     items.addAll(compatItems.filter { !it.isEmpty && (!it.skinInit || it.skinId != skinId) })
   }
 
-  private fun isStateResumed(lifecycle: Lifecycle?): Boolean {
-    return lifecycle != null && lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+  private fun isStateActive(lifecycle: Lifecycle?): Boolean {
+    return lifecycle != null && lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
   }
 
   private fun isStateEmptyOrDestroyed(lifecycle: Lifecycle?): Boolean {

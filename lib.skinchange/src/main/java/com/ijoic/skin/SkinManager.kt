@@ -279,7 +279,7 @@ object SkinManager {
   fun register(activity: FragmentActivity) {
     val editor = editManager.getEditor(activity.lifecycle)
     editor.clearCompatItems()
-    editor.addAndPerformTask(activity, ActivitySkinTask)
+    editor.addTask(activity, ActivitySkinTask)
   }
 
   /**
@@ -289,12 +289,11 @@ object SkinManager {
    * @param lifecycle custom lifecycle.
    * @return editor instance.
    */
-  @JvmOverloads
   @JvmStatic
-  fun register(fragment: Fragment, lifecycle: Lifecycle? = null) {
-    val editor = editManager.getEditor(lifecycle ?: fragment.lifecycle)
+  fun register(fragment: Fragment) {
+    val editor = editManager.getEditor(fragment.lifecycle)
     editor.clearCompatItems()
-    editor.addAndPerformTask(fragment, FragmentSkinTask)
+    editor.addTask(fragment, FragmentSkinTask)
   }
 
   /**

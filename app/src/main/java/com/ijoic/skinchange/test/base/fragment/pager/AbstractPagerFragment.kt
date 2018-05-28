@@ -25,7 +25,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ijoic.frame_pager.instant.InstantFragment
+import com.ijoic.frame_pager.instantlazy.InstantLazyFragment
 import com.ijoic.skinchange.R
 import kotlinx.android.synthetic.main.frg_base_pager.*
 
@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.frg_base_pager.*
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-abstract class AbstractPagerFragment: InstantFragment() {
+abstract class AbstractPagerFragment: InstantLazyFragment() {
 
   override fun onCreateInstantView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.frg_base_pager, container, false)

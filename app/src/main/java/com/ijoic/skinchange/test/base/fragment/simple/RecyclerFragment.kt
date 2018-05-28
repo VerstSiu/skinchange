@@ -24,7 +24,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ijoic.frame_pager.instant.InstantFragment
+import com.ijoic.frame_pager.instantlazy.InstantLazyFragment
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.edit.SkinEditor
 import com.ijoic.skinchange.R
@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.frg_base_add_child_recycler.*
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class RecyclerFragment: InstantFragment() {
+class RecyclerFragment: InstantLazyFragment() {
 
   private val skinBox = ValueBox(null, "red")
 
