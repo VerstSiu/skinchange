@@ -43,6 +43,7 @@ com.ijoic.skin
 \--- edit
 |    +--- [interface] SkinEditor
 |    |    +--- fun<T> addTask(compat: T, task: SkinTask<T>)
+|    |    +--- fun<T> addStickyTask(compat: T, task: SkinTask<T>)
 |    |    +--- fun injectSkin(view: View)
 |    |    +--- fun stickyInjectSkin(view: View)
 \--- extend
@@ -51,6 +52,10 @@ com.ijoic.skin
 |    |    +--- @JvmStatic fun loadModuleAttributes()
 |    |    +--- @JvmStatic fun register(typeName: String, type: SkinAttrType)
 |    |    +--- @Deprecated @JvmStatic<T: SkinAttrType> fun register(typeName: String, typeClazz: Class<T>)
+|    +--- AttrTypeModule
+|    |    +--- BACKGROUND: String
+|    |    +--- fun addAttrType(typeName: String, type: SkinAttrType)
+|    |    +--- protected abstract fun onInit()
 |    +--- AttrTypes
 |    |    +--- BACKGROUND: String
 |    |    +--- TEXT: String

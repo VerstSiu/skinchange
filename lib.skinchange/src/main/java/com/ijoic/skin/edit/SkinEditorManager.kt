@@ -110,8 +110,15 @@ internal class SkinEditorManager {
     val items = ArrayList<SkinCompat<*>>()
     insertDisplayCompatItems(items, defaultEditor, skinId)
 
-    editorItems.filter { isStateActive(it.first.get()) }.forEach {
-      insertDisplayCompatItems(items, it.second, skinId)
+    editorItems.forEach {
+      val lifeState = it.first.get()?.currentState
+
+      if (lifeState != null) {
+        when {
+          lifeState.isAtLeast(Lifecycle.State.STARTED) -> insertDisplayCompatItems(items, it.second, skinId)
+          lifeState != Lifecycle.State.DESTROYED && it.second.containsStickyCompatItem() -> items.addAll(it.second.getStickyCompatItems())
+        }
+      }
     }
     return items
   }
@@ -123,13 +130,9 @@ internal class SkinEditorManager {
   }
 
   private fun insertDisplayCompatItems(items: MutableList<SkinCompat<*>>, editor: CompatSkinEditor, skinId: String?) {
-    val compatItems = editor.getCompatItems() ?: return
+    val compatItems = editor.getCompatItems()
     editor.trimCompatItems()
     items.addAll(compatItems.filter { !it.isEmpty && (!it.skinInit || it.skinId != skinId) })
-  }
-
-  private fun isStateActive(lifecycle: Lifecycle?): Boolean {
-    return lifecycle != null && lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
   }
 
   private fun isStateEmptyOrDestroyed(lifecycle: Lifecycle?): Boolean {

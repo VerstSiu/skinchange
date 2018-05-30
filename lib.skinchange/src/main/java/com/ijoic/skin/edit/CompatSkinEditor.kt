@@ -34,14 +34,20 @@ internal interface CompatSkinEditor: SkinEditor {
    *
    * @param compat compat.
    * @param task task.
+   * @param sticky sticky status.
    * @param forcePerform force perform status.
    */
-  fun<T> addSkinTask(compat: T, task: SkinTask<T>, forcePerform: Boolean)
+  fun<T> addSkinTask(compat: T, task: SkinTask<T>, sticky: Boolean = false, forcePerform: Boolean = false)
 
   /**
    * Returns compat items.
    */
-  fun getCompatItems(): List<SkinCompat<*>>?
+  fun getCompatItems(): List<SkinCompat<*>>
+
+  /**
+   * Returns sticky compat items.
+   */
+  fun getStickyCompatItems(): List<SkinCompat<*>>
 
   /**
    * Trim compat items.
@@ -53,16 +59,26 @@ internal interface CompatSkinEditor: SkinEditor {
    */
   fun clearCompatItems()
 
+  /**
+   * Returns sticky compat item contain status.
+   */
+  fun containsStickyCompatItem(): Boolean = false
+
   companion object {
     /**
      * Blank editor.
      */
     internal val BLANK = object: CompatSkinEditor {
+
       override fun <T> addTask(compat: T, task: SkinTask<T>) {
         // do nothing.
       }
 
-      override fun <T> addSkinTask(compat: T, task: SkinTask<T>, forcePerform: Boolean) {
+      override fun <T> addStickyTask(compat: T, task: SkinTask<T>) {
+        // do nothing.
+      }
+
+      override fun <T> addSkinTask(compat: T, task: SkinTask<T>, sticky: Boolean, forcePerform: Boolean) {
         // do nothing.
       }
 
@@ -70,8 +86,12 @@ internal interface CompatSkinEditor: SkinEditor {
         // do nothing.
       }
 
-      override fun getCompatItems(): List<SkinCompat<*>>? {
-        return null
+      override fun getCompatItems(): List<SkinCompat<*>> {
+        return emptyList()
+      }
+
+      override fun getStickyCompatItems(): List<SkinCompat<*>> {
+        return emptyList()
       }
 
       override fun removeTask(compat: Any) {

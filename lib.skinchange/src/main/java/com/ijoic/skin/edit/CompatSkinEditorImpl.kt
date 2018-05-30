@@ -35,6 +35,8 @@ internal class CompatSkinEditorImpl: CompatSkinEditor {
   private val compatItems by lazy { ArrayList<SkinCompat<*>>() }
   private var lifecycle: Lifecycle? = null
 
+  private val stickyItems by lazy { ArrayList<SkinCompat<*>>() }
+
   /**
    * Attach lifecycle.
    */
@@ -50,29 +52,42 @@ internal class CompatSkinEditorImpl: CompatSkinEditor {
   }
 
   override fun <T> addTask(compat: T, task: SkinTask<T>) {
-    addSkinTask(compat, task, false)
+    addSkinTask(compat, task)
   }
 
-  override fun <T> addSkinTask(compat: T, task: SkinTask<T>, forcePerform: Boolean) {
+  override fun <T> addStickyTask(compat: T, task: SkinTask<T>) {
+    addSkinTask(compat, task, sticky = true)
+  }
+
+  override fun <T> addSkinTask(compat: T, task: SkinTask<T>, sticky: Boolean, forcePerform: Boolean) {
     val lifecycle = this.lifecycle
 
     if (!forcePerform && (lifecycle == null || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))) {
-      onAddTask(compat, task)
+      onAddTask(compat, task, sticky)
     } else {
-      onAddAndPerformTask(compat, task)
+      onAddAndPerformTask(compat, task, sticky)
     }
   }
 
-  private fun <T> onAddTask(compat: T, task: SkinTask<T>) {
-    compatItems.add(SkinCompat(compat, task))
+  private fun <T> onAddTask(compat: T, task: SkinTask<T>, sticky: Boolean = false) {
+    val skinCompat = SkinCompat(compat, task)
+    compatItems.add(skinCompat)
+
+    if (sticky) {
+      stickyItems.add(SkinCompat(compat, task))
+    }
   }
 
-  private fun <T> onAddAndPerformTask(compat: T, task: SkinTask<T>) {
+  private fun <T> onAddAndPerformTask(compat: T, task: SkinTask<T>, sticky: Boolean = false) {
     val skinCompat = SkinCompat(compat, task)
     skinCompat.skinInit = true
     skinCompat.skinId = SkinManager.skinId
 
     compatItems.add(skinCompat)
+
+    if (sticky) {
+      stickyItems.add(SkinCompat(compat, task))
+    }
     task.performSkinChange(compat)
   }
 
@@ -81,8 +96,12 @@ internal class CompatSkinEditorImpl: CompatSkinEditor {
     injectSkin(view)
   }
 
-  override fun getCompatItems(): List<SkinCompat<*>>? {
+  override fun getCompatItems(): List<SkinCompat<*>> {
     return compatItems
+  }
+
+  override fun getStickyCompatItems(): List<SkinCompat<*>> {
+    return stickyItems
   }
 
   override fun removeTask(compat: Any) {
@@ -91,11 +110,24 @@ internal class CompatSkinEditorImpl: CompatSkinEditor {
   }
 
   override fun trimCompatItems() {
-    val removedItems = compatItems.filter { it.compat == null }
-    compatItems.removeAll(removedItems)
+    trimCompatItems(compatItems)
+    trimCompatItems(stickyItems)
+  }
+
+  private fun trimCompatItems(items: MutableList<SkinCompat<*>>) {
+    if (items.isEmpty()) {
+      return
+    }
+    val removedItems = items.filter { it.compat == null }
+    items.removeAll(removedItems)
   }
 
   override fun clearCompatItems() {
     compatItems.clear()
+    stickyItems.clear()
+  }
+
+  override fun containsStickyCompatItem(): Boolean {
+    return stickyItems.isNotEmpty()
   }
 }

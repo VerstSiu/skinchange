@@ -37,6 +37,14 @@ interface SkinEditor {
   fun<T> addTask(compat: T, task: SkinTask<T>)
 
   /**
+   * Add sticky task.
+   *
+   * @param compat compat.
+   * @param task task.
+   */
+  fun<T> addStickyTask(compat: T, task: SkinTask<T>)
+
+  /**
    * Remove task.
    *
    * @param compat compat.
