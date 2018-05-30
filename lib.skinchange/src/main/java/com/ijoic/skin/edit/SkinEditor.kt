@@ -39,6 +39,9 @@ interface SkinEditor {
   /**
    * Add sticky task.
    *
+   * <p>This method will perform skin change even if lifecycle is stopped.</p>
+   * <p>Make sure you really need to do skin change at that case.</p>
+   *
    * @param compat compat.
    * @param task task.
    */
