@@ -22,7 +22,6 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.view.SkinCompat
-import com.ijoic.skin.view.SkinCompatFactory
 import java.lang.ref.WeakReference
 
 /**
@@ -35,7 +34,7 @@ internal class SkinEditorManager {
   /**
    * Default editor.
    */
-  internal val defaultEditor: CompatSkinEditor by lazy { CompatSkinEditorImpl(SkinCompatFactory.weak) }
+  internal val defaultEditor: CompatSkinEditor by lazy { CompatSkinEditorImpl() }
 
   private val editorItems by lazy { ArrayList<Pair<WeakReference<Lifecycle>, CompatSkinEditor>>() }
 
@@ -53,7 +52,7 @@ internal class SkinEditorManager {
     if (itemPair != null) {
       return itemPair.second
     }
-    val editor = CompatSkinEditorImpl(SkinCompatFactory.strong)
+    val editor = CompatSkinEditorImpl()
     val pair = Pair(WeakReference(lifecycle), editor)
     val observer = object: LifecycleObserver {
       @OnLifecycleEvent(Lifecycle.Event.ON_START)

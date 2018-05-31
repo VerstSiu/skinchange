@@ -22,7 +22,6 @@ import android.view.View
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.view.KeepViewSkinTask
 import com.ijoic.skin.view.SkinCompat
-import com.ijoic.skin.view.SkinCompatFactory
 import com.ijoic.skin.view.SkinTask
 
 /**
@@ -31,8 +30,7 @@ import com.ijoic.skin.view.SkinTask
  * @author verstsiu on 2018/5/23.
  * @version 2.0
  */
-internal class CompatSkinEditorImpl(
-    private val skinCompatFactory: SkinCompatFactory): CompatSkinEditor {
+internal class CompatSkinEditorImpl: CompatSkinEditor {
 
   private val compatItems by lazy { ArrayList<SkinCompat<*>>() }
   private var lifecycle: Lifecycle? = null
@@ -72,23 +70,23 @@ internal class CompatSkinEditorImpl(
   }
 
   private fun <T> onAddTask(compat: T, task: SkinTask<T>, sticky: Boolean = false) {
-    val skinCompat = skinCompatFactory.createSkinCompat(compat, task)
+    val skinCompat = SkinCompat(compat, task)
     compatItems.add(skinCompat)
 
     if (sticky) {
-      stickyItems.add(skinCompatFactory.createSkinCompat(compat, task))
+      stickyItems.add(SkinCompat(compat, task))
     }
   }
 
   private fun <T> onAddAndPerformTask(compat: T, task: SkinTask<T>, sticky: Boolean = false) {
-    val skinCompat = skinCompatFactory.createSkinCompat(compat, task)
+    val skinCompat = SkinCompat(compat, task)
     skinCompat.skinInit = true
     skinCompat.skinId = SkinManager.skinId
 
     compatItems.add(skinCompat)
 
     if (sticky) {
-      stickyItems.add(skinCompatFactory.createSkinCompat(compat, task))
+      stickyItems.add(SkinCompat(compat, task))
     }
     task.performSkinChange(compat)
   }
