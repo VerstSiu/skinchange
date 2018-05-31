@@ -15,10 +15,7 @@
  *  limitations under the License.
  *
  */
-
 package com.ijoic.skin.view
-
-import java.lang.ref.WeakReference
 
 /**
  * 皮肤组件
@@ -26,11 +23,8 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0.4
  */
-internal class SkinCompat<T>(
-    compat: T,
+internal abstract class SkinCompat<out T>(
     private val skinTask: SkinTask<T>?) {
-
-  private val refCompat = WeakReference(compat)
 
   internal var skinInit = false
   internal var skinId: String? = null
@@ -38,8 +32,7 @@ internal class SkinCompat<T>(
   /**
    * Compat.
    */
-  internal val compat: T?
-      get() = refCompat.get()
+  internal abstract val compat: T?
 
   /**
    * 判断皮肤组件是否为空
@@ -47,13 +40,13 @@ internal class SkinCompat<T>(
    * @return 判断结果
    */
   internal val isEmpty: Boolean
-    get() = refCompat.get() == null || skinTask == null
+    get() = compat == null || skinTask == null
 
   /**
    * 执行换肤
    */
   internal fun performSkinChange() {
-    val compat = refCompat.get() ?: return
+    val compat = this.compat ?: return
     val task = this.skinTask ?: return
 
     task.performSkinChange(compat)
@@ -63,15 +56,14 @@ internal class SkinCompat<T>(
     if (other == null || other !is SkinCompat<*>) {
       return false
     }
-    val compat = refCompat.get()
-    val otherCompat = other.refCompat.get()
-
-    return compat == null && otherCompat == null || compat != null && compat == otherCompat
+    return compat == other.compat
   }
 
   override fun hashCode(): Int {
     var result = skinTask?.hashCode() ?: 0
-    result = 31 * result + refCompat.hashCode()
+    result = 31 * result + skinInit.hashCode()
+    result = 31 * result + (skinId?.hashCode() ?: 0)
+    result = 31 * result + (compat?.hashCode() ?: 0)
     return result
   }
 
