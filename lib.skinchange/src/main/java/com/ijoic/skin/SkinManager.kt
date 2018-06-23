@@ -19,21 +19,11 @@ package com.ijoic.skin
 
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
-import android.content.pm.PackageManager
-import android.content.res.AssetManager
-import android.content.res.Resources
-import android.os.AsyncTask
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.view.View
-import com.ijoic.skin.attr.SkinAttrSupport
 import com.ijoic.skin.callback.SkinChangeCallback
 import com.ijoic.skin.edit.SkinEditor
-import com.ijoic.skin.edit.SkinEditorManager
-import com.ijoic.skin.view.ActivitySkinTask
-import com.ijoic.skin.view.FragmentSkinTask
-import java.io.File
-import java.lang.ref.WeakReference
 
 /**
  * Skin manager.
@@ -89,11 +79,7 @@ import java.lang.ref.WeakReference
  */
 object SkinManager {
 
-  private var refContext: WeakReference<Context>? = null
-  private var skinPrefs: SkinPreference? = null
-
-  private val context: Context?
-      get() = refContext?.get()
+  private val currentManager = ChildSkinManager()
 
   /**
    * Initialize.
@@ -106,38 +92,7 @@ object SkinManager {
    */
   @JvmStatic
   fun init(context: Context) {
-    val appContext = context.applicationContext
-    resourcesTool.setContext(appContext)
-    refContext = WeakReference(appContext)
-
-    restoreSkinInfo(context)
-  }
-
-  private fun restoreSkinInfo(context: Context) {
-    val prefs = createSkinPreference(context)
-
-    if (prefs.pluginEnabled) {
-      val pluginPath = prefs.pluginPath
-      val pluginPackage = prefs.pluginPackage
-      val pluginSuffix = prefs.pluginSuffix
-
-      if (pluginPackage != null && initPlugin(pluginPath, pluginPackage, pluginSuffix)) {
-        upgradeSkinId(pluginPackage, pluginSuffix)
-      } else {
-        prefs.pluginEnabled = false
-        upgradeSkinId(prefs.suffix)
-        resetResourcesManager()
-      }
-    } else {
-      upgradeSkinId(prefs.suffix)
-      resetResourcesManager()
-    }
-  }
-
-  private fun createSkinPreference(context: Context): SkinPreference {
-    return SkinPreference(context).apply {
-      skinPrefs = this
-    }
+    currentManager.init(context)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -146,84 +101,14 @@ object SkinManager {
    * Resources manager.
    */
   @JvmStatic
-  internal val resourcesManager = ResourcesManager()
+  internal val resourcesManager = currentManager.resourcesManager
 
   @JvmStatic
-  val resourcesTool = ResourcesTool(resourcesManager)
+  val resourcesTool = currentManager.resourcesTool
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> plugin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
-
-  private fun initPlugin(path: String?, packageName: String?, suffix: String?): Boolean {
-    if (path == null || packageName == null || !isValidPluginParams(path, packageName)) {
-      return false
-    }
-
-    return try {
-      loadPlugin(path, packageName, suffix)
-      true
-    } catch (e: Exception) {
-      e.printStackTrace()
-      clearPluginInfo()
-      false
-    }
-  }
-
-  /**
-   * Check plugin params.
-   *
-   * Pass conditions:
-   * 1. path, packageName not empty.
-   * 2. plugin package exist.
-   * 3. packageName == [path file].packageName
-   *
-   * @param path plugin path.
-   * @param packageName plugin package name.
-   */
-  private fun isValidPluginParams(path: String?, packageName: String?): Boolean {
-    // check path format
-    if (path == null || path.isBlank() || packageName == null || packageName.isBlank()) {
-      return false
-    }
-    // check plugin file exist
-    if (!File(path).exists()) {
-      return false
-    }
-
-    // check package info
-    return checkPackageExist(path, packageName)
-  }
-
-  private fun checkPackageExist(path: String, packageName: String): Boolean {
-    val context = this.context ?: return false
-    val pm = context.packageManager
-    val info = pm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
-    return packageName == info.packageName
-  }
-
-  @Throws(Exception::class)
-  private fun loadPlugin(path: String, packageName: String, suffix: String?) {
-    val context = this.context ?: return
-    val manager = AssetManager::class.java.newInstance()
-    val addAssetPath = manager.javaClass.getMethod("addAssetPath", String::class.java)
-    addAssetPath.invoke(manager, path)
-
-    val superRes = context.resources
-    val res = Resources(manager, superRes.displayMetrics, superRes.configuration)
-
-    resourcesManager.apply {
-      setResources(res, true)
-      setSkinInfo(packageName, suffix)
-    }
-    updatePluginInfo(path, packageName, suffix)
-  }
-
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> plugin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
-
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
-
-  private val editManager by lazy { SkinEditorManager() }
 
   /**
    * Returns skin editor for expected lifecycle.
@@ -232,7 +117,7 @@ object SkinManager {
    */
   @JvmStatic
   fun edit(lifecycle: Lifecycle): SkinEditor {
-    return editManager.getEditor(lifecycle)
+    return currentManager.edit(lifecycle)
   }
 
   /**
@@ -243,9 +128,7 @@ object SkinManager {
    */
   @JvmStatic
   fun register(activity: FragmentActivity) {
-    val editor = editManager.getEditor(activity.lifecycle)
-    editor.clearCompatItems()
-    editor.addTask(activity, ActivitySkinTask)
+    currentManager.register(activity)
   }
 
   /**
@@ -256,9 +139,7 @@ object SkinManager {
    */
   @JvmStatic
   fun register(fragment: Fragment) {
-    val editor = editManager.getEditor(fragment.lifecycle)
-    editor.clearCompatItems()
-    editor.addTask(fragment, FragmentSkinTask)
+    currentManager.register(fragment)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -269,34 +150,14 @@ object SkinManager {
    * Skin suffix.
    */
   @JvmStatic
-  var skinSuffix: String? = null
-    private set
+  val skinSuffix: String?
+    get() = currentManager.skinSuffix
 
   /**
    * Skin id.
    */
-  internal var skinId: String? = null
-
-  /**
-   * Upgrade skin id.
-   *
-   * @param suffix suffix.
-   */
-  private fun upgradeSkinId(suffix: String?) {
-    skinId = suffix
-    skinSuffix = suffix
-  }
-
-  /**
-   * Upgrade skin id.
-   *
-   * @param pluginPackage plugin package.
-   * @param pluginSuffix plugin suffix.
-   */
-  private fun upgradeSkinId(pluginPackage: String, pluginSuffix: String?) {
-    skinId = "$pluginPackage:${pluginSuffix.orEmpty()}"
-    skinSuffix = pluginSuffix
-  }
+  internal val skinId: String?
+    get() = currentManager.skinId
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> skin info :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
@@ -309,14 +170,7 @@ object SkinManager {
    */
   @JvmStatic
   fun changeSkin(suffix: String?) {
-    clearPluginInfo() // clear before
-
-    skinPrefs?.apply {
-      this.suffix = suffix
-      upgradeSkinId(suffix)
-      resetResourcesManager()
-      notifyChangedListeners()
-    }
+    currentManager.changeSkin(suffix)
   }
 
   /**
@@ -330,52 +184,7 @@ object SkinManager {
   @JvmStatic
   @JvmOverloads
   fun changeSkin(path: String?, packageName: String?, suffix: String? = null, callback: SkinChangeCallback? = null) {
-    val skinCallback = callback ?: SkinChangeCallback.DEFAULT_CALLBACK
-    skinCallback.onStart()
-
-    if (path == null || packageName == null || !isValidPluginParams(path, packageName)) {
-      skinCallback.onError("invalid plugin path or package")
-      return
-    }
-
-    object: AsyncTask<Void, Void, Boolean>() {
-      override fun doInBackground(vararg params: Void?): Boolean {
-        return try {
-          loadPlugin(path, packageName, suffix)
-          true
-        } catch (e: Exception) {
-          e.printStackTrace()
-          false
-        }
-      }
-
-      override fun onPostExecute(result: Boolean?) {
-        if (result != true) {
-          skinCallback.onError("load plugin occur error")
-          return
-        }
-
-        try {
-          notifyChangedListeners()
-          skinCallback.onComplete()
-        } catch (e: Exception) {
-          e.printStackTrace()
-          skinCallback.onError(e.message ?: "")
-        }
-      }
-    }.execute()
-  }
-
-  private fun updatePluginInfo(path: String, packageName: String, suffix: String? = null) {
-    val prefs = skinPrefs ?: throw IllegalArgumentException("skin preference not found")
-
-    prefs.apply {
-      pluginEnabled = true
-      pluginPath = path
-      pluginPackage = packageName
-      pluginSuffix = suffix
-    }
-    upgradeSkinId(packageName, suffix)
+    currentManager.changeSkin(path, packageName, suffix, callback)
   }
 
   /**
@@ -383,27 +192,7 @@ object SkinManager {
    */
   @JvmStatic
   fun removeAnySkin() {
-    clearPluginInfo()
-    upgradeSkinId(null)
-    resetResourcesManager()
-    notifyChangedListeners()
-  }
-
-  private fun clearPluginInfo() {
-    skinPrefs?.clearPluginInfo()
-  }
-
-  private fun resetResourcesManager() {
-    val context = this.context ?: return
-
-    resourcesManager.apply {
-      setResources(context.resources, false)
-      setSkinInfo(context.packageName, skinSuffix)
-    }
-  }
-
-  private fun notifyChangedListeners() {
-    editManager.performSkinChange(skinId)
+    currentManager.removeAnySkin()
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> change skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -419,12 +208,7 @@ object SkinManager {
    */
   @JvmStatic
   fun injectSkin(view: View) {
-    val skinId = this.skinId
-    val skinViews = SkinAttrSupport.getSkinViews(view, skinId)
-
-    skinViews.forEach {
-      it.apply(skinId, resourcesManager)
-    }
+    currentManager.injectSkin(view)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> inject skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
