@@ -81,33 +81,6 @@ object AttrTypeFactory {
    * 注册属性类型
    *
    * @param typeName 类型名称
-   * @param typeClazz 类型类
-   */
-  @JvmStatic
-  @Deprecated(
-      "Set attr type instance directly",
-      ReplaceWith(
-          "AttrTypeFactory.register(typeName,type)",
-          imports = [
-            "com.ijoic.skin.extend.AttrTypeFactory",
-            "com.ijoic.skin.attr.SkinAttrType"
-          ]
-      )
-  )
-  fun register(typeName: String, typeClazz: Class<out SkinAttrType>) {
-    try {
-      val attrType = typeClazz.newInstance()
-      defaultModule.addAttrType(typeName, attrType)
-
-    } catch (e: Exception) {
-      e.printStackTrace()
-    }
-  }
-
-  /**
-   * 注册属性类型
-   *
-   * @param typeName 类型名称
    * @param type 类型实例
    */
   @JvmStatic

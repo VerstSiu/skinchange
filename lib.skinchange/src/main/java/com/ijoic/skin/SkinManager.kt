@@ -17,7 +17,6 @@
  */
 package com.ijoic.skin
 
-import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.pm.PackageManager
@@ -31,7 +30,8 @@ import com.ijoic.skin.attr.SkinAttrSupport
 import com.ijoic.skin.callback.SkinChangeCallback
 import com.ijoic.skin.edit.SkinEditor
 import com.ijoic.skin.edit.SkinEditorManager
-import com.ijoic.skin.view.*
+import com.ijoic.skin.view.ActivitySkinTask
+import com.ijoic.skin.view.FragmentSkinTask
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -89,19 +89,6 @@ import java.lang.ref.WeakReference
  */
 object SkinManager {
 
-  /**
-   * Returns skin manager instance.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin manager directly",
-      ReplaceWith(
-          "SkinManager",
-          imports = ["com.ijoic.skin.SkinManager"]
-      )
-  )
-  fun getInstance(): SkinManager = this
-
   private var refContext: WeakReference<Context>? = null
   private var skinPrefs: SkinPreference? = null
 
@@ -111,7 +98,7 @@ object SkinManager {
   /**
    * Initialize.
    *
-   * <p>Do invoke this method on your custom [Application]'s onCreate method.</p>
+   * <p>Do invoke this method on your custom Application's onCreate method.</p>
    *
    * @param context context.
    *
@@ -124,7 +111,6 @@ object SkinManager {
     refContext = WeakReference(appContext)
 
     restoreSkinInfo(context)
-    editManager.defaultEditor.clearCompatItems()
   }
 
   private fun restoreSkinInfo(context: Context) {
@@ -252,26 +238,6 @@ object SkinManager {
   /**
    * Register activity.
    *
-   * Registered item will dynamically change skin when skin changed triggered.
-   * Do invoke this method on [Activity.onCreate] and behind [Activity.setContentView].
-   * Do invoke paired [unregister] method on [Activity.onDestroy].
-   *
-   * @param activity activity.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinManager.registerEdit(activity: Activity)"
-      )
-  )
-  fun register(activity: Activity) {
-    editManager.defaultEditor.addSkinTask(activity, ActivitySkinTask, forcePerform = true)
-  }
-
-  /**
-   * Register activity.
-   *
    * @param activity activity.
    * @return editor instance.
    */
@@ -286,7 +252,6 @@ object SkinManager {
    * Register fragment.
    *
    * @param fragment fragment.
-   * @param lifecycle custom lifecycle.
    * @return editor instance.
    */
   @JvmStatic
@@ -294,87 +259,6 @@ object SkinManager {
     val editor = editManager.getEditor(fragment.lifecycle)
     editor.clearCompatItems()
     editor.addTask(fragment, FragmentSkinTask)
-  }
-
-  /**
-   * Unregister activity.
-   *
-   * @param activity activity.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinEditor.removeTask(compat: Any)"
-      )
-  )
-  fun unregister(activity: Activity) {
-    editManager.defaultEditor.removeTask(activity)
-  }
-
-  /**
-   * Unregister fragment.
-   *
-   * @param fragment fragment.
-   */
-  @JvmStatic
-  @Deprecated(
-      "This method has not effect for current version"
-  )
-  fun unregister(fragment: Fragment) {
-    // do nothing.
-  }
-
-  /**
-   * Register skin task.
-   *
-   * Use this method for custom view.
-   *
-   * @param compat compat.
-   * @param skinTask skin task.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinEditor.addTask(compat: T, task: SkinTask<T>)"
-      )
-  )
-  fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>) {
-    editManager.defaultEditor.addTask(compat, skinTask)
-  }
-
-  /**
-   * Register skin task and perform skin change right now.
-   *
-   * @param compat compat.
-   * @param skinTask skin task.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinEditor.addAndPerformTask(compat: T, task: SkinTask<T>)"
-      )
-  )
-  fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>) {
-    editManager.defaultEditor.addSkinTask(compat, skinTask, forcePerform = true)
-  }
-
-  /**
-   * Unregister skin task.
-   *
-   * @param compat compat.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinEditor.removeTask(compat: Any)"
-      )
-  )
-  fun unregisterSkinTask(compat: Any) {
-    editManager.defaultEditor.removeTask(compat)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -421,7 +305,7 @@ object SkinManager {
   /**
    * Change skin.
    *
-   * Use [null] to restore default skin, and [suffix] otherwise.
+   * Use <code>null</code> to restore default skin, and [suffix] otherwise.
    */
   @JvmStatic
   fun changeSkin(suffix: String?) {
@@ -541,25 +425,6 @@ object SkinManager {
     skinViews.forEach {
       it.apply(skinId)
     }
-  }
-
-  /**
-   * Sticky inject skin.
-   *
-   * Perform skin change even if target view is outside view tree.
-   * Specific for case which view is hold to be reuse.
-   *
-   * @param view view.
-   */
-  @JvmStatic
-  @Deprecated(
-      "Use skin editor as replace",
-      ReplaceWith(
-          "SkinEditor.stickyInjectSkin(view: View)"
-      )
-  )
-  fun stickyInjectSkin(view: View) {
-    editManager.defaultEditor.stickyInjectSkin(view)
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> inject skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */

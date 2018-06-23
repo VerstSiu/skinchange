@@ -31,10 +31,6 @@ import java.lang.ref.WeakReference
  * @version 2.0
  */
 internal class SkinEditorManager {
-  /**
-   * Default editor.
-   */
-  internal val defaultEditor: CompatSkinEditor by lazy { CompatSkinEditorImpl() }
 
   private val editorItems by lazy { ArrayList<Pair<WeakReference<Lifecycle>, CompatSkinEditor>>() }
 
@@ -108,7 +104,6 @@ internal class SkinEditorManager {
 
   private fun getDisplayCompatItems(skinId: String?): List<SkinCompat<*>> {
     val items = ArrayList<SkinCompat<*>>()
-    insertDisplayCompatItems(items, defaultEditor, skinId)
 
     editorItems.forEach {
       val lifeState = it.first.get()?.currentState

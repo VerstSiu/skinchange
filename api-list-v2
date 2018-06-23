@@ -12,8 +12,6 @@ com.ijoic.skin
 |    +--- fun getString(@StringRes resId: Int): getString?
 |    +--- fun getResourcesUri(resId: Int): getString?
 +--- SkinManager
-|    +--- [deprecated] @JvmStatic fun getInstance(): SkinManager
-|    +--- @JvmStatic INSTANCE: SkinManager
 |    +--- @JvmStatic fun init(context: Context)
 |    +--- @JvmStatic [get] resourcesManager: ResourcesManager
 |    +--- @JvmStatic [get] resourcesTool: ResourcesTool
@@ -25,13 +23,6 @@ com.ijoic.skin
 |    +--- @JvmStatic fun register(activity: FragmentActivity)
 |    +--- @JvmStatic fun register(fragment: Fragment)
 |    +--- @JvmStatic fun edit(lifecycle: Lifecycle): SkinEditor
-|    +--- @Deprecated @JvmStatic fun register(activity: Activity)
-|    +--- @Deprecated @JvmStatic fun<T> registerSkinTask(compat: T, skinTask: SkinTask<T>)
-|    +--- @Deprecated @JvmStatic fun<T> registerAndPerformSkinTask(compat: T, skinTask: SkinTask<T>)
-|    +--- @Deprecated @JvmStatic fun unregister(activity: Activity)
-|    +--- @Deprecated @JvmStatic fun unregister(fragment: Fragment)
-|    +--- @Deprecated @JvmStatic fun<T> unregisterSkinTask(compat: T)
-|    +--- @Deprecated @JvmStatic fun stickyInjectSkin(view: View)
 \--- attr
 |    +--- [interface] SkinAttrType
 |    |    +--- fun apply(view: View, resName: String)
@@ -53,7 +44,6 @@ com.ijoic.skin
 |    |    +--- @JvmStatic fun addModule(prefix: AttrPrefix, module: AttrTypeModule): AttrTypeFactory
 |    |    +--- @JvmStatic fun loadModuleAttributes()
 |    |    +--- @JvmStatic fun register(typeName: String, type: SkinAttrType)
-|    |    +--- @Deprecated @JvmStatic<T: SkinAttrType> fun register(typeName: String, typeClazz: Class<T>)
 |    +--- AttrTypeModule
 |    |    +--- BACKGROUND: String
 |    |    +--- fun addAttrType(typeName: String, type: SkinAttrType)
