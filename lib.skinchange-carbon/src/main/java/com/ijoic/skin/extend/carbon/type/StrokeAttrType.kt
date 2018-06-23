@@ -19,7 +19,7 @@ package com.ijoic.skin.extend.carbon.type
 
 import android.view.View
 import carbon.view.StrokeView
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
 
 /**
@@ -29,12 +29,11 @@ import com.ijoic.skin.attr.SkinAttrType
  * @version 2.0
  */
 internal class StrokeAttrType: SkinAttrType {
-  override fun apply(view: View, resName: String) {
+  override fun apply(rm: ResourcesManager, view: View, resName: String) {
     if (view !is StrokeView) {
       return
     }
     val castView: StrokeView = view
-    val rm = SkinManager.resourcesManager
     val colorList = rm.getColorStateList(resName)
 
     if (colorList != null) {

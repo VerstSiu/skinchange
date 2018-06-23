@@ -18,14 +18,12 @@
 
 package com.ijoic.skin.extend.type
 
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.os.Build
+import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.View
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
 import com.ijoic.skin.constant.SkinConfig
 
@@ -37,8 +35,7 @@ import com.ijoic.skin.constant.SkinConfig
  */
 internal object BackgroundAttrType : SkinAttrType {
 
-  override fun apply(view: View, resName: String) {
-    val rm = SkinManager.resourcesManager
+  override fun apply(rm: ResourcesManager, view: View, resName: String) {
     val d = rm.getDrawableByName(resName)
 
     if (d != null) {
@@ -63,25 +60,10 @@ internal object BackgroundAttrType : SkinAttrType {
 
     val viewPaddingExist = paddingLeft != 0 || paddingTop != 0 || paddingRight != 0 || paddingBottom != 0
 
-    if (Build.VERSION.SDK_INT >= 16) {
-      setBackgroundV16(view, background)
-    } else {
-      setBackgroundDefault(view, background)
-    }
+    ViewCompat.setBackground(view, background)
 
     if (viewPaddingExist) {
       view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
     }
   }
-
-  @SuppressLint("Deprecation")
-  private fun setBackgroundDefault(view: View, background: Drawable) {
-    view.setBackgroundDrawable(background)
-  }
-
-  @TargetApi(16)
-  private fun setBackgroundV16(view: View, background: Drawable) {
-    view.background = background
-  }
-
 }

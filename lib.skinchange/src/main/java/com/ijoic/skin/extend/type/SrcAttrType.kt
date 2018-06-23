@@ -20,8 +20,7 @@ package com.ijoic.skin.extend.type
 
 import android.view.View
 import android.widget.ImageView
-
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
 
 /**
@@ -32,11 +31,10 @@ import com.ijoic.skin.attr.SkinAttrType
  */
 internal object SrcAttrType : SkinAttrType {
 
-  override fun apply(view: View, resName: String) {
+  override fun apply(rm: ResourcesManager, view: View, resName: String) {
     if (view !is ImageView) {
       return
     }
-    val rm = SkinManager.resourcesManager
     val d = rm.getDrawableByName(resName)
 
     if (d != null) {

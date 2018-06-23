@@ -20,7 +20,7 @@ package com.ijoic.skin.extend.type
 
 import android.view.View
 import android.widget.TextView
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
 
 /**
@@ -30,11 +30,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @version 1.0.5
  */
 internal object TextColorLinkAttrType : SkinAttrType {
-  override fun apply(view: View, resName: String) {
+  override fun apply(rm: ResourcesManager, view: View, resName: String) {
     if (view !is TextView) {
       return
     }
-    val rm = SkinManager.resourcesManager
     val colorList = rm.getColorStateList(resName) ?: return
 
     view.setLinkTextColor(colorList)

@@ -35,4 +35,7 @@ dependencies {
     implementation project.depend_kotlin
     implementation project.depend_arch_lifecycle
     kapt project.compiler_arch_lifecycle
+
+    implementation 'com.github.VerstSiu.kotlin_extension:ktx:master'
+    implementation 'com.github.VerstSiu.kotlin_extension:ktx-rxjava:master'
 }

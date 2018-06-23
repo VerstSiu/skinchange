@@ -13,7 +13,6 @@ com.ijoic.skin
 |    +--- fun getResourcesUri(resId: Int): getString?
 +--- SkinManager
 |    +--- @JvmStatic fun init(context: Context)
-|    +--- @JvmStatic [get] resourcesManager: ResourcesManager
 |    +--- @JvmStatic [get] resourcesTool: ResourcesTool
 |    +--- @JvmStatic [get] skinSuffix: String?
 |    +--- @JvmStatic fun injectSkin(view: View)
@@ -25,7 +24,7 @@ com.ijoic.skin
 |    +--- @JvmStatic fun edit(lifecycle: Lifecycle): SkinEditor
 \--- attr
 |    +--- [interface] SkinAttrType
-|    |    +--- fun apply(view: View, resName: String)
+|    |    +--- fun apply(rm: ResourcesManager, view: View, resName: String)
 \--- callback
 |    +--- [interface] SkinChangeCallback
 |    |    +--- fun onStart()

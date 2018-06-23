@@ -21,6 +21,7 @@ package com.ijoic.skin.extend
 import android.support.annotation.AnyRes
 import android.util.Log
 import android.view.View
+import com.ijoic.skin.SkinManager
 import com.ijoic.skin.constant.SkinConfig
 import com.ijoic.skin.getSkinInfo
 
@@ -68,7 +69,7 @@ object SkinTool {
       this.resName = resName
       this.attr = attrType
     }
-    attrType.apply(view, resName)
+    attrType.apply(SkinManager.resourcesManager, view, resName)
   }
 
   /**
@@ -89,7 +90,7 @@ object SkinTool {
       this.resName = resName
       this.attr = attrType
     }
-    attrType.apply(view, resName)
+    attrType.apply(SkinManager.resourcesManager, view, resName)
   }
 
 }

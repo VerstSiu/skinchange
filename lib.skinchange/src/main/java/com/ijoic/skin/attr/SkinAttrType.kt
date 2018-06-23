@@ -18,6 +18,7 @@
 package com.ijoic.skin.attr
 
 import android.view.View
+import com.ijoic.skin.ResourcesManager
 
 /**
  * 皮肤属性类型
@@ -28,11 +29,12 @@ import android.view.View
 interface SkinAttrType {
 
   /**
-   * 应用皮肤
+   * Apply skin.
    *
-   * @param view 视图
-   * @param resName 资源名称
+   * @param rm resources manager.
+   * @param view skin view.
+   * @param resName res name.
    */
-  fun apply(view: View, resName: String)
+  fun apply(rm: ResourcesManager, view: View, resName: String)
 
 }

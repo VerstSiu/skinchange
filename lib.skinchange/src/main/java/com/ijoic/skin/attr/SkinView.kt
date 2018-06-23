@@ -19,6 +19,7 @@
 package com.ijoic.skin.attr
 
 import android.view.View
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.SkinInfo
 import java.lang.ref.WeakReference
 
@@ -36,8 +37,9 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
    * 应用皮肤
    *
    * @param skinId skin id.
+   * @param rm resources manager.
    */
-  internal fun apply(skinId: String?) {
+  internal fun apply(skinId: String?, rm: ResourcesManager) {
     val view = viewRef.get() ?: return
 
     info.apply {
@@ -47,7 +49,7 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
         val attr = it.attr
 
         if (resName != null && attr != null) {
-          attr.apply(view, resName)
+          attr.apply(rm, view, resName)
         }
       }
     }

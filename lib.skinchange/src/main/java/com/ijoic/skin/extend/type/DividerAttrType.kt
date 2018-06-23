@@ -21,7 +21,7 @@ package com.ijoic.skin.extend.type
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ListView
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
 
 /**
@@ -32,8 +32,7 @@ import com.ijoic.skin.attr.SkinAttrType
  */
 internal object DividerAttrType : SkinAttrType {
 
-  override fun apply(view: View, resName: String) {
-    val rm = SkinManager.resourcesManager
+  override fun apply(rm: ResourcesManager, view: View, resName: String) {
     val d = rm.getDrawableByName(resName) ?: return
 
     if (view is ListView) {

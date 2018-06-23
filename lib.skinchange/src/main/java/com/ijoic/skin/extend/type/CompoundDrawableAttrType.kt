@@ -20,7 +20,7 @@ package com.ijoic.skin.extend.type
 
 import android.view.View
 import android.widget.TextView
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
 
 /**
@@ -43,11 +43,10 @@ internal abstract class CompoundDrawableAttrType : SkinAttrType {
    */
   protected abstract val compoundIndex: Int
 
-  override fun apply(view: View, resName: String) {
+  override fun apply(rm: ResourcesManager, view: View, resName: String) {
     if (view !is TextView) {
       return
     }
-    val rm = SkinManager.resourcesManager
     val d = rm.getDrawableByName(resName)
 
     if (d != null) {

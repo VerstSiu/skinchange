@@ -146,7 +146,7 @@ object SkinManager {
    * Resources manager.
    */
   @JvmStatic
-  val resourcesManager = ResourcesManager()
+  internal val resourcesManager = ResourcesManager()
 
   @JvmStatic
   val resourcesTool = ResourcesTool(resourcesManager)
@@ -423,7 +423,7 @@ object SkinManager {
     val skinViews = SkinAttrSupport.getSkinViews(view, skinId)
 
     skinViews.forEach {
-      it.apply(skinId)
+      it.apply(skinId, resourcesManager)
     }
   }
 
