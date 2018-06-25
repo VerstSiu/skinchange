@@ -100,6 +100,10 @@ internal class CompatSkinEditorImpl(private val manager: ChildSkinManager): Comp
     injectSkin(view)
   }
 
+  override fun getSkinManager(): ChildSkinManager {
+    return manager
+  }
+
   override fun getCompatItems(): List<SkinCompat<*>> {
     return compatItems
   }

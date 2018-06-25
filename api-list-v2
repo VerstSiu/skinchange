@@ -36,6 +36,7 @@ com.ijoic.skin
 |    |    +--- fun<T> addStickyTask(compat: T, task: SkinTask<T>)
 |    |    +--- fun injectSkin(view: View)
 |    |    +--- fun stickyInjectSkin(view: View)
+|    |    +--- fun getSkinManager(): ChildSkinManager
 |    |    +--- [ex] fun replaceTask(compat: T, task: SkinTask<T>)
 |    |    +--- [ex] fun replaceStickyTask(compat: T, task: SkinTask<T>)
 \--- extend
