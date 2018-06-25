@@ -20,7 +20,7 @@ package com.ijoic.skin.edit
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ChildSkinManager
 import com.ijoic.skin.view.SkinCompat
 import java.lang.ref.WeakReference
 
@@ -30,7 +30,7 @@ import java.lang.ref.WeakReference
  * @author verstsiu on 2018/5/24.
  * @version 2.0
  */
-internal class SkinEditorManager {
+internal class SkinEditorManager(private val manager: ChildSkinManager) {
 
   private val editorItems by lazy { ArrayList<Pair<WeakReference<Lifecycle>, CompatSkinEditor>>() }
 
@@ -48,12 +48,12 @@ internal class SkinEditorManager {
     if (itemPair != null) {
       return itemPair.second
     }
-    val editor = CompatSkinEditorImpl()
+    val editor = CompatSkinEditorImpl(manager)
     val pair = Pair(WeakReference(lifecycle), editor)
     val observer = object: LifecycleObserver {
       @OnLifecycleEvent(Lifecycle.Event.ON_START)
       fun onStart() {
-        val skinId = SkinManager.skinId
+        val skinId = manager.skinId
 
         getDisplayCompatItems(skinId, editor).forEach {
           performSkinChange(skinId, it)
@@ -93,7 +93,7 @@ internal class SkinEditorManager {
       this.skinInit = true
       this.skinId = skinId
 
-      performSkinChange()
+      performSkinChange(manager)
     }
   }
 

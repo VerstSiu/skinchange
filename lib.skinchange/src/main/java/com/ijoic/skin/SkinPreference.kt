@@ -29,9 +29,18 @@ import com.ijoic.skin.constant.SkinConfig
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-internal class SkinPreference(context: Context) {
+internal class SkinPreference(context: Context, tag: String? = null) {
 
-  internal val innerPrefs: SharedPreferences = context.getSharedPreferences(SkinConfig.SKIN_PREF_NAME, Context.MODE_PRIVATE)
+  internal val innerPrefs: SharedPreferences = context.getSharedPreferences(genPrefName(tag), Context.MODE_PRIVATE)
+
+  private fun genPrefName(tag: String?): String {
+    val prefSuffix = if (tag == null || tag.isEmpty()) {
+      ""
+    } else {
+      "_$tag"
+    }
+    return "${SkinConfig.SKIN_PREF_NAME}$prefSuffix"
+  }
 
   /**
    * Plugin enabled.

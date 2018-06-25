@@ -67,9 +67,9 @@ com.ijoic.skin
 |    |    +--- THUMB: String
 |    |    +--- POPUP_BACKGROUND: String
 |    +--- SkinTool
-|    |    +--- @JvmStatic fun fillTag(view: View, @AnyRes resId: Int, type: String)
-|    |    +--- @JvmStatic fun fillTag(view: View, resName: String, type: String)
-|    |    +--- @JvmStatic fun fillTag(view: View, module: String, resName: String, type: String)
+|    |    +--- @JvmStatic fun fillTag(skinTag: String?, view: View, @AnyRes resId: Int, type: String)
+|    |    +--- @JvmStatic fun fillTag(skinTag: String?, view: View, resName: String, type: String)
+|    |    +--- @JvmStatic fun fillTag(skinTag: String?, view: View, module: String, resName: String, type: String)
 \--- view
 |    +--- [interface] SkinTask<T>
-|    |    +--- fun performSkinChange(compat: T)
+|    |    +--- fun performSkinChange(manager: ChildSkinManager, compat: T)

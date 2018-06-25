@@ -15,32 +15,27 @@
  *  limitations under the License.
  *
  */
-package com.ijoic.skinchange.test.base.constants
+package com.ijoic.skinchange.test.partial
+
+import com.ijoic.skinchange.test.base.constants.SkinChild
+import com.ijoic.skinchange.test.base.constants.SkinSuffix
+import com.ijoic.skinchange.test.base.fragment.simple.ChildSimpleFragment
+import com.ijoic.skinchange.test.base.wrap.skin.WrapChildSkinActivity
 
 /**
- * Skin suffix constants.
+ * Partial test activity.
  *
- * @author verstsiu on 2018/5/26.
+ * @author verstsiu on 2018/6/25.
  * @version 2.0
  */
-object SkinSuffix {
-  /**
-   * None.
-   */
-  val none: String? = null
+class PartialTestActivity: WrapChildSkinActivity() {
 
-  /**
-   * Red.
-   */
-  const val RED = "red"
+  init {
+    expectedSkinSuffix = SkinSuffix.GREEN
+  }
 
-  /**
-   * Red.
-   */
-  const val GREEN = "green"
+  override val skinTag: String = SkinChild.PARTIAL
 
-  /**
-   * Night.
-   */
-  const val NIGHT = "night"
+  override fun createWrapFragmentInstance() = ChildSimpleFragment()
+
 }

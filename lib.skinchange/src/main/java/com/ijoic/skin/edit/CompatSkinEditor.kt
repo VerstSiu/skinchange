@@ -69,7 +69,6 @@ internal interface CompatSkinEditor: SkinEditor {
      * Blank editor.
      */
     internal val BLANK = object: CompatSkinEditor {
-
       override fun <T> addTask(compat: T, task: SkinTask<T>) {
         // do nothing.
       }
@@ -79,6 +78,10 @@ internal interface CompatSkinEditor: SkinEditor {
       }
 
       override fun <T> addSkinTask(compat: T, task: SkinTask<T>, sticky: Boolean, forcePerform: Boolean) {
+        // do nothing.
+      }
+
+      override fun injectSkin(view: View) {
         // do nothing.
       }
 

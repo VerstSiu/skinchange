@@ -48,6 +48,11 @@
       android:name=".test.host.HostTestActivity"
       android:label="@string/case_host"/>
 
+    <!-- partial -->
+    <activity
+      android:name=".test.partial.PartialTestActivity"
+      android:label="@string/case_partial"/>
+
   </application>
 
 </manifest>

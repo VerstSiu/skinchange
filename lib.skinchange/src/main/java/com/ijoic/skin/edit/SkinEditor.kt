@@ -18,7 +18,6 @@
 package com.ijoic.skin.edit
 
 import android.view.View
-import com.ijoic.skin.SkinManager
 import com.ijoic.skin.view.SkinTask
 
 /**
@@ -59,9 +58,7 @@ interface SkinEditor {
    *
    * @param view target view.
    */
-  fun injectSkin(view: View) {
-    SkinManager.injectSkin(view)
-  }
+  fun injectSkin(view: View)
 
   /**
    * Sticky inject skin.

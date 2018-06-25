@@ -24,6 +24,7 @@ import com.ijoic.skinchange.test.RecyclerTestActivity
 import com.ijoic.skinchange.test.host.HostTestActivity
 import com.ijoic.skinchange.test.pager.NestedPagerTestActivity
 import com.ijoic.skinchange.test.pager.PagerTestActivity
+import com.ijoic.skinchange.test.partial.PartialTestActivity
 import com.ijoic.skinchange.util.routeTo
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,5 +39,6 @@ class MainActivity : AppCompatActivity() {
     case_dynamic_pager.setOnClickListener { routeTo(PagerTestActivity::class.java) }
     case_dynamic_nested_pager.setOnClickListener { routeTo(NestedPagerTestActivity::class.java) }
     case_dynamic_host.setOnClickListener { routeTo(HostTestActivity::class.java) }
+    case_partial.setOnClickListener { routeTo(PartialTestActivity::class.java) }
   }
 }

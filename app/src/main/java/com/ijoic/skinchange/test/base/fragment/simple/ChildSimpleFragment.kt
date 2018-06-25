@@ -27,35 +27,40 @@ import com.ijoic.skin.ChildSkinManager
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.view.SkinTask
 import com.ijoic.skinchange.R
+import com.ijoic.skinchange.test.base.constants.SkinChild
 import kotlinx.android.synthetic.main.frg_base_simple.*
 
 /**
- * Simple fragment.
+ * Child simple fragment.
+ *
+ * <p>Toggle skin with child skin manager.</p>
  *
  * @author verstsiu on 2018/5/26.
  * @version 2.0
  */
-class SimpleFragment: InstantLazyFragment() {
+class ChildSimpleFragment: InstantLazyFragment() {
 
   override fun onCreateInstantView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.frg_base_simple, container, false)
   }
 
   override fun onInitInstantView(savedInstanceState: Bundle?) {
-    SkinManager.register(this)
+    skinChild.register(this)
     initSkinTask()
   }
 
   private fun initSkinTask() {
-    val skinEditor = SkinManager.edit(lifecycle)
+    val skinEditor = skinChild.edit(lifecycle)
 
     skinEditor.addTask(label_skin_task, object: SkinTask<TextView> {
       override fun performSkinChange(manager: ChildSkinManager, compat: TextView) {
-        val resTool = SkinManager.resourcesTool
+        val resTool = manager.resourcesTool
 
         compat.setBackgroundColor(resTool.getColor(R.color.base_simple_text_bg))
         compat.setTextColor(resTool.getColor(R.color.base_simple_text_color))
       }
     })
   }
+
+  private val skinChild by lazy { SkinManager.getChildManager(SkinChild.PARTIAL) }
 }

@@ -18,6 +18,7 @@
 
 package com.ijoic.skin.view
 
+import com.ijoic.skin.ChildSkinManager
 import java.lang.ref.WeakReference
 
 /**
@@ -52,11 +53,11 @@ internal class SkinCompat<T>(
   /**
    * 执行换肤
    */
-  internal fun performSkinChange() {
+  internal fun performSkinChange(manager: ChildSkinManager) {
     val compat = refCompat.get() ?: return
     val task = this.skinTask ?: return
 
-    task.performSkinChange(compat)
+    task.performSkinChange(manager, compat)
   }
 
   override fun equals(other: Any?): Boolean {

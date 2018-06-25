@@ -18,7 +18,6 @@
 
 package com.ijoic.skin
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
@@ -27,10 +26,7 @@ import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.util.Log
-
 import com.ijoic.skin.constant.SkinConfig
-
-import java.lang.ref.WeakReference
 
 /**
  * 资源工具
@@ -38,21 +34,7 @@ import java.lang.ref.WeakReference
  * @author ijoic verstlim@126.com
  * @version 1.0.3
  */
-class ResourcesTool internal constructor(private val skinResManager: ResourcesManager) {
-
-  private var refResources: WeakReference<Resources>? = null
-
-  private val resources: Resources?
-    get() = refResources?.get()
-
-  /**
-   * 设置上下文
-   *
-   * @param context 上下文
-   */
-  internal fun setContext(context: Context) {
-    refResources = WeakReference(context.resources)
-  }
+class ResourcesTool internal constructor(private val resManager: ResourcesManager) {
 
   /**
    * 获取颜色
@@ -66,7 +48,7 @@ class ResourcesTool internal constructor(private val skinResManager: ResourcesMa
   @ColorInt
   @Throws(Resources.NotFoundException::class)
   fun getColor(@ColorRes resId: Int): Int {
-    val res = resources ?: throw Resources.NotFoundException()
+    val res = resManager.resources ?: throw Resources.NotFoundException()
 
     try {
       return getSkinColor(res, resId)
@@ -87,7 +69,7 @@ class ResourcesTool internal constructor(private val skinResManager: ResourcesMa
    * @return 图片
    */
   fun getDrawable(@DrawableRes resId: Int): Drawable? {
-    val res = resources ?: throw Resources.NotFoundException()
+    val res = resManager.resources ?: throw Resources.NotFoundException()
     var d = getSkinDrawable(res, resId)
 
     if (d == null) {
@@ -106,7 +88,7 @@ class ResourcesTool internal constructor(private val skinResManager: ResourcesMa
    * @return 颜色列表
    */
   fun getColorStateList(@ColorRes resId: Int): ColorStateList? {
-    val res = resources ?: throw Resources.NotFoundException()
+    val res = resManager.resources ?: throw Resources.NotFoundException()
     var colorStateList = getSkinColorStateList(res, resId)
 
     if (colorStateList == null) {
@@ -125,7 +107,7 @@ class ResourcesTool internal constructor(private val skinResManager: ResourcesMa
    * @return 字符串内容
    */
   fun getString(@StringRes resId: Int): String? {
-    val res = resources ?: throw Resources.NotFoundException()
+    val res = resManager.resources ?: throw Resources.NotFoundException()
     var text = getSkinText(res, resId)
 
     if (text == null) {
@@ -141,16 +123,16 @@ class ResourcesTool internal constructor(private val skinResManager: ResourcesMa
    * @return 资源URI
    */
   fun getResourcesUri(resId: Int): String {
-    val res = resources ?: throw Resources.NotFoundException()
+    val res = resManager.resources ?: throw Resources.NotFoundException()
     val resName = res.getResourceEntryName(resId)
     val resType = res.getResourceTypeName(resId)
-    val skinResId = skinResManager.getSkinResId(resName, resType)
+    val skinResId = resManager.getSkinResId(resName, resType)
 
     if (skinResId == 0) {
-      Log.e(SkinConfig.TAG, "resource R." + resType + "." + resName + " not found in package [" + skinResManager.packageName + "]")
+      Log.e(SkinConfig.TAG, "resource R." + resType + "." + resName + " not found in package [" + resManager.packageName + "]")
       return PREFIX_RES + res.getResourcePackageName(resId) + "/" + resId
     }
-    return PREFIX_RES + skinResManager.packageName + "/" + skinResId
+    return PREFIX_RES + resManager.packageName + "/" + skinResId
   }
 
   @ColorInt
@@ -159,28 +141,28 @@ class ResourcesTool internal constructor(private val skinResManager: ResourcesMa
     val resName = res.getResourceEntryName(resId)
     val type = res.getResourceTypeName(resId)
 
-    return skinResManager.getColor(resName, type)
+    return resManager.getColor(resName, type)
   }
 
   private fun getSkinDrawable(res: Resources, @DrawableRes resId: Int): Drawable? {
     val resName = res.getResourceEntryName(resId)
     val type = res.getResourceTypeName(resId)
 
-    return skinResManager.getDrawableByName(resName, type)
+    return resManager.getDrawableByName(resName, type)
   }
 
   private fun getSkinColorStateList(res: Resources, @ColorRes resId: Int): ColorStateList? {
     val resName = res.getResourceEntryName(resId)
     val type = res.getResourceTypeName(resId)
 
-    return skinResManager.getColorStateList(resName, type)
+    return resManager.getColorStateList(resName, type)
   }
 
   private fun getSkinText(res: Resources, @StringRes resId: Int): String? {
     val resName = res.getResourceEntryName(resId)
     val type = res.getResourceTypeName(resId)
 
-    return skinResManager.getString(resName, type)
+    return resManager.getString(resName, type)
   }
 
   companion object {

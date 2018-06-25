@@ -21,6 +21,7 @@ package com.ijoic.skin.extend
 import android.support.annotation.AnyRes
 import android.util.Log
 import android.view.View
+import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.constant.SkinConfig
 import com.ijoic.skin.getSkinInfo
@@ -36,12 +37,14 @@ object SkinTool {
   /**
    * 填充皮肤TAG
    *
+   * @param skinTag skin tag.
    * @param view 视图
    * @param resId 资源ID
    * @param type 属性类型
    */
   @JvmStatic
-  fun fillTag(view: View, @AnyRes resId: Int, type: String) {
+  @JvmOverloads
+  fun fillTag(skinTag: String? = null, view: View, @AnyRes resId: Int, type: String) {
     val context = view.context
 
     if (context == null) {
@@ -49,18 +52,19 @@ object SkinTool {
       return
     }
     val resName = context.resources.getResourceEntryName(resId) ?: return
-    fillTag(view, resName, type)
+    fillTag(skinTag, view, resName, type)
   }
 
   /**
    * 填充皮肤TAG
    *
+   * @param skinTag skin tag.
    * @param view 视图
    * @param resName 资源名称
    * @param type 属性类型
    */
   @JvmStatic
-  fun fillTag(view: View, resName: String, type: String) {
+  fun fillTag(skinTag: String? = null, view: View, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(type) ?: return
     val info = view.getSkinInfo()
     val item = info.getOrCreateItems().insertOrCached(type)
@@ -69,19 +73,20 @@ object SkinTool {
       this.resName = resName
       this.attr = attrType
     }
-    attrType.apply(SkinManager.resourcesManager, view, resName)
+    attrType.apply(getResManager(skinTag), view, resName)
   }
 
   /**
    * 填充皮肤TAG
    *
+   * @param skinTag skin tag.
    * @param view 视图
    * @param module module.
    * @param resName 资源名称
    * @param type 属性类型
    */
   @JvmStatic
-  fun fillTag(view: View, module: String, resName: String, type: String) {
+  fun fillTag(skinTag: String? = null, view: View, module: String, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(module, type) ?: return
     val info = view.getSkinInfo()
     val item = info.getOrCreateItems().insertOrCached(type)
@@ -90,7 +95,14 @@ object SkinTool {
       this.resName = resName
       this.attr = attrType
     }
-    attrType.apply(SkinManager.resourcesManager, view, resName)
+    attrType.apply(getResManager(skinTag), view, resName)
+  }
+
+  private fun getResManager(skinTag: String?): ResourcesManager {
+    return when(skinTag) {
+      null -> SkinManager.resourcesManager
+      else -> SkinManager.getChildManager(skinTag).resourcesManager
+    }
   }
 
 }

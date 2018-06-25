@@ -19,8 +19,7 @@
 package com.ijoic.skin.view
 
 import android.view.View
-
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ChildSkinManager
 
 /**
  * Keep view skin task.
@@ -33,11 +32,11 @@ import com.ijoic.skin.SkinManager
  */
 internal object KeepViewSkinTask: SkinTask<View> {
 
-  override fun performSkinChange(compat: View) {
+  override fun performSkinChange(manager: ChildSkinManager, compat: View) {
     if (compat.parent != null) {
       return
     }
-    SkinManager.injectSkin(compat)
+    manager.injectSkin(compat)
   }
 
 }

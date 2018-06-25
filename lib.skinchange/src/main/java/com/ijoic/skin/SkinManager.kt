@@ -22,6 +22,8 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.view.View
+import com.ijoic.ktx.util.getOrCreate
+import com.ijoic.ktx.util.weak.weak
 import com.ijoic.skin.callback.SkinChangeCallback
 import com.ijoic.skin.edit.SkinEditor
 
@@ -79,6 +81,7 @@ import com.ijoic.skin.edit.SkinEditor
  */
 object SkinManager {
 
+  internal var context: Context? by weak()
   private val currentManager = ChildSkinManager()
 
   /**
@@ -92,7 +95,7 @@ object SkinManager {
    */
   @JvmStatic
   fun init(context: Context) {
-    currentManager.init(context)
+    this.context = context
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -101,12 +104,29 @@ object SkinManager {
    * Resources manager.
    */
   @JvmStatic
-  internal val resourcesManager = currentManager.resourcesManager
+  internal val resourcesManager: ResourcesManager
+      get() = currentManager.resourcesManager
 
   @JvmStatic
-  val resourcesTool = currentManager.resourcesTool
+  val resourcesTool: ResourcesTool
+      get() = currentManager.resourcesTool
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> child manager :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+
+  private val childMap by lazy { mutableMapOf<String, ChildSkinManager>() }
+
+  /**
+   * Returns child skin manager.
+   *
+   * @param tag manager tag.
+   */
+  fun getChildManager(tag: String): ChildSkinManager {
+    return childMap.getOrCreate(tag) { ChildSkinManager(tag) }
+  }
+
+  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> child manager :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 

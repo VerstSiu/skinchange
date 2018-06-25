@@ -18,7 +18,7 @@
 
 package com.ijoic.skinchange
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import com.ijoic.skin.SkinManager
 
 /**
@@ -27,7 +27,7 @@ import com.ijoic.skin.SkinManager
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-class SkinApplication : Application() {
+class SkinApplication : MultiDexApplication() {
 
   override fun onCreate() {
     super.onCreate()

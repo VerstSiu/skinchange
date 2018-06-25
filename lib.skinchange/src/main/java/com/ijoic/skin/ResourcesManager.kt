@@ -21,21 +21,14 @@ package com.ijoic.skin
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import java.lang.ref.WeakReference
 
 /**
  * 资源管理器
- *
- * NOTE：
- * 1. 普通资源，使用Applcaiont的Resources引用，当Application结束后，引用失效
- * 2. 插件资源，使用pluginResources保持引用，在必要的时候，主动释放资源
  *
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
 class ResourcesManager internal constructor() {
-
-  private var refResources: WeakReference<Resources>? = null
 
   /**
    * 获取资源包名称
@@ -47,23 +40,7 @@ class ResourcesManager internal constructor() {
 
   private var suffix: String = ""
 
-  // 插件资源
-  private var pluginResources: Resources? = null
-
-  internal var resources: Resources?
-    get() = refResources?.get()
-    set(res) { res?.let { setResources(it, false) } }
-
-  /**
-   * 设置资源
-   *
-   * @param res 资源
-   * @param isPluginResources 是否是插件资源
-   */
-  internal fun setResources(res: Resources, isPluginResources: Boolean) {
-    refResources = WeakReference(res)
-    pluginResources = if (isPluginResources) res else null
-  }
+  internal var resources: Resources? = null
 
   /**
    * 设置皮肤信息
@@ -258,15 +235,6 @@ class ResourcesManager internal constructor() {
     return getString(resName, TYPE_STRING)
   }
 
-  /**
-   * 释放资源（如果存在）
-   */
-  fun free() {
-    if (pluginResources != null) {
-      pluginResources = null
-    }
-  }
-
   private fun appendSuffix(resName: String) = "$resName$suffix"
 
   companion object {
@@ -275,6 +243,8 @@ class ResourcesManager internal constructor() {
     private const val TYPE_COLOR = "color"
     private const val TYPE_MIPMAP = "mipmap"
     private const val TYPE_STRING = "string"
+
+    internal val blank = ResourcesManager()
   }
 
 }

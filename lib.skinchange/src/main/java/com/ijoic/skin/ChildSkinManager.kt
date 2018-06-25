@@ -18,22 +18,20 @@
 package com.ijoic.skin
 
 import android.arch.lifecycle.Lifecycle
-import android.content.Context
-import android.content.pm.PackageManager
-import android.content.res.AssetManager
-import android.content.res.Resources
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.view.View
+import com.ijoic.ktx.guava.cache.weakCache
 import com.ijoic.ktx.rxjava.execute
+import com.ijoic.ktx.util.getOrCreate
 import com.ijoic.skin.attr.SkinAttrSupport
 import com.ijoic.skin.callback.SkinChangeCallback
 import com.ijoic.skin.edit.SkinEditor
 import com.ijoic.skin.edit.SkinEditorManager
+import com.ijoic.skin.res.ResFactory
 import com.ijoic.skin.view.ActivitySkinTask
 import com.ijoic.skin.view.FragmentSkinTask
-import java.io.File
-import java.lang.ref.WeakReference
+import java.util.concurrent.TimeUnit
 
 /**
  * Child skin manager.
@@ -41,140 +39,32 @@ import java.lang.ref.WeakReference
  * @author verstsiu on 2018/6/23.
  * @version 2.0
  */
-internal class ChildSkinManager {
+class ChildSkinManager internal constructor(private val tag: String? = null) {
 
-  private var refContext: WeakReference<Context>? = null
-  private var skinPrefs: SkinPreference? = null
+  private val skinPrefs by weakCache(10, TimeUnit.SECONDS) {
+    val context = SkinManager.context
 
-  private val context: Context?
-      get() = refContext?.get()
-
-  /**
-   * Initialize.
-   *
-   * <p>Do invoke this method on your custom Application's onCreate method.</p>
-   *
-   * @param context context.
-   *
-   * @see android.app.Application
-   */
-  fun init(context: Context) {
-    val appContext = context.applicationContext
-    resourcesTool.setContext(appContext)
-    refContext = WeakReference(appContext)
-
-    restoreSkinInfo(context)
-  }
-
-  private fun restoreSkinInfo(context: Context) {
-    val prefs = createSkinPreference(context)
-
-    if (prefs.pluginEnabled) {
-      val pluginPath = prefs.pluginPath
-      val pluginPackage = prefs.pluginPackage
-      val pluginSuffix = prefs.pluginSuffix
-
-      if (pluginPackage != null && initPlugin(pluginPath, pluginPackage, pluginSuffix)) {
-        upgradeSkinId(pluginPackage, pluginSuffix)
-      } else {
-        prefs.pluginEnabled = false
-        upgradeSkinId(prefs.suffix)
-        resetResourcesManager()
-      }
-    } else {
-      upgradeSkinId(prefs.suffix)
-      resetResourcesManager()
+    when {
+      context != null -> SkinPreference(context, tag)
+      else -> null
     }
   }
 
-  private fun createSkinPreference(context: Context): SkinPreference {
-    return SkinPreference(context).apply {
-      skinPrefs = this
-    }
-  }
-
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+  private var currResManager: ResourcesManager? = null
+  private var currResTool: ResourcesTool? = null
 
   /**
    * Resources manager.
    */
-  internal val resourcesManager = ResourcesManager()
+  internal val resourcesManager: ResourcesManager
+      get() = this::currResManager.getOrCreate { initResourcesManager() }
 
-  val resourcesTool = ResourcesTool(resourcesManager)
-
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> resources :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
-
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> plugin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
-
-  private fun initPlugin(path: String?, packageName: String?, suffix: String?): Boolean {
-    if (path == null || packageName == null || !isValidPluginParams(path, packageName)) {
-      return false
-    }
-
-    return try {
-      loadPlugin(path, packageName, suffix)
-      true
-    } catch (e: Exception) {
-      e.printStackTrace()
-      clearPluginInfo()
-      false
-    }
-  }
-
-  /**
-   * Check plugin params.
-   *
-   * Pass conditions:
-   * 1. path, packageName not empty.
-   * 2. plugin package exist.
-   * 3. packageName == [path file].packageName
-   *
-   * @param path plugin path.
-   * @param packageName plugin package name.
-   */
-  private fun isValidPluginParams(path: String?, packageName: String?): Boolean {
-    // check path format
-    if (path == null || path.isBlank() || packageName == null || packageName.isBlank()) {
-      return false
-    }
-    // check plugin file exist
-    if (!File(path).exists()) {
-      return false
-    }
-
-    // check package info
-    return checkPackageExist(path, packageName)
-  }
-
-  private fun checkPackageExist(path: String, packageName: String): Boolean {
-    val context = this.context ?: return false
-    val pm = context.packageManager
-    val info = pm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES)
-    return packageName == info.packageName
-  }
-
-  @Throws(Exception::class)
-  private fun loadPlugin(path: String, packageName: String, suffix: String?) {
-    val context = this.context ?: return
-    val manager = AssetManager::class.java.newInstance()
-    val addAssetPath = manager.javaClass.getMethod("addAssetPath", String::class.java)
-    addAssetPath.invoke(manager, path)
-
-    val superRes = context.resources
-    val res = Resources(manager, superRes.displayMetrics, superRes.configuration)
-
-    resourcesManager.apply {
-      setResources(res, true)
-      setSkinInfo(packageName, suffix)
-    }
-    updatePluginInfo(path, packageName, suffix)
-  }
-
-  /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> plugin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
+  val resourcesTool: ResourcesTool
+      get() = this::currResTool.getOrCreate { ResourcesTool(resourcesManager) }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
-  private val editManager by lazy { SkinEditorManager() }
+  private val editManager by lazy { SkinEditorManager(this) }
 
   /**
    * Returns skin editor for expected lifecycle.
@@ -216,8 +106,16 @@ internal class ChildSkinManager {
   /**
    * Skin suffix.
    */
-  var skinSuffix: String? = null
-    private set
+  val skinSuffix: String?
+    get() {
+      val prefs = skinPrefs
+
+      return when {
+        prefs == null -> null
+        prefs.pluginEnabled -> prefs.pluginSuffix
+        else -> prefs.suffix
+      }
+    }
 
   /**
    * Skin id.
@@ -231,7 +129,6 @@ internal class ChildSkinManager {
    */
   private fun upgradeSkinId(suffix: String?) {
     skinId = suffix
-    skinSuffix = suffix
   }
 
   /**
@@ -242,7 +139,6 @@ internal class ChildSkinManager {
    */
   private fun upgradeSkinId(pluginPackage: String, pluginSuffix: String?) {
     skinId = "$pluginPackage:${pluginSuffix.orEmpty()}"
-    skinSuffix = pluginSuffix
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> skin info :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -258,6 +154,7 @@ internal class ChildSkinManager {
     clearPluginInfo() // clear before
 
     skinPrefs?.apply {
+      this.pluginEnabled = false
       this.suffix = suffix
       upgradeSkinId(suffix)
       resetResourcesManager()
@@ -275,48 +172,31 @@ internal class ChildSkinManager {
    */
   @JvmOverloads
   fun changeSkin(path: String?, packageName: String?, suffix: String? = null, callback: SkinChangeCallback? = null) {
-    val skinCallback = callback ?: SkinChangeCallback.DEFAULT_CALLBACK
-    skinCallback.onStart()
+    val prefs = this.skinPrefs ?: return
 
-    if (path == null || packageName == null || !isValidPluginParams(path, packageName)) {
-      skinCallback.onError("invalid plugin path or package")
-      return
-    }
+    prefs.pluginEnabled = true
+    prefs.pluginPath = path
+    prefs.pluginPackage = packageName
+    prefs.pluginSuffix = suffix
 
     execute({
-      try {
-        loadPlugin(path, packageName, suffix)
-        true
-      } catch (e: Exception) {
-        e.printStackTrace()
-        false
-      }
+      resetResourcesManager()
+      prefs.pluginEnabled
+
     }, { initSuccess ->
       if (!initSuccess) {
-        skinCallback.onError("load plugin occur error")
+        callback?.onError("load plugin occur error")
 
       } else {
         try {
           notifyChangedListeners()
-          skinCallback.onComplete()
+          callback?.onComplete()
         } catch (e: Exception) {
           e.printStackTrace()
-          skinCallback.onError(e.message ?: "")
+          callback?.onError(e.message ?: "")
         }
       }
     })
-  }
-
-  private fun updatePluginInfo(path: String, packageName: String, suffix: String? = null) {
-    val prefs = skinPrefs ?: throw IllegalArgumentException("skin preference not found")
-
-    prefs.apply {
-      pluginEnabled = true
-      pluginPath = path
-      pluginPackage = packageName
-      pluginSuffix = suffix
-    }
-    upgradeSkinId(packageName, suffix)
   }
 
   /**
@@ -334,16 +214,48 @@ internal class ChildSkinManager {
   }
 
   private fun resetResourcesManager() {
-    val context = this.context ?: return
-
-    resourcesManager.apply {
-      setResources(context.resources, false)
-      setSkinInfo(context.packageName, skinSuffix)
-    }
+    currResManager = initResourcesManager()
+    currResTool = null
   }
 
   private fun notifyChangedListeners() {
     editManager.performSkinChange(skinId)
+  }
+
+  private fun initResourcesManager(): ResourcesManager {
+    val context = SkinManager.context
+    val prefs = this.skinPrefs
+    var resManager: ResourcesManager? = null
+
+    if (context != null && prefs != null) {
+      val pluginPath: String?
+      val pluginPackage: String?
+      val pluginSuffix: String?
+
+      if (prefs.pluginEnabled) {
+        pluginPath = prefs.pluginPath
+        pluginPackage = prefs.pluginPackage
+        pluginSuffix = prefs.pluginSuffix
+      } else {
+        pluginPath = null
+        pluginPackage = null
+        pluginSuffix = null
+      }
+      val res = ResFactory.getResources(context,pluginPath, pluginPackage, onError = { prefs.pluginEnabled = false })
+
+      resManager = when {
+        prefs.pluginEnabled && pluginPackage != null -> {
+          upgradeSkinId(pluginPackage, pluginSuffix)
+          ResFactory.getResManager(res, pluginPackage, pluginSuffix)
+        }
+        else -> {
+          val suffix = prefs.suffix
+          upgradeSkinId(suffix)
+          ResFactory.getResManager(res, context.packageName, suffix)
+        }
+      }
+    }
+    return resManager ?: ResourcesManager.blank
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> change skin :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */

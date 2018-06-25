@@ -18,6 +18,8 @@
 
 package com.ijoic.skin.view
 
+import com.ijoic.skin.ChildSkinManager
+
 /**
  * 换肤任务
  *
@@ -29,8 +31,9 @@ interface SkinTask<in T> {
   /**
    * 执行换肤
    *
-   * @param compat 组件
+   * @param manager child skin manager.
+   * @param compat compat.
    */
-  fun performSkinChange(compat: T)
+  fun performSkinChange(manager: ChildSkinManager, compat: T)
 
 }

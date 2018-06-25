@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright(c) 2017 VerstSiu
+ *  Copyright(c) 2018 VerstSiu
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,24 +15,17 @@
  *  limitations under the License.
  *
  */
-
-package com.ijoic.skin.view
-
-import android.app.Activity
-import android.view.View
-import com.ijoic.skin.ChildSkinManager
+package com.ijoic.skinchange.test.base.constants
 
 /**
- * 活动换肤任务
+ * Skin child
  *
- * @author ijoic verstlim@126.com
- * @version 1.0.4
+ * @author verstsiu on 2018/6/25.
+ * @version 2.0
  */
-internal object ActivitySkinTask: SkinTask<Activity> {
-
-  override fun performSkinChange(manager: ChildSkinManager, compat: Activity) {
-    val contentView = compat.findViewById<View>(android.R.id.content) ?: return
-    manager.injectSkin(contentView)
-  }
-
+object SkinChild {
+  /**
+   * Partial.
+   */
+  const val PARTIAL = "partial"
 }

@@ -19,7 +19,7 @@
 package com.ijoic.skin.view
 
 import android.support.v4.app.Fragment
-import com.ijoic.skin.SkinManager
+import com.ijoic.skin.ChildSkinManager
 
 /**
  * 碎片换肤任务
@@ -29,9 +29,9 @@ import com.ijoic.skin.SkinManager
  */
 internal object FragmentSkinTask: SkinTask<Fragment> {
 
-  override fun performSkinChange(compat: Fragment) {
+  override fun performSkinChange(manager: ChildSkinManager, compat: Fragment) {
     val contentView = compat.view ?: return
-    SkinManager.injectSkin(contentView)
+    manager.injectSkin(contentView)
   }
 
 }
