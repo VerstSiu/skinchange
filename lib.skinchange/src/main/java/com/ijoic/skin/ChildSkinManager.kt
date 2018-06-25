@@ -39,7 +39,9 @@ import java.util.concurrent.TimeUnit
  * @author verstsiu on 2018/6/23.
  * @version 2.0
  */
-class ChildSkinManager internal constructor(private val tag: String? = null) {
+class ChildSkinManager internal constructor(
+    private val tag: String? = null,
+    private val parent: ChildSkinManager? = null) {
 
   private val skinPrefs by weakCache(10, TimeUnit.SECONDS) {
     val context = SkinManager.context
@@ -57,10 +59,52 @@ class ChildSkinManager internal constructor(private val tag: String? = null) {
    * Resources manager.
    */
   internal val resourcesManager: ResourcesManager
-      get() = this::currResManager.getOrCreate { initResourcesManager() }
+      get() = matchFollowParent(
+          { it.resourcesManager },
+          { this::currResManager.getOrCreate { initResourcesManager() } }
+      )
 
   val resourcesTool: ResourcesTool
-      get() = this::currResTool.getOrCreate { ResourcesTool(resourcesManager) }
+      get() = matchFollowParent(
+          { it.resourcesTool },
+          { this::currResTool.getOrCreate { ResourcesTool(resourcesManager) } }
+      )
+
+  /**
+   * Follow parent status.
+   *
+   * <p>Use <code>followParent = false</code> or <p>changeSkin(suffix)</p> to toggle
+   * follow parent status.</p>
+   */
+  var followParent: Boolean
+      get() = skinPrefs?.followParent ?: false
+      set(value) {
+        val oldValue = this::followParent.get()
+
+        if (value != oldValue) {
+          if (value) {
+            skinPrefs?.followParent = true
+            notifyChangedListeners()
+          } else {
+            skinPrefs?.followParent = false
+            changeSkin(null)
+          }
+        }
+      }
+
+  /**
+   * Match follow parent.
+   *
+   * @param onTrue picker: fun(parent).
+   * @param onFalse picker: fun().
+   * @return pick result.
+   */
+  private fun<T> matchFollowParent(onTrue: (ChildSkinManager) -> T, onFalse: () -> T): T {
+    return when {
+      followParent && parent != null -> onTrue(parent)
+      else -> onFalse()
+    }
+  }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> register/unregister skin :start <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
 
@@ -107,20 +151,29 @@ class ChildSkinManager internal constructor(private val tag: String? = null) {
    * Skin suffix.
    */
   val skinSuffix: String?
-    get() {
-      val prefs = skinPrefs
+    get() = matchFollowParent(
+        { it.skinSuffix },
+        {
+          val prefs = skinPrefs
 
-      return when {
-        prefs == null -> null
-        prefs.pluginEnabled -> prefs.pluginSuffix
-        else -> prefs.suffix
-      }
-    }
+          when {
+            prefs == null -> null
+            prefs.pluginEnabled -> prefs.pluginSuffix
+            else -> prefs.suffix
+          }
+        }
+    )
+
+  private var currSkinId: String? = null
 
   /**
    * Skin id.
    */
-  internal var skinId: String? = null
+  internal val skinId: String?
+      get() = matchFollowParent(
+          { it.skinId },
+          { currSkinId }
+      )
 
   /**
    * Upgrade skin id.
@@ -128,7 +181,7 @@ class ChildSkinManager internal constructor(private val tag: String? = null) {
    * @param suffix suffix.
    */
   private fun upgradeSkinId(suffix: String?) {
-    skinId = suffix
+    currSkinId = suffix
   }
 
   /**
@@ -138,7 +191,7 @@ class ChildSkinManager internal constructor(private val tag: String? = null) {
    * @param pluginSuffix plugin suffix.
    */
   private fun upgradeSkinId(pluginPackage: String, pluginSuffix: String?) {
-    skinId = "$pluginPackage:${pluginSuffix.orEmpty()}"
+    currSkinId = "$pluginPackage:${pluginSuffix.orEmpty()}"
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> skin info :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */
@@ -154,6 +207,7 @@ class ChildSkinManager internal constructor(private val tag: String? = null) {
     clearPluginInfo() // clear before
 
     skinPrefs?.apply {
+      this.followParent = false
       this.pluginEnabled = false
       this.suffix = suffix
       upgradeSkinId(suffix)
@@ -174,10 +228,13 @@ class ChildSkinManager internal constructor(private val tag: String? = null) {
   fun changeSkin(path: String?, packageName: String?, suffix: String? = null, callback: SkinChangeCallback? = null) {
     val prefs = this.skinPrefs ?: return
 
-    prefs.pluginEnabled = true
-    prefs.pluginPath = path
-    prefs.pluginPackage = packageName
-    prefs.pluginSuffix = suffix
+    prefs.apply {
+      followParent = false
+      pluginEnabled = true
+      pluginPath = path
+      pluginPackage = packageName
+      pluginSuffix = suffix
+    }
 
     execute({
       resetResourcesManager()

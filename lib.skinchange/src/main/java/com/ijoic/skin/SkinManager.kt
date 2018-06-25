@@ -123,7 +123,7 @@ object SkinManager {
    * @param tag manager tag.
    */
   fun getChildManager(tag: String): ChildSkinManager {
-    return childMap.getOrCreate(tag) { ChildSkinManager(tag) }
+    return childMap.getOrCreate(tag) { ChildSkinManager(tag, currentManager) }
   }
 
   /* <>-<>-<>-<>-<>-<>-<>-<>-<>-<> child manager :end <>-<>-<>-<>-<>-<>-<>-<>-<>-<> */

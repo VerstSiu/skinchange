@@ -43,6 +43,11 @@ internal class SkinPreference(context: Context, tag: String? = null) {
   }
 
   /**
+   * Follow parent status.
+   */
+  internal var followParent: Boolean by bindBoolean("follow_parent", true)
+
+  /**
    * Plugin enabled.
    */
   internal var pluginEnabled: Boolean by bindBoolean("plugin_enabled")
