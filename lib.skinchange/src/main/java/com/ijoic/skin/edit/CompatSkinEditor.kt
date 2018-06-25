@@ -18,6 +18,8 @@
 package com.ijoic.skin.edit
 
 import android.view.View
+import com.ijoic.skin.ChildSkinManager
+import com.ijoic.skin.SkinManager
 import com.ijoic.skin.view.SkinCompat
 import com.ijoic.skin.view.SkinTask
 
@@ -107,6 +109,10 @@ internal interface CompatSkinEditor: SkinEditor {
 
       override fun clearCompatItems() {
         // do nothing.
+      }
+
+      override fun getSkinManager(): ChildSkinManager {
+        return SkinManager.currentManager
       }
     }
   }

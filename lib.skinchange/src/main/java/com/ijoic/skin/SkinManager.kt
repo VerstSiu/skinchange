@@ -82,7 +82,7 @@ import com.ijoic.skin.edit.SkinEditor
 object SkinManager {
 
   internal var context: Context? by weak()
-  private val currentManager = ChildSkinManager()
+  internal val currentManager = ChildSkinManager()
 
   /**
    * Initialize.
