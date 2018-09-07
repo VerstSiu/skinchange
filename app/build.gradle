@@ -46,7 +46,7 @@ dependencies {
     androidTestImplementation project.depend_test_espresso
 
     implementation project.depend_support_appCompatV7
-    implementation project.depend_support_recyclerviewV7
+    implementation project.depend_support_recyclerView
     implementation project.depend_support_v4
     implementation project.depend_support_design
     implementation project.depend_support_constraintLayout
@@ -55,7 +55,7 @@ dependencies {
     implementation project.depend_arch_lifecycle
     kapt compiler_arch_lifecycle
 
-    implementation project.depend_frame_pager
+    implementation project.depend_verst_frame_pager
 
     implementation project(':lib.skinchange')
     implementation project(':skin.default')

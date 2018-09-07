@@ -1,0 +1,39 @@
+ext {
+
+    compileSdkVersion = 27
+    minSdkVersion = 16
+    targetSdkVersion = 23
+    versionCode = 13
+    versionName = "2.0-beta"
+
+    support_version = '27.1.1'
+    arch_version = '1.1.1'
+
+    depend_arch_lifecycle = "android.arch.lifecycle:extensions:$arch_version"
+
+    depend_support_appCompatV7 = "com.android.support:appcompat-v7:$support_version"
+    depend_support_recyclerView = "com.android.support:recyclerview-v7:$support_version"
+    depend_support_v4 = "com.android.support:support-v4:$support_version"
+    depend_support_design = "com.android.support:design:$support_version"
+    depend_support_constraintLayout = 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    depend_kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    depend_verst_frame_pager = 'com.github.VerstSiu:archit_test:1.0-beta'
+    depend_verst_ktx = 'com.github.VerstSiu.kotlin_extension:ktx:1.0'
+    depend_verst_ktxGuava = 'com.github.VerstSiu.kotlin_extension:ktx-guava:1.0'
+    depend_verst_ktxRxJava = 'com.github.VerstSiu.kotlin_extension:ktx-rxjava:1.0'
+
+    // carbon: https://github.com/ZieIony/Carbon
+    depend_zielony_carbon = 'tk.zielony:carbon:0.15.0.1'
+
+    // test implementation
+    depend_junit = 'junit:junit:4.12'
+
+    // android test implementation
+    depend_test_runner = 'com.android.support.test:runner:1.0.2'
+    depend_test_espresso = 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // kapt
+    compiler_arch_lifecycle = "android.arch.lifecycle:compiler:$arch_version"
+}
