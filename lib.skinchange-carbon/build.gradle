@@ -25,13 +25,14 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
+    compileOnly project.depend_zielony_carbon
+
     testImplementation project.depend_junit
     androidTestImplementation project.depend_test_runner
     androidTestImplementation project.depend_test_espresso
 
     implementation project.depend_support_appCompatV7
     implementation project.depend_kotlin
-    implementation project.depend_zielony_carbon
 
     implementation project(':lib.skinchange')
 }
