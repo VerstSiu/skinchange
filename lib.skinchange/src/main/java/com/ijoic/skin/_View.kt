@@ -71,7 +71,7 @@ private fun getSkinItemMap(tag: String?): SkinItemMap? {
 }
 
 private fun String.forEachAttr(action: (String, String) -> Unit) {
-  val segments = split("|")
+  val segments = this.trim().split("|")
 
   segments.forEach {
     if (it.startsWith(SkinConfig.SKIN_PREFIX)) {
