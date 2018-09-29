@@ -1,0 +1,14 @@
+
+rd.ijoic.skin
++--- SkinConfig
+|    +---- val suffix: String?
+|    +---- val pluginEnabled: Boolean
+|    +---- val pluginName: String?
+|    +---- val pluginPath: String?
+|    +---- val pluginPackage: String?
+|    +---- val pluginSuffix: String?
++--- SkinManager
+|    +---- fun getConfig([style: String?])
+|    +---- fun init(activity: FragmentActivity[, style: String?])
+|    +---- fun attachStyle(group: String, style: String?)
+|    +---- fun changeSkin(suffix: String[, style: String?])

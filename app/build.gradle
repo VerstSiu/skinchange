@@ -61,4 +61,8 @@ dependencies {
     implementation project(':skin.default')
     implementation project(':skin.red')
     implementation project(':lib.skinchange-carbon')
+
+    implementation(project.depend_verst_ktx) {
+        force = true
+    }
 }

@@ -20,7 +20,7 @@ ext {
     depend_kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     depend_verst_frame_pager = 'com.github.VerstSiu:archit_test:1.0-beta'
-    depend_verst_ktx = 'com.github.VerstSiu.kotlin_extension:ktx:1.0'
+    depend_verst_ktx = 'com.github.VerstSiu.kotlin_extension:ktx:prefs-source-SNAPSHOT'
     depend_verst_ktxGuava = 'com.github.VerstSiu.kotlin_extension:ktx-guava:1.0'
     depend_verst_ktxRxJava = 'com.github.VerstSiu.kotlin_extension:ktx-rxjava:1.0'
 

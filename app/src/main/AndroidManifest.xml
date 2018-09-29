@@ -53,6 +53,8 @@
       android:name=".test.partial.PartialTestActivity"
       android:label="@string/case_partial"/>
 
+    <activity android:name="rd.ijoic.skinchange.SimpleActivity"/>
+
   </application>
 
 </manifest>

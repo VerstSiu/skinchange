@@ -36,7 +36,10 @@ dependencies {
     implementation project.depend_arch_lifecycle
     kapt project.compiler_arch_lifecycle
 
-    implementation project.depend_verst_ktx
+    implementation(project.depend_verst_ktx) {
+        force = true
+    }
+
     implementation project.depend_verst_ktxGuava
     implementation project.depend_verst_ktxRxJava
 }
