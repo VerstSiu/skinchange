@@ -91,6 +91,10 @@ internal interface CompatSkinEditor: SkinEditor {
         // do nothing.
       }
 
+      override fun stickyRegister(view: View) {
+        // do nothing.
+      }
+
       override fun getCompatItems(): List<SkinCompat<*>> {
         return emptyList()
       }
