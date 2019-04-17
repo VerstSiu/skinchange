@@ -21,6 +21,7 @@ import android.arch.lifecycle.Lifecycle
 import android.view.View
 import com.ijoic.skin.ChildSkinManager
 import com.ijoic.skin.view.KeepViewSkinTask
+import com.ijoic.skin.view.RegisteredViewSkinTask
 import com.ijoic.skin.view.SkinCompat
 import com.ijoic.skin.view.SkinTask
 
@@ -97,6 +98,11 @@ internal class CompatSkinEditorImpl(private val manager: ChildSkinManager): Comp
 
   override fun stickyInjectSkin(view: View) {
     onAddTask(view, KeepViewSkinTask)
+    injectSkin(view)
+  }
+
+  override fun stickyRegister(view: View) {
+    onAddTask(view, RegisteredViewSkinTask)
     injectSkin(view)
   }
 

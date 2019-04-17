@@ -69,6 +69,11 @@ interface SkinEditor {
   fun stickyInjectSkin(view: View)
 
   /**
+   * Register and perform dynamic skin change with [view]
+   */
+  fun stickyRegister(view: View)
+
+  /**
    * Returns child skin manager.
    */
   fun getSkinManager(): ChildSkinManager
