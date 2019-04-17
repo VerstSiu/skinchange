@@ -34,6 +34,8 @@ import com.ijoic.skin.getSkinInfo
  */
 object SkinTool {
 
+  /* -- fill tag :begin -- */
+
   /**
    * 填充皮肤TAG
    *
@@ -48,7 +50,7 @@ object SkinTool {
     val context = view.context
 
     if (context == null) {
-      Log.i(SkinConfig.TAG, "invalid skin view [" + view.toString() + "], context not found")
+      Log.i(SkinConfig.TAG, "invalid skin view [$view], context not found")
       return
     }
     val resName = context.resources.getResourceEntryName(resId) ?: return
@@ -97,6 +99,32 @@ object SkinTool {
     }
     attrType.apply(getResManager(skinTag), view, resName)
   }
+
+  /* -- fill tag :end -- */
+
+  /* -- remove tag :begin -- */
+
+  /**
+   * 移除皮肤TAG
+   *
+   * @param view 视图
+   * @param type 属性类型
+   *
+   * @see AttrTypes
+   */
+  @JvmStatic
+  fun removeTag(view: View, type: String) {
+    val context = view.context
+
+    if (context == null) {
+      Log.i(SkinConfig.TAG, "invalid skin view [$view], context not found")
+      return
+    }
+    val info = view.getSkinInfo()
+    info.getOrCreateItems().remove(type)
+  }
+
+  /* -- remove tag :end -- */
 
   private fun getResManager(skinTag: String?): ResourcesManager {
     return when(skinTag) {
