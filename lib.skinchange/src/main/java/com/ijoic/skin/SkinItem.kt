@@ -29,7 +29,9 @@ import com.ijoic.skin.attr.SkinAttrType
 internal class SkinItem private constructor(
     var resName: String? = null,
     var resType: String? = null,
-    var attr: SkinAttrType? = null) {
+    var attr: SkinAttrType? = null,
+    var resource: Any? = null
+) {
 
   companion object {
     private val instancePool = Pools.SynchronizedPool<SkinItem>(200)
@@ -47,7 +49,9 @@ internal class SkinItem private constructor(
     fun release(item: SkinItem) {
       item.apply {
         resName = null
+        resType = null
         attr = null
+        resource = null
       }
       instancePool.release(item)
     }

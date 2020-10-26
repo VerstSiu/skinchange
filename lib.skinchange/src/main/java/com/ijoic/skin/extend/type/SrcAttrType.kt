@@ -18,10 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 图片资源属性类型
@@ -29,17 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-internal object SrcAttrType : SkinAttrType {
+internal object SrcAttrType : DrawableAttrType<ImageView>(ImageView::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is ImageView) {
-      return
-    }
-    val d = rm.getDrawableByName(resName)
-
-    if (d != null) {
-      view.setImageDrawable(d)
-    }
+  override fun applyDrawable(view: ImageView, drawable: Drawable) {
+    view.setImageDrawable(drawable)
   }
 
 }

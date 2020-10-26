@@ -18,11 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.os.Build
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.Spinner
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 下拉背景属性类型
@@ -30,16 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.8
  */
-internal object PopupBackgroundAttrType : SkinAttrType {
+internal object PopupBackgroundAttrType : DrawableAttrType<Spinner>(Spinner::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is Spinner) {
-      return
-    }
-    val d = rm.getDrawableByName(resName)
-
-    if (d != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      view.setPopupBackgroundDrawable(d)
-    }
+  override fun applyDrawable(view: Spinner, drawable: Drawable) {
+    view.setPopupBackgroundDrawable(drawable)
   }
+
 }

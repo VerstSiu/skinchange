@@ -18,10 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.ProgressBar
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 不定进度图片属性类型
@@ -29,14 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-internal object IndeterminateDrawableAttrType : SkinAttrType {
+internal object IndeterminateDrawableAttrType : DrawableAttrType<ProgressBar>(ProgressBar::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is ProgressBar) {
-      return
-    }
-    val d = rm.getDrawableByName(resName) ?: return
-
-    view.indeterminateDrawable = d
+  override fun applyDrawable(view: ProgressBar, drawable: Drawable) {
+    view.indeterminateDrawable = drawable
   }
+
 }

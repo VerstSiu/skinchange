@@ -31,6 +31,7 @@ import com.ijoic.skin.edit.SkinEditorManager
 import com.ijoic.skin.res.ResFactory
 import com.ijoic.skin.view.ActivitySkinTask
 import com.ijoic.skin.view.FragmentSkinTask
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -328,10 +329,23 @@ class ChildSkinManager internal constructor(
    */
   fun injectSkin(view: View) {
     val skinId = this.skinId
-    val skinViews = SkinAttrSupport.getSkinViews(view, skinId)
+    MainScope().launch {
+      // measure skin views
+      val skinViews = withContext(Dispatchers.IO) {
+        SkinAttrSupport.getSkinViews(view, skinId)
+      }
 
-    skinViews.forEach {
-      it.apply(skinId, resourcesManager)
+      // prepare resources
+      withContext(Dispatchers.IO) {
+        skinViews.forEach {
+          it.prepareResource(skinId, resourcesManager)
+        }
+      }
+
+      // apply resources
+      skinViews.forEach {
+        it.applyResource()
+      }
     }
   }
 

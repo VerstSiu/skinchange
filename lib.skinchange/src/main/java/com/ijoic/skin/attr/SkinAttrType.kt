@@ -19,6 +19,7 @@ package com.ijoic.skin.attr
 
 import android.view.View
 import com.ijoic.skin.ResourcesManager
+import kotlin.jvm.Throws
 
 /**
  * 皮肤属性类型
@@ -27,14 +28,16 @@ import com.ijoic.skin.ResourcesManager
  * @version 1.0
  */
 interface SkinAttrType {
+  /**
+   * Prepare resource value
+   */
+  @Throws(Exception::class)
+  fun prepareResource(rm: ResourcesManager, resName: String): Any?
 
   /**
-   * Apply skin.
+   * Apply resource value
    *
-   * @param rm resources manager.
-   * @param view skin view.
-   * @param resName res name.
+   * @param view skin view
    */
-  fun apply(rm: ResourcesManager, view: View, resName: String)
-
+  fun apply(view: View, resource: Any)
 }

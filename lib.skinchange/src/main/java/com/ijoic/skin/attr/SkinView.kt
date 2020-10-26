@@ -33,15 +33,7 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
 
   private val viewRef: WeakReference<View> = WeakReference(view)
 
-  /**
-   * 应用皮肤
-   *
-   * @param skinId skin id.
-   * @param rm resources manager.
-   */
-  internal fun apply(skinId: String?, rm: ResourcesManager) {
-    val view = viewRef.get() ?: return
-
+  internal fun prepareResource(skinId: String?, rm: ResourcesManager) {
     info.apply {
       this.skinId = skinId
       items?.forEachValue {
@@ -49,7 +41,27 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
         val attr = it.attr
 
         if (resName != null && attr != null) {
-          attr.apply(rm, view, resName)
+          it.resource = attr.runCatching { prepareResource(rm, resName) }.getOrNull()
+        }
+      }
+    }
+  }
+
+  /**
+   * 应用皮肤
+   */
+  internal fun applyResource() {
+    val view = viewRef.get() ?: return
+
+    info.apply {
+      this.skinId = skinId
+      items?.forEachValue {
+        val resource = it.resource
+        val attr = it.attr
+
+        if (resource != null && attr != null) {
+          it.resource = null
+          attr.apply(view, resource)
         }
       }
     }

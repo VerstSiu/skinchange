@@ -23,6 +23,7 @@ import android.view.View
 import android.widget.TextView
 import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.SimpleColorAttrType
 
 /**
  * 高亮文字颜色属性类型
@@ -30,19 +31,15 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-internal object TextColorHighlightAttrType : SkinAttrType {
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is TextView) {
-      return
-    }
+internal object TextColorHighlightAttrType : SimpleColorAttrType<TextView>(TextView::class.java) {
 
+  override fun applyColor(view: TextView, color: Int) {
     try {
-      val highlightColor = rm.getColor(resName)
-      view.highlightColor = highlightColor
+      view.highlightColor = color
 
     } catch (e: Resources.NotFoundException) {
       e.printStackTrace()
     }
-
   }
+
 }

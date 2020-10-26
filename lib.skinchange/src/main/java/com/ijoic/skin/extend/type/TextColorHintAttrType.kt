@@ -18,10 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.view.View
+import android.content.res.ColorStateList
 import android.widget.TextView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.ColorListAttrType
 
 /**
  * 提示文字颜色属性类型
@@ -29,13 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-internal object TextColorHintAttrType : SkinAttrType {
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is TextView) {
-      return
-    }
-    val colorList = rm.getColorStateList(resName) ?: return
+internal object TextColorHintAttrType : ColorListAttrType<TextView>(TextView::class.java) {
 
+  override fun applyColorList(view: TextView, colorList: ColorStateList) {
     view.setHintTextColor(colorList)
   }
+
 }

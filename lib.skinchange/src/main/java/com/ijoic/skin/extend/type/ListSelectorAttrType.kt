@@ -18,10 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.AbsListView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 列表选择器属性类型
@@ -29,14 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-internal object ListSelectorAttrType : SkinAttrType {
+internal object ListSelectorAttrType : DrawableAttrType<AbsListView>(AbsListView::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is AbsListView) {
-      return
-    }
-    val d = rm.getDrawableByName(resName) ?: return
-
-    view.selector = d
+  override fun applyDrawable(view: AbsListView, drawable: Drawable) {
+    view.selector = drawable
   }
+
 }

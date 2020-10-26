@@ -18,10 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.CompoundButton
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 按钮属性类型
@@ -29,14 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.5
  */
-internal object ButtonAttrType : SkinAttrType {
+internal object ButtonAttrType : DrawableAttrType<CompoundButton>(CompoundButton::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is CompoundButton) {
-      return
-    }
-    val d = rm.getDrawableByName(resName) ?: return
-
-    view.buttonDrawable = d
+  override fun applyDrawable(view: CompoundButton, drawable: Drawable) {
+    view.buttonDrawable = drawable
   }
+
 }

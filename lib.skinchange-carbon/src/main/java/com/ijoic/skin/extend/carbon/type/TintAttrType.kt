@@ -17,10 +17,9 @@
  */
 package com.ijoic.skin.extend.carbon.type
 
-import android.view.View
+import android.content.res.ColorStateList
 import carbon.view.TintedView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.ColorListOrColorAttrType
 
 /**
  * Tint attr type.
@@ -28,25 +27,14 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author verstsiu on 2018/5/18.
  * @version 2.0
  */
-internal class TintAttrType: SkinAttrType {
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is TintedView) {
-      return
-    }
-    val castView: TintedView = view
-    val colorList = rm.getColorStateList(resName)
+internal class TintAttrType : ColorListOrColorAttrType<TintedView>(TintedView::class.java) {
 
-    if (colorList != null) {
-      castView.setTintList(colorList)
-    } else {
-      try {
-        val color = rm.getColor(resName)
-
-        castView.setTint(color)
-
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
-    }
+  override fun applyColorList(view: TintedView, colorList: ColorStateList) {
+    view.setTintList(colorList)
   }
+
+  override fun applyColor(view: TintedView, color: Int) {
+    view.setTint(color)
+  }
+
 }

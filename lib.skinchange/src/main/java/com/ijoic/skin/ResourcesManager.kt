@@ -143,6 +143,10 @@ class ResourcesManager internal constructor() {
   internal fun getColor(resName: String, type: String): Int {
     val res = resources ?: throw Resources.NotFoundException()
     val query = getSkinResName(resName)
+    val resId = res.getIdentifier(query, type, packageName)
+    if (resId == 0) {
+      throw Resources.NotFoundException()
+    }
     return res.getColor(res.getIdentifier(query, type, packageName))
   }
 

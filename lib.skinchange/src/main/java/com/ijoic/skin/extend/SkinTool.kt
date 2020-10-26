@@ -25,6 +25,10 @@ import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.constant.SkinConfig
 import com.ijoic.skin.getSkinInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * 皮肤工具
@@ -33,6 +37,8 @@ import com.ijoic.skin.getSkinInfo
  * @version 1.0
  */
 object SkinTool {
+
+  private val mainScope = MainScope()
 
   /* -- fill tag :begin -- */
 
@@ -68,14 +74,22 @@ object SkinTool {
   @JvmStatic
   fun fillTag(skinTag: String? = null, view: View, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(type) ?: return
-    val info = view.getSkinInfo()
-    val item = info.getOrCreateItems().insertOrCached(type)
 
-    item.apply {
-      this.resName = resName
-      this.attr = attrType
+    mainScope.launch {
+      val resource = withContext(Dispatchers.IO) {
+        val info = view.getSkinInfo()
+        val item = info.getOrCreateItems().insertOrCached(type)
+
+        item.apply {
+          this.resName = resName
+          this.attr = attrType
+        }
+        attrType.runCatching { prepareResource(getResManager(skinTag), resName) }.getOrNull()
+      }
+      if (resource != null) {
+        attrType.apply(view, resource)
+      }
     }
-    attrType.apply(getResManager(skinTag), view, resName)
   }
 
   /**
@@ -90,14 +104,22 @@ object SkinTool {
   @JvmStatic
   fun fillTag(skinTag: String? = null, view: View, module: String, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(module, type) ?: return
-    val info = view.getSkinInfo()
-    val item = info.getOrCreateItems().insertOrCached(type)
 
-    item.apply {
-      this.resName = resName
-      this.attr = attrType
+    mainScope.launch {
+      val resource = withContext(Dispatchers.IO) {
+        val info = view.getSkinInfo()
+        val item = info.getOrCreateItems().insertOrCached(type)
+
+        item.apply {
+          this.resName = resName
+          this.attr = attrType
+        }
+        attrType.runCatching { prepareResource(getResManager(skinTag), resName) }.getOrNull()
+      }
+      if (resource != null) {
+        attrType.apply(view, resource)
+      }
     }
-    attrType.apply(getResManager(skinTag), view, resName)
   }
 
   /* -- fill tag :end -- */

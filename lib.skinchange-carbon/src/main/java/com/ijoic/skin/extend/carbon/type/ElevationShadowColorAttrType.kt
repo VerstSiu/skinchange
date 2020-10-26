@@ -17,10 +17,9 @@
  */
 package com.ijoic.skin.extend.carbon.type
 
-import android.view.View
+import android.content.res.ColorStateList
 import carbon.shadow.ShadowView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.ColorListOrColorAttrType
 
 /**
  * Elevation shadow color attr type.
@@ -28,25 +27,14 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author verstsiu on 2018/5/18.
  * @version 2.0
  */
-internal class ElevationShadowColorAttrType: SkinAttrType {
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is ShadowView) {
-      return
-    }
-    val castView: ShadowView = view
-    val colorList = rm.getColorStateList(resName)
+internal class ElevationShadowColorAttrType : ColorListOrColorAttrType<ShadowView>(ShadowView::class.java) {
 
-    if (colorList != null) {
-      castView.elevationShadowColor = colorList
-    } else {
-      try {
-        val color = rm.getColor(resName)
-
-        castView.setElevationShadowColor(color)
-
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
-    }
+  override fun applyColorList(view: ShadowView, colorList: ColorStateList) {
+    view.elevationShadowColor = colorList
   }
+
+  override fun applyColor(view: ShadowView, color: Int) {
+    view.setElevationShadowColor(color)
+  }
+
 }

@@ -18,6 +18,8 @@
 
 package com.ijoic.skin.extend.type
 
+import com.ijoic.skin.extend.type.base.CompoundDrawableAttrType
+
 /**
  * 上侧图片属性类型
  *
@@ -25,6 +27,5 @@ package com.ijoic.skin.extend.type
  * @version 1.0.2
  */
 internal object DrawableTopAttrType : CompoundDrawableAttrType() {
-  override val compoundIndex: Int
-    get() = CompoundDrawableAttrType.INDEX_TOP
+  override val compoundIndex = INDEX_TOP
 }

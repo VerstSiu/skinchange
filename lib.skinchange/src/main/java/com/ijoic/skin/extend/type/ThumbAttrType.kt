@@ -18,10 +18,9 @@
 
 package com.ijoic.skin.extend.type
 
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.SeekBar
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 滑块属性类型
@@ -29,16 +28,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.7
  */
-internal object ThumbAttrType : SkinAttrType {
+internal object ThumbAttrType : DrawableAttrType<SeekBar>(SeekBar::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is SeekBar) {
-      return
-    }
-    val d = rm.getDrawableByName(resName)
-
-    if (d != null) {
-      view.thumb = d
-    }
+  override fun applyDrawable(view: SeekBar, drawable: Drawable) {
+    view.thumb = drawable
   }
+
 }

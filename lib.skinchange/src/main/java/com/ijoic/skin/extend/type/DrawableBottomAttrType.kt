@@ -18,6 +18,8 @@
 
 package com.ijoic.skin.extend.type
 
+import com.ijoic.skin.extend.type.base.CompoundDrawableAttrType
+
 /**
  * 下侧图片属性类型
  *
@@ -25,6 +27,5 @@ package com.ijoic.skin.extend.type
  * @version 1.0.2
  */
 internal object DrawableBottomAttrType : CompoundDrawableAttrType() {
-  override val compoundIndex: Int
-    get() = CompoundDrawableAttrType.INDEX_BOTTOM
+  override val compoundIndex = INDEX_BOTTOM
 }

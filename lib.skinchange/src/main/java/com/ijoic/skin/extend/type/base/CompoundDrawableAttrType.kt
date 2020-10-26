@@ -16,12 +16,10 @@
  *
  */
 
-package com.ijoic.skin.extend.type
+package com.ijoic.skin.extend.type.base
 
-import android.view.View
+import android.graphics.drawable.Drawable
 import android.widget.TextView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
 
 /**
  * 边缘图片属性类型
@@ -29,7 +27,7 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0.2
  */
-internal abstract class CompoundDrawableAttrType : SkinAttrType {
+internal abstract class CompoundDrawableAttrType : DrawableAttrType<TextView>(TextView::class.java) {
 
   /**
    * 获取边缘图片索引位置
@@ -43,25 +41,18 @@ internal abstract class CompoundDrawableAttrType : SkinAttrType {
    */
   protected abstract val compoundIndex: Int
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is TextView) {
-      return
-    }
-    val d = rm.getDrawableByName(resName)
+  override fun applyDrawable(view: TextView, drawable: Drawable) {
+    val drawables = view.compoundDrawables
 
-    if (d != null) {
-      val drawables = view.compoundDrawables
+    drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    drawables[compoundIndex] = drawable
 
-      d.setBounds(0, 0, d.intrinsicWidth, d.intrinsicHeight)
-      drawables[compoundIndex] = d
-
-      view.setCompoundDrawables(
-          drawables[INDEX_LEFT],
-          drawables[INDEX_TOP],
-          drawables[INDEX_RIGHT],
-          drawables[INDEX_BOTTOM]
-      )
-    }
+    view.setCompoundDrawables(
+        drawables[INDEX_LEFT],
+        drawables[INDEX_TOP],
+        drawables[INDEX_RIGHT],
+        drawables[INDEX_BOTTOM]
+    )
   }
 
   companion object {

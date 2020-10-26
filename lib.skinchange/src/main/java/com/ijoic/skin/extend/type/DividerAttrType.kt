@@ -18,11 +18,11 @@
 
 package com.ijoic.skin.extend.type
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ListView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.DrawableAttrType
 
 /**
  * 列表分隔符属性类型
@@ -30,16 +30,12 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author ijoic verstlim@126.com
  * @version 1.0
  */
-internal object DividerAttrType : SkinAttrType {
+internal object DividerAttrType : DrawableAttrType<View>(View::class.java) {
 
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    val d = rm.getDrawableByName(resName) ?: return
-
-    if (view is ListView) {
-      view.divider = d
-
-    } else if (view is LinearLayout) {
-      view.dividerDrawable = d
+  override fun applyDrawable(view: View, drawable: Drawable) {
+    when(view) {
+      is ListView -> view.divider = drawable
+      is LinearLayout -> view.dividerDrawable = drawable
     }
   }
 

@@ -17,10 +17,8 @@
  */
 package com.ijoic.skin.extend.carbon.type
 
-import android.view.View
 import carbon.view.InsetView
-import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.attr.SkinAttrType
+import com.ijoic.skin.extend.type.base.SimpleColorAttrType
 
 /**
  * Inset color attr type.
@@ -28,20 +26,10 @@ import com.ijoic.skin.attr.SkinAttrType
  * @author verstsiu on 2018/5/18.
  * @version 2.0
  */
-internal class InsetColorAttrType: SkinAttrType {
-  override fun apply(rm: ResourcesManager, view: View, resName: String) {
-    if (view !is InsetView) {
-      return
-    }
-    val castView: InsetView = view
+internal class InsetColorAttrType : SimpleColorAttrType<InsetView>(InsetView::class.java) {
 
-    try {
-      val color = rm.getColor(resName)
-
-      castView.insetColor = color
-
-    } catch (e: Exception) {
-      e.printStackTrace()
-    }
+  override fun applyColor(view: InsetView, color: Int) {
+    view.insetColor = color
   }
+
 }
