@@ -11,7 +11,7 @@ android {
         versionCode project.versionCode
         versionName project.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
     buildTypes {
@@ -27,16 +27,16 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    testImplementation project.depend_junit
-    androidTestImplementation project.depend_test_runner
-    androidTestImplementation project.depend_test_espresso
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$expresso_version"
 
-    implementation project.depend_support_appCompatV7
-    implementation project.depend_kotlin
-    implementation project.depend_arch_lifecycle
-    kapt project.compiler_arch_lifecycle
-
-    implementation project.depend_verst_ktx
-    implementation project.depend_verst_ktxGuava
-    implementation project.depend_verst_ktxRxJava
+    implementation "com.github.VerstSiu.kotlin_extension:ktx:$ktx_version"
+    implementation "com.github.VerstSiu.kotlin_extension:ktx-guava:$ktx_version"
+    implementation "com.github.VerstSiu.kotlin_extension:ktx-rxjava:$ktx_version"
 }

@@ -44,7 +44,7 @@ internal class SkinView internal constructor(view: View, private val info: SkinI
 
     info.apply {
       this.skinId = skinId
-      items?.values?.forEach {
+      items?.forEachValue {
         val resName = it.resName
         val attr = it.attr
 

@@ -17,7 +17,7 @@
  */
 package com.ijoic.skinchange.test.base.fragment.pager
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.ijoic.skinchange.test.base.fragment.simple.RecyclerFragment
 import com.ijoic.skinchange.test.base.fragment.simple.SimpleFragment
 

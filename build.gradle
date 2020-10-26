@@ -1,14 +1,39 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: 'config.gradle'
-
 buildscript {
-    ext.kotlin_version = '1.2.50'
+    ext {
+        compileSdkVersion = 28
+        minSdkVersion = 16
+        targetSdkVersion = 23
+        versionCode = 13
+        versionName = "2.0-beta"
+
+        junit_version = '4.13'
+        kotlin_version = '1.4.10'
+        material_version = '1.2.1'
+        rxjava_version = '2.1.7'
+        support_version = '28.0.0'
+
+        carbon_version = '0.15.0.1'
+
+        // androidx dependency versions
+        appcompat_version = '1.2.0'
+        expresso_version = '3.3.0'
+        ext_junit_version = '1.1.2'
+        fragment_version = '1.2.4'
+        lifecycle_version = '2.2.0'
+        recyclerview_version = '1.1.0'
+        constraintlayout_version = '2.0.2'
+
+        // verstsiu dependency versions
+        frame_pager_version = "1.0-beta"
+        ktx_version = "7bbeecc2de"
+    }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
 

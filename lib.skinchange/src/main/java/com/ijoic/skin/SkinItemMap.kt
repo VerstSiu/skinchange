@@ -17,7 +17,7 @@
  */
 package com.ijoic.skin
 
-import android.support.v4.util.ArrayMap
+import androidx.collection.SimpleArrayMap
 
 /**
  * Skin item map.
@@ -25,7 +25,7 @@ import android.support.v4.util.ArrayMap
  * @author verstsiu on 2018/5/18.
  * @version 2.0
  */
-internal class SkinItemMap: ArrayMap<String, SkinItem>() {
+internal class SkinItemMap: SimpleArrayMap<String, SkinItem>() {
 
   /**
    * Returns insert or cached skin item.
@@ -45,9 +45,25 @@ internal class SkinItemMap: ArrayMap<String, SkinItem>() {
   }
 
   override fun clear() {
-    val items = if (values.isEmpty()) null else values.toList()
+    val items = getValueItems()
     super.clear()
     SkinItem.releaseItems(items)
+  }
+
+  private fun getValueItems(): List<SkinItem>? {
+    val itemSize = size()
+    if (itemSize == 0) {
+      return null
+    }
+    return List(itemSize) { i -> valueAt(i) }
+  }
+
+  fun forEachValue(action: (SkinItem) -> Unit) {
+    val itemSize = size()
+    if (itemSize == 0) {
+      return
+    }
+    repeat(itemSize) { i -> action.invoke(valueAt(i)) }
   }
 
   override fun removeAt(index: Int): SkinItem? {

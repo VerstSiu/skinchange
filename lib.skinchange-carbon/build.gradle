@@ -10,7 +10,7 @@ android {
         versionCode project.versionCode
         versionName project.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
 
@@ -25,14 +25,14 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    compileOnly project.depend_zielony_carbon
+    compileOnly "tk.zielony:carbon:$carbon_version"
 
-    testImplementation project.depend_junit
-    androidTestImplementation project.depend_test_runner
-    androidTestImplementation project.depend_test_espresso
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$expresso_version"
 
-    implementation project.depend_support_appCompatV7
-    implementation project.depend_kotlin
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation project(':lib.skinchange')
 }

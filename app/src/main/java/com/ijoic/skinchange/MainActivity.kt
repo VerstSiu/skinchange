@@ -18,7 +18,7 @@
 package com.ijoic.skinchange
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.ijoic.skinchange.test.SimpleTestActivity
 import com.ijoic.skinchange.test.RecyclerTestActivity
 import com.ijoic.skinchange.test.host.HostTestActivity

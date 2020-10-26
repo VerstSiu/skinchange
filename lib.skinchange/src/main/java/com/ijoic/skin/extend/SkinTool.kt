@@ -18,7 +18,7 @@
 
 package com.ijoic.skin.extend
 
-import android.support.annotation.AnyRes
+import androidx.annotation.AnyRes
 import android.util.Log
 import android.view.View
 import com.ijoic.skin.ResourcesManager

@@ -17,10 +17,10 @@
  */
 package com.ijoic.skin
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import android.view.View
 import com.ijoic.ktx.util.getOrCreate
 import com.ijoic.ktx.util.weak.weak

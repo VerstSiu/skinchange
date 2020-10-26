@@ -17,7 +17,7 @@
  */
 package com.ijoic.skin.extend
 
-import android.support.v4.util.ArrayMap
+import androidx.collection.ArrayMap
 
 /**
  * Attr prefix.

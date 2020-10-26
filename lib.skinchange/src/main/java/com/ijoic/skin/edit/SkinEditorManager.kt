@@ -17,9 +17,9 @@
  */
 package com.ijoic.skin.edit
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.ijoic.skin.ChildSkinManager
 import com.ijoic.skin.view.SkinCompat
 import java.lang.ref.WeakReference

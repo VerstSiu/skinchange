@@ -17,7 +17,7 @@
  */
 package com.ijoic.skin.edit
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.view.View
 import com.ijoic.skin.ChildSkinManager
 import com.ijoic.skin.view.KeepViewSkinTask

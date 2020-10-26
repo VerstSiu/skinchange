@@ -17,11 +17,10 @@
  */
 package com.ijoic.skinchange.test.base.wrap.skin
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.ijoic.skin.ChildSkinManager
 import com.ijoic.skin.SkinManager
 import com.ijoic.skinchange.R
@@ -36,6 +35,7 @@ import kotlinx.android.synthetic.main.act_base_wrap_skin.*
  */
 abstract class WrapChildSkinActivity: AppCompatActivity() {
 
+  private val model: SkinViewModel by viewModels()
   protected var expectedSkinSuffix = SkinSuffix.RED
 
   private val skinManager: ChildSkinManager
@@ -46,9 +46,7 @@ abstract class WrapChildSkinActivity: AppCompatActivity() {
     setContentView(R.layout.act_base_wrap_skin)
     initPageFrame()
 
-    val model = ViewModelProviders.of(this).get(SkinViewModel::class.java)
-
-    model.skinSuffix.observe(this, Observer {
+    model.skinSuffix.observe(this, {
       if (it == expectedSkinSuffix) {
         action_toggle_skin.setImageResource(R.drawable.ic_base_skin_none)
         action_toggle_skin.setOnClickListener {

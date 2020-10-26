@@ -17,8 +17,8 @@
  */
 package com.ijoic.skinchange.test.base.wrap.skin
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
 /**
  * Skin sview model.

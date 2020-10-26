@@ -18,7 +18,7 @@
 
 package com.ijoic.skinchange
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.ijoic.skin.SkinManager
 
 /**
