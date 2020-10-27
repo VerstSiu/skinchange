@@ -18,17 +18,13 @@
 
 package com.ijoic.skin.extend
 
-import androidx.annotation.AnyRes
 import android.util.Log
 import android.view.View
+import androidx.annotation.AnyRes
 import com.ijoic.skin.ResourcesManager
 import com.ijoic.skin.SkinManager
 import com.ijoic.skin.constant.SkinConfig
 import com.ijoic.skin.getSkinInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * 皮肤工具
@@ -37,8 +33,6 @@ import kotlinx.coroutines.withContext
  * @version 1.0
  */
 object SkinTool {
-
-  private val mainScope = MainScope()
 
   /* -- fill tag :begin -- */
 
@@ -74,21 +68,16 @@ object SkinTool {
   @JvmStatic
   fun fillTag(skinTag: String? = null, view: View, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(type) ?: return
+    val info = view.getSkinInfo()
+    val item = info.getOrCreateItems().insertOrCached(type)
 
-    mainScope.launch {
-      val resource = withContext(Dispatchers.IO) {
-        val info = view.getSkinInfo()
-        val item = info.getOrCreateItems().insertOrCached(type)
-
-        item.apply {
-          this.resName = resName
-          this.attr = attrType
-        }
-        attrType.runCatching { prepareResource(getResManager(skinTag), resName) }.getOrNull()
-      }
-      if (resource != null) {
-        attrType.apply(view, resource)
-      }
+    item.apply {
+      this.resName = resName
+      this.attr = attrType
+    }
+    val resource = attrType.runCatching { prepareResource(getResManager(skinTag), resName) }.getOrNull()
+    if (resource != null) {
+      attrType.apply(view, resource)
     }
   }
 
@@ -104,21 +93,16 @@ object SkinTool {
   @JvmStatic
   fun fillTag(skinTag: String? = null, view: View, module: String, resName: String, type: String) {
     val attrType = AttrTypeFactory.obtainAttrType(module, type) ?: return
+    val info = view.getSkinInfo()
+    val item = info.getOrCreateItems().insertOrCached(type)
 
-    mainScope.launch {
-      val resource = withContext(Dispatchers.IO) {
-        val info = view.getSkinInfo()
-        val item = info.getOrCreateItems().insertOrCached(type)
-
-        item.apply {
-          this.resName = resName
-          this.attr = attrType
-        }
-        attrType.runCatching { prepareResource(getResManager(skinTag), resName) }.getOrNull()
-      }
-      if (resource != null) {
-        attrType.apply(view, resource)
-      }
+    item.apply {
+      this.resName = resName
+      this.attr = attrType
+    }
+    val resource = attrType.runCatching { prepareResource(getResManager(skinTag), resName) }.getOrNull()
+    if (resource != null) {
+      attrType.apply(view, resource)
     }
   }
 
