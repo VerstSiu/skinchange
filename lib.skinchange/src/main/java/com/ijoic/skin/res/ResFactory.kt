@@ -23,7 +23,6 @@ import android.content.res.Resources
 import com.ijoic.ktx.guava.cache.WeakCacheMap
 import com.ijoic.ktx.util.getOrCreate
 import com.ijoic.skin.ResourcesManager
-import com.ijoic.skin.ResourcesTool
 import java.util.concurrent.TimeUnit
 
 /**

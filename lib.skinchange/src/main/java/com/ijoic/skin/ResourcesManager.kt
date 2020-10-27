@@ -21,6 +21,7 @@ package com.ijoic.skin
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import com.ijoic.skin.cache.ResourceCache
 
 /**
  * 资源管理器
@@ -41,6 +42,8 @@ class ResourcesManager internal constructor() {
   private var suffix: String = ""
 
   internal var resources: Resources? = null
+
+  private val cache = ResourceCache()
 
   /**
    * 设置皮肤信息
@@ -94,18 +97,23 @@ class ResourcesManager internal constructor() {
    * @return Drawable
    */
   internal fun getDrawableByName(resName: String, type: String): Drawable? {
-    val res = resources ?: return null
-    val query = getSkinResName(resName)
-    val resId = res.getIdentifier(query, type, packageName)
+    return cache.drawable.getOrUpdate(resName) {
+      var result: Drawable? = null
+      val res = resources
+      if (res != null) {
+        val query = getSkinResName(resName)
+        val resId = res.getIdentifier(query, type, packageName)
 
-    if (resId != 0) {
-      try {
-        return res.getDrawable(resId)
-      } catch (e: Resources.NotFoundException) {
-        e.printStackTrace()
+        if (resId != 0) {
+          try {
+            result = res.getDrawable(resId)
+          } catch (e: Resources.NotFoundException) {
+            e.printStackTrace()
+          }
+        }
       }
+      result
     }
-    return null
   }
 
   /**
@@ -117,19 +125,22 @@ class ResourcesManager internal constructor() {
   fun getDrawableByName(resName: String): Drawable? {
     val res = resources ?: return null
     val query = getSkinResName(resName)
-    var resId = res.getIdentifier(query, TYPE_DRAWABLE, packageName)
+    return cache.drawable.getOrUpdate(query) {
+      var result: Drawable? = null
+      var resId = res.getIdentifier(query, TYPE_DRAWABLE, packageName)
 
-    if (resId == 0) {
-      resId = res.getIdentifier(query, TYPE_MIPMAP, packageName)
-    }
-    if (resId != 0) {
-      try {
-        return res.getDrawable(resId)
-      } catch (e: Resources.NotFoundException) {
-        e.printStackTrace()
+      if (resId == 0) {
+        resId = res.getIdentifier(query, TYPE_MIPMAP, packageName)
       }
+      if (resId != 0) {
+        try {
+          result = res.getDrawable(resId)
+        } catch (e: Resources.NotFoundException) {
+          e.printStackTrace()
+        }
+      }
+      result
     }
-    return null
   }
 
   /**
@@ -141,13 +152,18 @@ class ResourcesManager internal constructor() {
    */
   @Throws(Resources.NotFoundException::class)
   internal fun getColor(resName: String, type: String): Int {
-    val res = resources ?: throw Resources.NotFoundException()
-    val query = getSkinResName(resName)
-    val resId = res.getIdentifier(query, type, packageName)
-    if (resId == 0) {
-      throw Resources.NotFoundException()
-    }
-    return res.getColor(res.getIdentifier(query, type, packageName))
+    return cache.color.getOrUpdate(resName) {
+      var result: Int? = null
+      val res = resources
+      if (res != null) {
+        val query = getSkinResName(resName)
+        val resId = res.getIdentifier(query, type, packageName)
+        if (resId != 0) {
+          result = res.getColor(res.getIdentifier(query, type, packageName))
+        }
+      }
+      result
+    } ?: throw Resources.NotFoundException()
   }
 
   /**
@@ -169,18 +185,23 @@ class ResourcesManager internal constructor() {
    * @return 颜色列表
    */
   internal fun getColorStateList(resName: String, type: String): ColorStateList? {
-    val res = resources ?: return null
-    val query = getSkinResName(resName)
-    val resId = res.getIdentifier(query, type, packageName)
+    return cache.colorList.getOrUpdate(resName) {
+      var result: ColorStateList? = null
+      val res = resources
+      if (res != null) {
+        val query = getSkinResName(resName)
+        val resId = res.getIdentifier(query, type, packageName)
 
-    if (resId != 0) {
-      try {
-        return res.getColorStateList(resId)
-      } catch (e: Resources.NotFoundException) {
-        e.printStackTrace()
+        if (resId != 0) {
+          try {
+            result = res.getColorStateList(resId)
+          } catch (e: Resources.NotFoundException) {
+            e.printStackTrace()
+          }
+        }
       }
+      result
     }
-    return null
   }
 
   /**
@@ -190,21 +211,26 @@ class ResourcesManager internal constructor() {
    * @return 颜色列表
    */
   fun getColorStateList(resName: String): ColorStateList? {
-    val res = resources ?: return null
-    val query = getSkinResName(resName)
-    var resId = res.getIdentifier(query, TYPE_COLOR, packageName)
+    return cache.colorList.getOrUpdate(resName) {
+      var result: ColorStateList? = null
+      val res = resources
+      if (res != null) {
+        val query = getSkinResName(resName)
+        var resId = res.getIdentifier(query, TYPE_COLOR, packageName)
 
-    if (resId == 0) {
-      resId = res.getIdentifier(query, TYPE_DRAWABLE, packageName)
-    }
-    if (resId != 0) {
-      try {
-        return res.getColorStateList(resId)
-      } catch (e: Resources.NotFoundException) {
-        e.printStackTrace()
+        if (resId == 0) {
+          resId = res.getIdentifier(query, TYPE_DRAWABLE, packageName)
+        }
+        if (resId != 0) {
+          try {
+            result = res.getColorStateList(resId)
+          } catch (e: Resources.NotFoundException) {
+            e.printStackTrace()
+          }
+        }
       }
+      result
     }
-    return null
   }
 
   /**
