@@ -21,6 +21,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ijoic.skinchange.test.SimpleTestActivity
 import com.ijoic.skinchange.test.RecyclerTestActivity
+import com.ijoic.skinchange.test.cache.ColorListActivity
 import com.ijoic.skinchange.test.host.HostTestActivity
 import com.ijoic.skinchange.test.pager.NestedPagerTestActivity
 import com.ijoic.skinchange.test.pager.PagerTestActivity
@@ -40,5 +41,6 @@ class MainActivity : AppCompatActivity() {
     case_dynamic_nested_pager.setOnClickListener { routeTo(NestedPagerTestActivity::class.java) }
     case_dynamic_host.setOnClickListener { routeTo(HostTestActivity::class.java) }
     case_partial.setOnClickListener { routeTo(PartialTestActivity::class.java) }
+    case_cache.setOnClickListener { routeTo(ColorListActivity::class.java) }
   }
 }

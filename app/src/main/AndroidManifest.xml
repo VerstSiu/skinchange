@@ -53,6 +53,11 @@
       android:name=".test.partial.PartialTestActivity"
       android:label="@string/case_partial"/>
 
+    <!-- cache -->
+    <activity
+        android:name=".test.cache.ColorListActivity"
+        android:label="@string/case_color_list"/>
+
   </application>
 
 </manifest>

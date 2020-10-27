@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.act_base_wrap_skin.*
  */
 abstract class WrapSkinActivity: AppCompatActivity() {
 
-  private var expectedSkinSuffix = SkinSuffix.RED
+  protected open val expectedSkinSuffix = SkinSuffix.RED
   private val model: SkinViewModel by viewModels()
 
   override fun onCreate(savedInstanceState: Bundle?) {

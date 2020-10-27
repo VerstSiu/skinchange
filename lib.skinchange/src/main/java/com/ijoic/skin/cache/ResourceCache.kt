@@ -28,7 +28,7 @@ import java.lang.ref.WeakReference
  */
 internal class ResourceCache {
 
-  val drawable = ResCache(RefValueWrapper<Drawable>())
+  val drawable = ResCache(DrawableRefValueWrapper())
   val colorList = ResCache(RefValueWrapper<ColorStateList>())
   val color = ResCache(SimpleValueWrapper<Int>())
 
@@ -75,6 +75,11 @@ internal class ResourceCache {
   open class ValueWrapper<VALUE, WRAP>(
     val readValue: (WRAP) -> VALUE?,
     val writeValue: (VALUE) -> WRAP
+  )
+
+  class DrawableRefValueWrapper : ValueWrapper<Drawable, WeakReference<Drawable>>(
+    readValue = { it.get()?.constantState?.newDrawable() },
+    writeValue = { WeakReference(it.mutate()) }
   )
 
   class RefValueWrapper<VALUE> : ValueWrapper<VALUE, WeakReference<VALUE>>(

@@ -8,6 +8,9 @@
   <string name="case_nested_pager">Nested Pager</string>
   <string name="case_host">Host</string>
   <string name="case_partial">Partial</string>
+  <string name="case_cache">Cache</string>
+
+  <string name="case_color_list">Color State List</string>
 
   <string name="label_simple_child_view">Child View</string>
   <string name="label_simple_skin_task">Skin Task</string>
